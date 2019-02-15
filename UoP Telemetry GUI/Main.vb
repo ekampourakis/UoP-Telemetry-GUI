@@ -19,12 +19,13 @@
             ToolStripStatusLabel_Updates.BackColor = [color]
         End If
     End Sub
-    Delegate Sub SetTimerCallback(ByVal [enable] As Boolean)
-    Private Sub SetTimer(ByVal [enable] As Boolean)
+    Delegate Sub SetTimerCallback(ByVal [enable] As Boolean, ByVal [interval] As Integer)
+    Private Sub SetTimer(ByVal [enable] As Boolean, ByVal [interval] As Integer)
         If InvokeRequired() Then
             Dim d As New SetTimerCallback(AddressOf SetTimer)
-            Invoke(d, New Object() {[enable]})
+            Invoke(d, New Object() {[enable], [interval]})
         Else
+            Timer_Status.Interval = [interval]
             Timer_Status.Enabled = [enable]
         End If
     End Sub
@@ -56,6 +57,13 @@
     Private Const ReceiveTimeout As Integer = 100
     Private TXQueue As New List(Of Byte())
     Private PacketsProcessed As Integer = 0
+    ' Packet IDs
+    Private Const ID_CONNECTION As Byte = 0
+    Private Const ID_UNKNOWN As Byte = 1
+    Private Const ID_MESSAGE As Byte = 2
+    Private Const ID_SEND_RAW As Byte = 3
+    Private Const ID_SEND_PROCESSED As Byte = 4
+    Private Const ID_SEND_MIXED As Byte = 5
 #End Region
 
 #Region "Receive"
@@ -173,31 +181,56 @@
 #End Region
 
 #Region "Process"
+    Private Sub LoadMessage()
+        Dim Message As String = ""
+        For Index As Integer = 1 To RXData.Length - 1
+            Message &= ChrW(RXData(Index))
+        Next
+        DisplayStatus(Message, Color.Orange, 5000)
+    End Sub
+
+    Private Sub LoadRaw()
+
+    End Sub
+
+    Private Sub LoadProcessed()
+
+    End Sub
+
+    Private Sub LoadMixed()
+
+    End Sub
+
     Private Sub ProcessData()
-        'Try
-        '    If RXData(0) = COMM_PACKET_ID.COMM_CONNECTION_PACKET Then
-        '        ProcessSuccess()
-        '    ElseIf RXData(0) = COMM_PACKET_ID.COMM_GET_INFO Then
-        '        LoadInfo()
-        '        ProcessSuccess()
-        '    ElseIf RXData(0) = COMM_PACKET_ID.COMM_GET_VOLTAGES Then
-        '        LoadVoltages()
-        '        ProcessSuccess()
-        '    ElseIf RXData(0) = COMM_PACKET_ID.COMM_GET_TEMPERATURES Then
-        '        LoadTemperatures()
-        '        ProcessSuccess()
-        '    ElseIf RXData(0) = COMM_PACKET_ID.COMM_GET_CURRENTS Then
-        '        LoadCurrents()
-        '        ProcessSuccess()
-        '    ElseIf RXData(0) = COMM_PACKET_ID.COMM_CAN_FORWARD Then
-        '        LoadCAN()
-        '        ProcessSuccess()
-        '    End If
-        'Catch ex As Exception
-        '    ProcessSuccess()
-        '    'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-        '    Console.WriteLine(ex.Message)
-        'End Try
+        Try
+            Select Case RXData(0)
+                Case ID_CONNECTION
+                    ProcessSuccess()
+                Case ID_UNKNOWN
+                    ' Client responded with unknown ID packet. That means the received
+                    ' packet to the client had an ID unknown to the client.
+                    ProcessSuccess()
+                Case ID_MESSAGE
+                    LoadMessage()
+                    ProcessSuccess()
+                Case ID_SEND_RAW
+                    LoadRaw()
+                    ProcessSuccess()
+                Case ID_SEND_PROCESSED
+                    LoadProcessed()
+                    ProcessSuccess()
+                Case ID_SEND_MIXED
+                    LoadMixed()
+                    ProcessSuccess()
+                Case Else
+                    DisplayStatus("Unknown packet ID", Color.Orange, 3000)
+                    ProcessSuccess()
+            End Select
+        Catch ex As Exception
+            ProcessSuccess()
+            MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+            'Console.WriteLine(ex.Message)
+        End Try
     End Sub
 
     Private Sub ProcessSuccess()
@@ -221,15 +254,15 @@
         ToolStripStatusLabel_SerialInfo.Text = "Queued: " & TXQueue.Count & " | Processed: " & PacketsProcessed
     End Sub
 
-    Private Sub DisplayStatus(ByVal Message As String, ByVal Color As Color)
+    Private Sub DisplayStatus(ByVal Message As String, ByVal Color As Color, ByVal Optional Interval As Integer = 1500)
         SetText(Message)
         SetColor(Color)
-        SetTimer(True)
+        SetTimer(True, Interval)
     End Sub
 
     Private Sub Timer_Status_Tick(sender As Object, e As EventArgs) Handles Timer_Status.Tick
         ToolStripStatusLabel_Updates.Text = ""
-        SetTimer(False)
+        SetTimer(False, 1500)
     End Sub
 #End Region
 
@@ -313,7 +346,7 @@
         Return Result
     End Function
 
-    Private Function ParseByte(ByRef Bytes As Byte(), ByRef StartIndex As Integer)
+    Private Function ParseByte(ByRef Bytes As Byte(), ByRef StartIndex As Integer) As Byte
         Dim Result As Byte = Bytes(StartIndex)
         StartIndex += 1
         Return Result
