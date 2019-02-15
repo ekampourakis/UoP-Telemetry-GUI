@@ -225,32 +225,29 @@ Public Class Main
         Try
             Select Case RXData(0)
                 Case ID_CONNECTION
-                    ProcessSuccess()
                 Case ID_UNKNOWN
                     ' Client responded with unknown ID packet. That means the received
                     ' packet to the client had an ID unknown to the client.
-                    ProcessSuccess()
                 Case ID_MESSAGE
                     LoadMessage()
-                    ProcessSuccess()
                 Case ID_SEND_RAW
                     LoadRaw()
-                    ProcessSuccess()
+                    DisplayRaw()
                 Case ID_SEND_PROCESSED
                     LoadProcessed()
-                    ProcessSuccess()
+                    DisplayProcessed()
                 Case ID_SEND_MIXED
                     LoadMixed()
-                    ProcessSuccess()
+                    DisplayRaw()
+                    DisplayProcessed()
                 Case Else
                     DisplayStatus("Unknown packet ID", Color.Orange, 3000)
-                    ProcessSuccess()
             End Select
         Catch ex As Exception
-            ProcessSuccess()
             MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
             'Console.WriteLine(ex.Message)
         End Try
+        ProcessSuccess()
     End Sub
 
     Private Sub ProcessSuccess()
@@ -386,6 +383,40 @@ Public Class Main
         Dim T As Double = 1.0 / (A + B * LN + C * Math.Pow(LN, 2) + D * Math.Pow(LN, 3))
         Return TemperatureVoltage - 273.15F
     End Function
+#End Region
+
+#Region "Displaying"
+    Private Sub DisplayRaw()
+        Dim RawType As Type = Car.Raw.GetType
+        ListView_Raw.Items.Clear()
+        For Each RawField As Reflection.FieldInfo In RawType.GetFields
+            Dim Item As New ListViewItem()
+            Item.Text = RawField.Name
+            Dim SubItem As New ListViewItem.ListViewSubItem()
+            SubItem.Text = RawField.FieldType.Name
+            Item.SubItems.Add(SubItem)
+            SubItem = New ListViewItem.ListViewSubItem()
+            SubItem.Text = RawField.GetValue(Car.Raw)
+            Item.SubItems.Add(SubItem)
+            ListView_Raw.Items.Add(Item)
+        Next
+    End Sub
+
+    Private Sub DisplayProcessed()
+        Dim ProcessedType As Type = Car.Processed.GetType
+        ListView_Processed.Items.Clear()
+        For Each ProcessedField As Reflection.FieldInfo In ProcessedType.GetFields
+            Dim Item As New ListViewItem()
+            Item.Text = ProcessedField.Name
+            Dim SubItem As New ListViewItem.ListViewSubItem()
+            SubItem.Text = ProcessedField.FieldType.Name
+            Item.SubItems.Add(SubItem)
+            SubItem = New ListViewItem.ListViewSubItem()
+            SubItem.Text = ProcessedField.GetValue(Car.Processed)
+            Item.SubItems.Add(SubItem)
+            ListView_Processed.Items.Add(Item)
+        Next
+    End Sub
 #End Region
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load

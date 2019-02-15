@@ -37,6 +37,14 @@ Partial Class Main
         Me.Timer_SendQueue = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_Status = New System.Windows.Forms.Timer(Me.components)
         Me.Timer_GUIUpdate = New System.Windows.Forms.Timer(Me.components)
+        Me.ListView_Raw = New System.Windows.Forms.ListView()
+        Me.ColumnHeader_FieldName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader_FieldType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader_FieldValue = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ListView_Processed = New System.Windows.Forms.ListView()
+        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.GroupBox_Connection.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -83,9 +91,9 @@ Partial Class Main
         'StatusStrip
         '
         Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel_Status, Me.ToolStripStatusLabel_SerialInfo, Me.ToolStripStatusLabel_Spring, Me.ToolStripStatusLabel_Updates})
-        Me.StatusStrip.Location = New System.Drawing.Point(0, 439)
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 685)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(845, 22)
+        Me.StatusStrip.Size = New System.Drawing.Size(666, 22)
         Me.StatusStrip.TabIndex = 8
         Me.StatusStrip.Text = "StatusStrip"
         '
@@ -105,7 +113,7 @@ Partial Class Main
         'ToolStripStatusLabel_Spring
         '
         Me.ToolStripStatusLabel_Spring.Name = "ToolStripStatusLabel_Spring"
-        Me.ToolStripStatusLabel_Spring.Size = New System.Drawing.Size(512, 17)
+        Me.ToolStripStatusLabel_Spring.Size = New System.Drawing.Size(347, 17)
         Me.ToolStripStatusLabel_Spring.Spring = True
         '
         'ToolStripStatusLabel_Updates
@@ -138,13 +146,77 @@ Partial Class Main
         '
         Me.Timer_GUIUpdate.Enabled = True
         '
+        'ListView_Raw
+        '
+        Me.ListView_Raw.Alignment = System.Windows.Forms.ListViewAlignment.Left
+        Me.ListView_Raw.AutoArrange = False
+        Me.ListView_Raw.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader_FieldName, Me.ColumnHeader_FieldType, Me.ColumnHeader_FieldValue})
+        Me.ListView_Raw.FullRowSelect = True
+        Me.ListView_Raw.GridLines = True
+        Me.ListView_Raw.Location = New System.Drawing.Point(12, 83)
+        Me.ListView_Raw.Name = "ListView_Raw"
+        Me.ListView_Raw.ShowItemToolTips = True
+        Me.ListView_Raw.Size = New System.Drawing.Size(318, 599)
+        Me.ListView_Raw.TabIndex = 14
+        Me.ListView_Raw.UseCompatibleStateImageBehavior = False
+        Me.ListView_Raw.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader_FieldName
+        '
+        Me.ColumnHeader_FieldName.Text = "Field Name"
+        Me.ColumnHeader_FieldName.Width = 142
+        '
+        'ColumnHeader_FieldType
+        '
+        Me.ColumnHeader_FieldType.Text = "Type"
+        Me.ColumnHeader_FieldType.Width = 82
+        '
+        'ColumnHeader_FieldValue
+        '
+        Me.ColumnHeader_FieldValue.Text = "Value"
+        Me.ColumnHeader_FieldValue.Width = 80
+        '
+        'ListView_Processed
+        '
+        Me.ListView_Processed.Alignment = System.Windows.Forms.ListViewAlignment.Left
+        Me.ListView_Processed.AutoArrange = False
+        Me.ListView_Processed.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3})
+        Me.ListView_Processed.FullRowSelect = True
+        Me.ListView_Processed.GridLines = True
+        Me.ListView_Processed.Location = New System.Drawing.Point(336, 83)
+        Me.ListView_Processed.Name = "ListView_Processed"
+        Me.ListView_Processed.ShowItemToolTips = True
+        Me.ListView_Processed.Size = New System.Drawing.Size(318, 599)
+        Me.ListView_Processed.TabIndex = 16
+        Me.ListView_Processed.UseCompatibleStateImageBehavior = False
+        Me.ListView_Processed.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Field Name"
+        Me.ColumnHeader1.Width = 142
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Type"
+        Me.ColumnHeader2.Width = 82
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Value"
+        Me.ColumnHeader3.Width = 80
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(845, 461)
+        Me.ClientSize = New System.Drawing.Size(666, 707)
+        Me.Controls.Add(Me.ListView_Processed)
+        Me.Controls.Add(Me.ListView_Raw)
         Me.Controls.Add(Me.StatusStrip)
         Me.Controls.Add(Me.GroupBox_Connection)
+        Me.MaximumSize = New System.Drawing.Size(682, 746)
+        Me.MinimumSize = New System.Drawing.Size(682, 746)
         Me.Name = "Main"
         Me.ShowIcon = False
         Me.Text = "UoP Telemetry GUI"
@@ -171,4 +243,12 @@ Partial Class Main
     Friend WithEvents Timer_Status As Timer
     Friend WithEvents Timer_GUIUpdate As Timer
     Friend WithEvents ToolStripStatusLabel_Spring As ToolStripStatusLabel
+    Friend WithEvents ListView_Raw As ListView
+    Friend WithEvents ColumnHeader_FieldName As ColumnHeader
+    Friend WithEvents ColumnHeader_FieldValue As ColumnHeader
+    Friend WithEvents ColumnHeader_FieldType As ColumnHeader
+    Friend WithEvents ListView_Processed As ListView
+    Friend WithEvents ColumnHeader1 As ColumnHeader
+    Friend WithEvents ColumnHeader2 As ColumnHeader
+    Friend WithEvents ColumnHeader3 As ColumnHeader
 End Class
