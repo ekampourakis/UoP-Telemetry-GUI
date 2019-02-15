@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CRC.vb" />
+    <Compile Include="Definitions.vb" />
     <Compile Include="Main.vb">
       <SubType>Form</SubType>
     </Compile>

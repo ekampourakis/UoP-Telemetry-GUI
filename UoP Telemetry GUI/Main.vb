@@ -1,4 +1,9 @@
-﻿Public Class Main
+﻿Imports System.Runtime.InteropServices
+Imports UoP_Telemetry_GUI.Definitions
+
+Public Class Main
+
+    Private Car As Car_Mixed
 
 #Region "Callbacks"
     Delegate Sub SetTextCallback(ByVal [text] As String)
@@ -190,15 +195,30 @@
     End Sub
 
     Private Sub LoadRaw()
-
+        Dim ReceivedRawCar As New Car_Raw()
+        Dim RawCarPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ReceivedRawCar))
+        Marshal.Copy(RXData, 1, RawCarPointer, Marshal.SizeOf(ReceivedRawCar))
+        ReceivedRawCar = CType(Marshal.PtrToStructure(RawCarPointer, GetType(Car_Raw)), Car_Raw)
+        Marshal.FreeHGlobal(RawCarPointer)
+        Car.Raw = ReceivedRawCar
     End Sub
 
     Private Sub LoadProcessed()
-
+        Dim ReceivedProcessedCar As New Car_Processed()
+        Dim ProcessedCarPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ReceivedProcessedCar))
+        Marshal.Copy(RXData, 1, ProcessedCarPointer, Marshal.SizeOf(ReceivedProcessedCar))
+        ReceivedProcessedCar = CType(Marshal.PtrToStructure(ProcessedCarPointer, GetType(Car_Processed)), Car_Processed)
+        Marshal.FreeHGlobal(ProcessedCarPointer)
+        Car.Processed = ReceivedProcessedCar
     End Sub
 
     Private Sub LoadMixed()
-
+        Dim ReceivedMixedCar As New Car_Mixed()
+        Dim MixedCarPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ReceivedMixedCar))
+        Marshal.Copy(RXData, 1, MixedCarPointer, Marshal.SizeOf(ReceivedMixedCar))
+        ReceivedMixedCar = CType(Marshal.PtrToStructure(MixedCarPointer, GetType(Car_Mixed)), Car_Mixed)
+        Marshal.FreeHGlobal(MixedCarPointer)
+        Car = ReceivedMixedCar
     End Sub
 
     Private Sub ProcessData()
