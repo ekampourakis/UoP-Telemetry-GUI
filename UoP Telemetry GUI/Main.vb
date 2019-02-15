@@ -293,12 +293,38 @@ Public Class Main
             SerialPort.PortName = ComboBox_Ports.SelectedItem
             SerialPort.Open()
             System.Threading.Thread.Sleep(110)
-            Send({0})
+            Send({ID_CONNECTION})
         Else
             SerialPort.Close()
             Connected = False
         End If
 
+    End Sub
+
+    Private Sub Button_Monitoring_Click(sender As Object, e As EventArgs) Handles Button_Monitoring.Click
+        If Button_Monitoring.Text = "Start Monitoring" Then
+            Timer_Monitoring.Start()
+            Button_Monitoring.Text = "Stop Monitoring"
+            Button_FetchRaw.Enabled = False
+            Button_FetchProcessed.Enabled = False
+        Else
+            Timer_Monitoring.Stop()
+            Button_Monitoring.Text = "Start Monitoring"
+            Button_FetchRaw.Enabled = True
+            Button_FetchProcessed.Enabled = True
+        End If
+    End Sub
+
+    Private Sub Button_FetchRaw_Click(sender As Object, e As EventArgs) Handles Button_FetchRaw.Click
+        RequestRawCar()
+    End Sub
+
+    Private Sub Button_FetchProcessed_Click(sender As Object, e As EventArgs) Handles Button_FetchProcessed.Click
+        RequestProcessedCar()
+    End Sub
+
+    Private Sub Button_FetchMixed_Click(sender As Object, e As EventArgs) Handles Button_FetchMixed.Click
+        RequestMixedCar()
     End Sub
 #End Region
 
@@ -416,6 +442,29 @@ Public Class Main
             Item.SubItems.Add(SubItem)
             ListView_Processed.Items.Add(Item)
         Next
+    End Sub
+#End Region
+
+#Region "Monitoring"
+    Private Sub RequestRawCar()
+        Send({ID_SEND_RAW})
+    End Sub
+
+    Private Sub RequestProcessedCar()
+        Send({ID_SEND_PROCESSED})
+    End Sub
+
+    Private Sub RequestMixedCar()
+        Send({ID_SEND_MIXED})
+    End Sub
+
+    Private Sub Timer_Monitoring_Tick(sender As Object, e As EventArgs) Handles Timer_Monitoring.Tick
+        If CheckBox_Raw.Checked Then
+            RequestRawCar()
+        End If
+        If CheckBox_Processed.Checked Then
+            RequestProcessedCar()
+        End If
     End Sub
 #End Region
 

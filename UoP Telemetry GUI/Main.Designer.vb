@@ -45,8 +45,17 @@ Partial Class Main
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.Timer_Monitoring = New System.Windows.Forms.Timer(Me.components)
+        Me.GroupBox_Monitoring = New System.Windows.Forms.GroupBox()
+        Me.Button_FetchRaw = New System.Windows.Forms.Button()
+        Me.Button_FetchProcessed = New System.Windows.Forms.Button()
+        Me.CheckBox_Raw = New System.Windows.Forms.CheckBox()
+        Me.Button_Monitoring = New System.Windows.Forms.Button()
+        Me.CheckBox_Processed = New System.Windows.Forms.CheckBox()
+        Me.Button_FetchMixed = New System.Windows.Forms.Button()
         Me.GroupBox_Connection.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
+        Me.GroupBox_Monitoring.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox_Connection
@@ -113,7 +122,7 @@ Partial Class Main
         'ToolStripStatusLabel_Spring
         '
         Me.ToolStripStatusLabel_Spring.Name = "ToolStripStatusLabel_Spring"
-        Me.ToolStripStatusLabel_Spring.Size = New System.Drawing.Size(347, 17)
+        Me.ToolStripStatusLabel_Spring.Size = New System.Drawing.Size(333, 17)
         Me.ToolStripStatusLabel_Spring.Spring = True
         '
         'ToolStripStatusLabel_Updates
@@ -183,10 +192,10 @@ Partial Class Main
         Me.ListView_Processed.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3})
         Me.ListView_Processed.FullRowSelect = True
         Me.ListView_Processed.GridLines = True
-        Me.ListView_Processed.Location = New System.Drawing.Point(336, 83)
+        Me.ListView_Processed.Location = New System.Drawing.Point(336, 124)
         Me.ListView_Processed.Name = "ListView_Processed"
         Me.ListView_Processed.ShowItemToolTips = True
-        Me.ListView_Processed.Size = New System.Drawing.Size(318, 599)
+        Me.ListView_Processed.Size = New System.Drawing.Size(318, 558)
         Me.ListView_Processed.TabIndex = 16
         Me.ListView_Processed.UseCompatibleStateImageBehavior = False
         Me.ListView_Processed.View = System.Windows.Forms.View.Details
@@ -206,11 +215,93 @@ Partial Class Main
         Me.ColumnHeader3.Text = "Value"
         Me.ColumnHeader3.Width = 80
         '
+        'Timer_Monitoring
+        '
+        Me.Timer_Monitoring.Interval = 500
+        '
+        'GroupBox_Monitoring
+        '
+        Me.GroupBox_Monitoring.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox_Monitoring.Controls.Add(Me.Button_FetchRaw)
+        Me.GroupBox_Monitoring.Controls.Add(Me.Button_FetchProcessed)
+        Me.GroupBox_Monitoring.Controls.Add(Me.CheckBox_Raw)
+        Me.GroupBox_Monitoring.Controls.Add(Me.Button_Monitoring)
+        Me.GroupBox_Monitoring.Controls.Add(Me.CheckBox_Processed)
+        Me.GroupBox_Monitoring.Controls.Add(Me.Button_FetchMixed)
+        Me.GroupBox_Monitoring.Location = New System.Drawing.Point(336, 12)
+        Me.GroupBox_Monitoring.Name = "GroupBox_Monitoring"
+        Me.GroupBox_Monitoring.Size = New System.Drawing.Size(318, 106)
+        Me.GroupBox_Monitoring.TabIndex = 26
+        Me.GroupBox_Monitoring.TabStop = False
+        Me.GroupBox_Monitoring.Text = "Monitoring"
+        '
+        'Button_FetchRaw
+        '
+        Me.Button_FetchRaw.Location = New System.Drawing.Point(6, 19)
+        Me.Button_FetchRaw.Name = "Button_FetchRaw"
+        Me.Button_FetchRaw.Size = New System.Drawing.Size(112, 23)
+        Me.Button_FetchRaw.TabIndex = 10
+        Me.Button_FetchRaw.Text = "Fetch Raw"
+        Me.Button_FetchRaw.UseVisualStyleBackColor = True
+        '
+        'Button_FetchProcessed
+        '
+        Me.Button_FetchProcessed.Location = New System.Drawing.Point(6, 48)
+        Me.Button_FetchProcessed.Name = "Button_FetchProcessed"
+        Me.Button_FetchProcessed.Size = New System.Drawing.Size(112, 23)
+        Me.Button_FetchProcessed.TabIndex = 3
+        Me.Button_FetchProcessed.Text = "Fetch Processed"
+        Me.Button_FetchProcessed.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Raw
+        '
+        Me.CheckBox_Raw.AutoSize = True
+        Me.CheckBox_Raw.Checked = True
+        Me.CheckBox_Raw.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_Raw.Location = New System.Drawing.Point(124, 23)
+        Me.CheckBox_Raw.Name = "CheckBox_Raw"
+        Me.CheckBox_Raw.Size = New System.Drawing.Size(67, 17)
+        Me.CheckBox_Raw.TabIndex = 12
+        Me.CheckBox_Raw.Text = "Raw Car"
+        Me.CheckBox_Raw.UseVisualStyleBackColor = True
+        '
+        'Button_Monitoring
+        '
+        Me.Button_Monitoring.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button_Monitoring.Location = New System.Drawing.Point(210, 77)
+        Me.Button_Monitoring.Name = "Button_Monitoring"
+        Me.Button_Monitoring.Size = New System.Drawing.Size(102, 23)
+        Me.Button_Monitoring.TabIndex = 2
+        Me.Button_Monitoring.Text = "Start Monitoring"
+        Me.Button_Monitoring.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Processed
+        '
+        Me.CheckBox_Processed.AutoSize = True
+        Me.CheckBox_Processed.Checked = True
+        Me.CheckBox_Processed.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_Processed.Location = New System.Drawing.Point(124, 52)
+        Me.CheckBox_Processed.Name = "CheckBox_Processed"
+        Me.CheckBox_Processed.Size = New System.Drawing.Size(95, 17)
+        Me.CheckBox_Processed.TabIndex = 13
+        Me.CheckBox_Processed.Text = "Processed Car"
+        Me.CheckBox_Processed.UseVisualStyleBackColor = True
+        '
+        'Button_FetchMixed
+        '
+        Me.Button_FetchMixed.Location = New System.Drawing.Point(6, 77)
+        Me.Button_FetchMixed.Name = "Button_FetchMixed"
+        Me.Button_FetchMixed.Size = New System.Drawing.Size(112, 23)
+        Me.Button_FetchMixed.TabIndex = 11
+        Me.Button_FetchMixed.Text = "Fetch Mixed"
+        Me.Button_FetchMixed.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(666, 707)
+        Me.Controls.Add(Me.GroupBox_Monitoring)
         Me.Controls.Add(Me.ListView_Processed)
         Me.Controls.Add(Me.ListView_Raw)
         Me.Controls.Add(Me.StatusStrip)
@@ -224,6 +315,8 @@ Partial Class Main
         Me.GroupBox_Connection.PerformLayout()
         Me.StatusStrip.ResumeLayout(False)
         Me.StatusStrip.PerformLayout()
+        Me.GroupBox_Monitoring.ResumeLayout(False)
+        Me.GroupBox_Monitoring.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -251,4 +344,12 @@ Partial Class Main
     Friend WithEvents ColumnHeader1 As ColumnHeader
     Friend WithEvents ColumnHeader2 As ColumnHeader
     Friend WithEvents ColumnHeader3 As ColumnHeader
+    Friend WithEvents Timer_Monitoring As Timer
+    Friend WithEvents GroupBox_Monitoring As GroupBox
+    Friend WithEvents Button_FetchRaw As Button
+    Friend WithEvents Button_FetchProcessed As Button
+    Friend WithEvents CheckBox_Raw As CheckBox
+    Friend WithEvents Button_Monitoring As Button
+    Friend WithEvents CheckBox_Processed As CheckBox
+    Friend WithEvents Button_FetchMixed As Button
 End Class
