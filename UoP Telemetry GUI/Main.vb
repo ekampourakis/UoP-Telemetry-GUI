@@ -253,7 +253,31 @@
 #End Region
 
 #Region "Arithmetic"
-    Private Function GetUInt16(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As UInt16
+    Private Function ParseSingle(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As Single
+        Dim Result As Single
+        If BigEndian Then
+            Result = BitConverter.ToSingle({Bytes(StartIndex + 3), Bytes(StartIndex + 2), Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
+            StartIndex += 4
+        Else
+            Result = BitConverter.ToSingle(Bytes, StartIndex)
+            StartIndex += 4
+        End If
+        Return Result
+    End Function
+
+    Private Function ParseInt16(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As Int16
+        Dim Result As UInt16
+        If BigEndian Then
+            Result = BitConverter.ToInt16({Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
+            StartIndex += 2
+        Else
+            Result = BitConverter.ToInt16(Bytes, StartIndex)
+            StartIndex += 2
+        End If
+        Return Result
+    End Function
+
+    Private Function ParseUInt16(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As UInt16
         Dim Result As UInt16
         If BigEndian Then
             Result = BitConverter.ToUInt16({Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
@@ -265,7 +289,7 @@
         Return Result
     End Function
 
-    Private Function GetInt32(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As Int32
+    Private Function ParseInt32(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As Int32
         Dim Result As Int32
         If BigEndian Then
             Result = BitConverter.ToInt32({Bytes(StartIndex + 3), Bytes(StartIndex + 2), Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
@@ -277,7 +301,7 @@
         Return Result
     End Function
 
-    Private Function GetUInt32(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As UInt32
+    Private Function ParseUInt32(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As UInt32
         Dim Result As UInt32
         If BigEndian Then
             Result = BitConverter.ToUInt32({Bytes(StartIndex + 3), Bytes(StartIndex + 2), Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
@@ -289,7 +313,7 @@
         Return Result
     End Function
 
-    Private Function GetByte(ByRef Bytes As Byte(), ByRef StartIndex As Integer)
+    Private Function ParseByte(ByRef Bytes As Byte(), ByRef StartIndex As Integer)
         Dim Result As Byte = Bytes(StartIndex)
         StartIndex += 1
         Return Result
