@@ -459,12 +459,20 @@ Public Class Main
     End Sub
 
     Private Sub Timer_Monitoring_Tick(sender As Object, e As EventArgs) Handles Timer_Monitoring.Tick
-        If CheckBox_Raw.Checked Then
-            RequestRawCar()
+        If TabControl.SelectedIndex = 0 Then
+            ' Wireless
+        ElseIf TabControl.SelectedIndex = 1 Then
+            ' Admin
+            If CheckBox_Raw.Checked Then
+                RequestRawCar()
+            End If
+            If CheckBox_Processed.Checked Then
+                RequestProcessedCar()
+            End If
+        Else
+            ' Graphing
         End If
-        If CheckBox_Processed.Checked Then
-            RequestProcessedCar()
-        End If
+
     End Sub
 #End Region
 
