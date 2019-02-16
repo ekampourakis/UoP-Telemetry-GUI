@@ -453,22 +453,22 @@ Public Class Main
     End Sub
 
     Private Sub DisplayBMS(ByVal Packet As Packet_BMS)
-        ListView_BMS.Items(0).SubItems(0).Text = Packet.Voltage_Min_Left & " V"
-        ListView_BMS.Items(0).SubItems(1).Text = Packet.Voltage_Max_Left & " V"
-        ListView_BMS.Items(0).SubItems(2).Text = Packet.Temp_Min_Left & " C"
-        ListView_BMS.Items(0).SubItems(3).Text = Packet.Temp_Max_Left & " C"
-        ListView_BMS.Items(1).SubItems(0).Text = Packet.Voltage_Min_Right & " V"
-        ListView_BMS.Items(1).SubItems(1).Text = Packet.Voltage_Max_Right & " V"
-        ListView_BMS.Items(1).SubItems(2).Text = Packet.Temp_Min_Right & " C"
-        ListView_BMS.Items(1).SubItems(3).Text = Packet.Temp_Max_Right & " C"
+        ListView_BMS.Items(0).SubItems(1).Text = Packet.Voltage_Min_Left & " V"
+        ListView_BMS.Items(0).SubItems(2).Text = Packet.Voltage_Max_Left & " V"
+        ListView_BMS.Items(0).SubItems(3).Text = Packet.Temp_Min_Left & " C"
+        ListView_BMS.Items(0).SubItems(4).Text = Packet.Temp_Max_Left & " C"
+        ListView_BMS.Items(1).SubItems(1).Text = Packet.Voltage_Min_Right & " V"
+        ListView_BMS.Items(1).SubItems(2).Text = Packet.Voltage_Max_Right & " V"
+        ListView_BMS.Items(1).SubItems(3).Text = Packet.Temp_Min_Right & " C"
+        ListView_BMS.Items(1).SubItems(4).Text = Packet.Temp_Max_Right & " C"
     End Sub
 
     Private Sub DisplayTemps(ByVal Packet As Packet_Temps)
-        ListView_Temperature.Items(0).SubItems(0).Text = Packet.IGBT & " C"
-        ListView_Temperature.Items(1).SubItems(0).Text = Packet.Motor & " C"
-        ListView_Temperature.Items(2).SubItems(0).Text = Packet.Coolant_In & " C"
-        ListView_Temperature.Items(3).SubItems(0).Text = Packet.Coolant_Out & " C"
-        ListView_Temperature.Items(4).SubItems(0).Text = Packet.Gearbox & " C"
+        ListView_Temperature.Items(0).SubItems(1).Text = Packet.IGBT & " C"
+        ListView_Temperature.Items(1).SubItems(1).Text = Packet.Motor & " C"
+        ListView_Temperature.Items(2).SubItems(1).Text = Packet.Coolant_In & " C"
+        ListView_Temperature.Items(3).SubItems(1).Text = Packet.Coolant_Out & " C"
+        ListView_Temperature.Items(4).SubItems(1).Text = Packet.Gearbox & " C"
     End Sub
 
     Private Sub DisplayPedals(ByVal Packet As Packet_Pedals)
@@ -488,13 +488,13 @@ Public Class Main
     End Sub
 
     Private Sub DisplayVCU(ByVal Packet As Packet_VCU)
-        ListView_VCU.Items(0).SubItems(0).Text = Packet.ETD
-        ListView_VCU.Items(1).SubItems(0).Text = Packet.BMSA
-        ListView_VCU.Items(2).SubItems(0).Text = Packet.MCMS
-        ListView_VCU.Items(3).SubItems(0).Text = Packet.EMA
-        ListView_VCU.Items(4).SubItems(0).Text = Packet.CDS
-        ListView_VCU.Items(5).SubItems(0).Text = Packet.PLS
-        ListView_VCU.Items(6).SubItems(0).Text = Packet.Current_Low_Battery
+        ListView_VCU.Items(0).SubItems(1).Text = Packet.ETD
+        ListView_VCU.Items(1).SubItems(1).Text = Packet.BMSA
+        ListView_VCU.Items(2).SubItems(1).Text = Packet.MCMS
+        ListView_VCU.Items(3).SubItems(1).Text = Packet.EMA
+        ListView_VCU.Items(4).SubItems(1).Text = Packet.CDS
+        ListView_VCU.Items(5).SubItems(1).Text = Packet.PLS
+        ListView_VCU.Items(6).SubItems(1).Text = Packet.Current_Low_Battery
     End Sub
 
     Private Sub DisplayIMU(ByVal Packet As Packet_IMU)
