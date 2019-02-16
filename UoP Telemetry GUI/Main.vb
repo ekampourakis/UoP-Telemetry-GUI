@@ -443,6 +443,63 @@ Public Class Main
             ListView_Processed.Items.Add(Item)
         Next
     End Sub
+
+    Private Sub DisplayPerformance(ByVal Packet As Packet_Performance)
+        Label_RPM.Text = Packet.RPM & " RPM"
+        ' Torque not used yet
+        Label_Current.Text = Packet.IVT_Current & " A"
+        Label_Voltage.Text = Packet.IVT_Voltage & " V"
+        Label_Power.Text = Packet.IVT_Voltage * Packet.IVT_Current & " W"
+    End Sub
+
+    Private Sub DisplayBMS(ByVal Packet As Packet_BMS)
+        ListView_BMS.Items(0).SubItems(0).Text = Packet.Voltage_Min_Left & " V"
+        ListView_BMS.Items(0).SubItems(1).Text = Packet.Voltage_Max_Left & " V"
+        ListView_BMS.Items(0).SubItems(2).Text = Packet.Temp_Min_Left & " C"
+        ListView_BMS.Items(0).SubItems(3).Text = Packet.Temp_Max_Left & " C"
+        ListView_BMS.Items(1).SubItems(0).Text = Packet.Voltage_Min_Right & " V"
+        ListView_BMS.Items(1).SubItems(1).Text = Packet.Voltage_Max_Right & " V"
+        ListView_BMS.Items(1).SubItems(2).Text = Packet.Temp_Min_Right & " C"
+        ListView_BMS.Items(1).SubItems(3).Text = Packet.Temp_Max_Right & " C"
+    End Sub
+
+    Private Sub DisplayTemps(ByVal Packet As Packet_Temps)
+        ListView_Temperature.Items(0).SubItems(0).Text = Packet.IGBT & " C"
+        ListView_Temperature.Items(1).SubItems(0).Text = Packet.Motor & " C"
+        ListView_Temperature.Items(2).SubItems(0).Text = Packet.Coolant_In & " C"
+        ListView_Temperature.Items(3).SubItems(0).Text = Packet.Coolant_Out & " C"
+        ListView_Temperature.Items(4).SubItems(0).Text = Packet.Gearbox & " C"
+    End Sub
+
+    Private Sub DisplayPedals(ByVal Packet As Packet_Pedals)
+        ProgressBar_Throttle.Value = Packet.Throttle_12
+        Label_Throttle.Text = Packet.Throttle_12 & " %"
+        ProgressBar_BrakeFront.Value = Packet.Brake_Front
+        Label_BrakeFront.Text = Packet.Brake_Front & " Bar"
+        ProgressBar_BrakeRear.Value = Packet.Brake_Rear
+        Label_BrakeRear.Text = Packet.Brake_Rear & " Bar"
+    End Sub
+
+    Private Sub DisplayWheels(ByVal Packet As Packet_Wheels)
+        Label_RPM_FrontLeft.Text = Packet.RPM_Front_Left & " RPM"
+        Label_RPM_FrontRight.Text = Packet.RPM_Front_Right & " RPM"
+        Label_RPM_RearLeft.Text = Packet.RPM_Rear_Left & " RPM"
+        Label_RPM_RearRight.Text = Packet.RPM_Rear_Right & " RPM"
+    End Sub
+
+    Private Sub DisplayVCU(ByVal Packet As Packet_VCU)
+        ListView_VCU.Items(0).SubItems(0).Text = Packet.ETD
+        ListView_VCU.Items(1).SubItems(0).Text = Packet.BMSA
+        ListView_VCU.Items(2).SubItems(0).Text = Packet.MCMS
+        ListView_VCU.Items(3).SubItems(0).Text = Packet.EMA
+        ListView_VCU.Items(4).SubItems(0).Text = Packet.CDS
+        ListView_VCU.Items(5).SubItems(0).Text = Packet.PLS
+        ListView_VCU.Items(6).SubItems(0).Text = Packet.Current_Low_Battery
+    End Sub
+
+    Private Sub DisplayIMU(ByVal Packet As Packet_IMU)
+        ' Not utilized yet
+    End Sub
 #End Region
 
 #Region "Monitoring"

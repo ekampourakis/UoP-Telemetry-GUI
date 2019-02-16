@@ -85,7 +85,6 @@
         Public Temp_Max_Left As Byte
         Public Temp_Min_Right As Byte
         Public Temp_Max_Right As Byte
-
     End Structure
 
     Public Structure Packet_Temps
@@ -112,9 +111,9 @@
     Public Structure Packet_VCU
         Public ETD As Boolean
         Public BMSA As Boolean
-        Public MCMSAs As Byte
+        Public MCMS As Byte
         Public EMA As UInt16
-        Public CDSAs As Byte
+        Public CDS As Byte
         Public PLS As UInt16
         Public Current_Low_Battery As UInt16
     End Structure
