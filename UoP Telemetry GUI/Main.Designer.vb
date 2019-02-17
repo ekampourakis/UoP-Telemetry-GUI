@@ -101,6 +101,7 @@ Partial Class Main
         Me.TabPage_Admin = New System.Windows.Forms.TabPage()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.TabPage_CAN = New System.Windows.Forms.TabPage()
         Me.GroupBox_Connection.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.GroupBox_Monitoring.SuspendLayout()
@@ -352,6 +353,7 @@ Partial Class Main
         Me.TabControl.Controls.Add(Me.TabPage_Wireless)
         Me.TabControl.Controls.Add(Me.TabPage_Graphing)
         Me.TabControl.Controls.Add(Me.TabPage_Admin)
+        Me.TabControl.Controls.Add(Me.TabPage_CAN)
         Me.TabControl.Location = New System.Drawing.Point(12, 83)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
@@ -660,6 +662,16 @@ Partial Class Main
         Me.Label1.TabIndex = 27
         Me.Label1.Text = "Raw Sensor Readings:"
         '
+        'TabPage_CAN
+        '
+        Me.TabPage_CAN.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage_CAN.Name = "TabPage_CAN"
+        Me.TabPage_CAN.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage_CAN.Size = New System.Drawing.Size(1232, 627)
+        Me.TabPage_CAN.TabIndex = 3
+        Me.TabPage_CAN.Text = "CAN"
+        Me.TabPage_CAN.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -753,4 +765,5 @@ Partial Class Main
     Friend WithEvents ColumnHeader_BMS_Voltage_Max As ColumnHeader
     Friend WithEvents ColumnHeader_BMS_Temp_Min As ColumnHeader
     Friend WithEvents ColumnHeader_BMS_Temp_Max As ColumnHeader
+    Friend WithEvents TabPage_CAN As TabPage
 End Class
