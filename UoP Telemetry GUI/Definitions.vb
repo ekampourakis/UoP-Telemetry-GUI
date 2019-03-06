@@ -68,8 +68,25 @@
         Public Current_Low_Battery As Single
     End Structure
 
+    Public Const MASK_PERF = &B1000000
+    Public Const MASK_BMS = &B100000
+    Public Const MASK_TEMPS = &B10000
+    Public Const MASK_PEDALS = &B1000
+    Public Const MASK_WHEELS = &B100
+    Public Const MASK_VCU = &B10
+    Public Const MASK_IMU = &B1
+
+    Public Structure Packet_Timestamp
+        Public IndexMSB As Byte
+        Public IndexMMSB As Byte
+        Public IndexLSB As Byte
+        Public TimestampMSB As Byte
+        Public TimestampMMSB As Byte
+        Public TimestampLSB As Byte
+    End Structure
+
     Public Structure Packet_Performance
-        Public RPM As Int16
+        Public RPM As UInt16
         Public Torque As Int16
         Public IVT_Current As Int16
         Public IVT_Voltage As UInt16
@@ -127,5 +144,17 @@
     Public Structure Car_Mixed
         Public Raw As Car_Raw
         Public Processed As Car_Processed
+    End Structure
+
+    Public Structure Car_Telemetry
+        Public Settings As Byte
+        Public Timestamp As Packet_Timestamp
+        Public Performance As Packet_Performance
+        Public BMS As Packet_BMS
+        Public Temps As Packet_Temps
+        Public Pedals As Packet_Pedals
+        Public Wheels As Packet_Wheels
+        Public VCU As Packet_VCU
+        Public IMU As Packet_IMU
     End Structure
 End Class

@@ -99,6 +99,10 @@ Partial Class Main
         Me.PictureBox_Car = New System.Windows.Forms.PictureBox()
         Me.TabPage_Graphing = New System.Windows.Forms.TabPage()
         Me.TabPage_Admin = New System.Windows.Forms.TabPage()
+        Me.ListView_Telemetry = New System.Windows.Forms.ListView()
+        Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TabPage_CAN = New System.Windows.Forms.TabPage()
@@ -632,6 +636,7 @@ Partial Class Main
         '
         'TabPage_Admin
         '
+        Me.TabPage_Admin.Controls.Add(Me.ListView_Telemetry)
         Me.TabPage_Admin.Controls.Add(Me.Label2)
         Me.TabPage_Admin.Controls.Add(Me.Label1)
         Me.TabPage_Admin.Controls.Add(Me.ListView_Processed)
@@ -643,6 +648,36 @@ Partial Class Main
         Me.TabPage_Admin.TabIndex = 1
         Me.TabPage_Admin.Text = "Admin"
         Me.TabPage_Admin.UseVisualStyleBackColor = True
+        '
+        'ListView_Telemetry
+        '
+        Me.ListView_Telemetry.Alignment = System.Windows.Forms.ListViewAlignment.Left
+        Me.ListView_Telemetry.AutoArrange = False
+        Me.ListView_Telemetry.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader4, Me.ColumnHeader5, Me.ColumnHeader6})
+        Me.ListView_Telemetry.FullRowSelect = True
+        Me.ListView_Telemetry.GridLines = True
+        Me.ListView_Telemetry.Location = New System.Drawing.Point(878, 20)
+        Me.ListView_Telemetry.Name = "ListView_Telemetry"
+        Me.ListView_Telemetry.ShowItemToolTips = True
+        Me.ListView_Telemetry.Size = New System.Drawing.Size(318, 604)
+        Me.ListView_Telemetry.TabIndex = 30
+        Me.ListView_Telemetry.UseCompatibleStateImageBehavior = False
+        Me.ListView_Telemetry.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "Field Name"
+        Me.ColumnHeader4.Width = 142
+        '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Text = "Type"
+        Me.ColumnHeader5.Width = 82
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "Value"
+        Me.ColumnHeader6.Width = 80
         '
         'Label2
         '
@@ -766,4 +801,8 @@ Partial Class Main
     Friend WithEvents ColumnHeader_BMS_Temp_Min As ColumnHeader
     Friend WithEvents ColumnHeader_BMS_Temp_Max As ColumnHeader
     Friend WithEvents TabPage_CAN As TabPage
+    Friend WithEvents ListView_Telemetry As ListView
+    Friend WithEvents ColumnHeader4 As ColumnHeader
+    Friend WithEvents ColumnHeader5 As ColumnHeader
+    Friend WithEvents ColumnHeader6 As ColumnHeader
 End Class

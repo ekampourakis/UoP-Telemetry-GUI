@@ -4,6 +4,9 @@ Imports UoP_Telemetry_GUI.Definitions
 Public Class Main
 
     Private Car As Car_Mixed
+    Private Telemetry As Car_Telemetry
+
+    Private Const Monitoring As Boolean = True
 
 #Region "Callbacks"
     Delegate Sub SetTextCallback(ByVal [text] As String)
@@ -69,12 +72,13 @@ Public Class Main
     Private Const ID_SEND_RAW As Byte = 3
     Private Const ID_SEND_PROCESSED As Byte = 4
     Private Const ID_SEND_MIXED As Byte = 5
+    Private Const ID_SEND_TELEMETRY As Byte = 6
 #End Region
 
 #Region "Receive"
     Private Sub SerialPort_DataReceived(sender As Object, e As IO.Ports.SerialDataReceivedEventArgs) Handles SerialPort.DataReceived
         While SerialPort.BytesToRead > 0
-            If IsWaiting Then
+            If IsWaiting Or Monitoring Then
                 RX.Add(SerialPort.ReadByte())
                 LastReceived = DateTime.Now
                 ProcessRX()
@@ -92,7 +96,7 @@ Public Class Main
                 If RX.Count >= 2 Then
                     len = RX(1)
                     If RX.Count = 3 Then
-                        If RX(2) = WaitingID Then
+                        If RX(2) = WaitingID Or (Monitoring And RX(2) = ID_SEND_TELEMETRY) Then
                         Else
                             ' Command ID not correct
                             ReceiveFailed()
@@ -196,8 +200,9 @@ Public Class Main
 
     Private Sub LoadRaw()
         Dim ReceivedRawCar As New Car_Raw()
-        Dim RawCarPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ReceivedRawCar))
-        Marshal.Copy(RXData, 1, RawCarPointer, Marshal.SizeOf(ReceivedRawCar))
+        Dim SizeOf As Integer = Marshal.SizeOf(ReceivedRawCar)
+        Dim RawCarPointer As IntPtr = Marshal.AllocHGlobal(SizeOf)
+        Marshal.Copy(RXData, 1, RawCarPointer, SizeOf)
         ReceivedRawCar = CType(Marshal.PtrToStructure(RawCarPointer, GetType(Car_Raw)), Car_Raw)
         Marshal.FreeHGlobal(RawCarPointer)
         Car.Raw = ReceivedRawCar
@@ -205,8 +210,10 @@ Public Class Main
 
     Private Sub LoadProcessed()
         Dim ReceivedProcessedCar As New Car_Processed()
-        Dim ProcessedCarPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ReceivedProcessedCar))
-        Marshal.Copy(RXData, 1, ProcessedCarPointer, Marshal.SizeOf(ReceivedProcessedCar))
+        ' Marshal returns wrong value thus subtract 1
+        Dim SizeOf As Integer = Marshal.SizeOf(ReceivedProcessedCar) - 1
+        Dim ProcessedCarPointer As IntPtr = Marshal.AllocHGlobal(SizeOf)
+        Marshal.Copy(RXData, 1, ProcessedCarPointer, SizeOf)
         ReceivedProcessedCar = CType(Marshal.PtrToStructure(ProcessedCarPointer, GetType(Car_Processed)), Car_Processed)
         Marshal.FreeHGlobal(ProcessedCarPointer)
         Car.Processed = ReceivedProcessedCar
@@ -221,9 +228,64 @@ Public Class Main
         Car = ReceivedMixedCar
     End Sub
 
+
+    Private Sub LoadTelemetry()
+        Dim Setting As Byte = RXData(1)
+        Dim Ind As Integer = 2
+
+        Dim Timestamp As New Packet_Timestamp
+        Dim Performance As New Packet_Performance
+        Dim BMS As New Packet_BMS
+        Dim Temps As New Packet_Temps
+        Dim Pedals As New Packet_Pedals
+
+        Telemetry.Settings = Setting
+
+        Dim TimestampPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Timestamp))
+        Marshal.Copy(RXData, Ind, TimestampPointer, Marshal.SizeOf(Timestamp))
+        Timestamp = CType(Marshal.PtrToStructure(TimestampPointer, GetType(Packet_Timestamp)), Packet_Timestamp)
+        Marshal.FreeHGlobal(TimestampPointer)
+        Ind += Marshal.SizeOf(New Packet_Timestamp)
+        Telemetry.Timestamp = Timestamp
+
+        If (Setting And MASK_PERF) Then
+            Dim PerformancePointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Performance))
+            Marshal.Copy(RXData, Ind, PerformancePointer, Marshal.SizeOf(Performance))
+            Performance = CType(Marshal.PtrToStructure(PerformancePointer, GetType(Packet_Performance)), Packet_Performance)
+            Marshal.FreeHGlobal(PerformancePointer)
+            Ind += Marshal.SizeOf(New Packet_Performance)
+            Telemetry.Performance = Performance
+        End If
+        If (Setting And MASK_BMS) Then
+            Dim BMSPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(BMS))
+            Marshal.Copy(RXData, Ind, BMSPointer, Marshal.SizeOf(BMS))
+            BMS = CType(Marshal.PtrToStructure(BMSPointer, GetType(Packet_BMS)), Packet_BMS)
+            Marshal.FreeHGlobal(BMSPointer)
+            Ind += Marshal.SizeOf(New Packet_BMS)
+            Telemetry.BMS = BMS
+        End If
+        If (Setting And MASK_TEMPS) Then
+            Dim TempsPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Temps))
+            Marshal.Copy(RXData, Ind, TempsPointer, Marshal.SizeOf(Temps))
+            Temps = CType(Marshal.PtrToStructure(TempsPointer, GetType(Packet_Temps)), Packet_Temps)
+            Marshal.FreeHGlobal(TempsPointer)
+            Ind += Marshal.SizeOf(New Packet_Temps)
+            Telemetry.Temps = Temps
+        End If
+        If (Setting And MASK_PEDALS) Then
+            Dim PedalsPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Pedals))
+            Marshal.Copy(RXData, Ind, PedalsPointer, Marshal.SizeOf(Pedals))
+            Pedals = CType(Marshal.PtrToStructure(PedalsPointer, GetType(Packet_Pedals)), Packet_Pedals)
+            Marshal.FreeHGlobal(PedalsPointer)
+            Ind += Marshal.SizeOf(New Packet_Pedals)
+            Telemetry.Pedals = Pedals
+        End If
+
+    End Sub
+
     Private Sub ProcessData()
-        Try
-            Select Case RXData(0)
+        'Try
+        Select Case RXData(0)
                 Case ID_CONNECTION
                 Case ID_UNKNOWN
                     ' Client responded with unknown ID packet. That means the received
@@ -240,13 +302,18 @@ Public Class Main
                     LoadMixed()
                     DisplayRaw()
                     DisplayProcessed()
-                Case Else
+                Case ID_SEND_TELEMETRY
+                    LoadTelemetry()
+                DisplayTelemetry()
+
+            Case Else
                     DisplayStatus("Unknown packet ID", Color.Orange, 3000)
             End Select
-        Catch ex As Exception
-            MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-            'Console.WriteLine(ex.Message)
-        End Try
+        'Catch ex As Exception
+        '    ProcessSuccess()
+        '    MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+        '    'Console.WriteLine(ex.Message)
+        'End Try
         ProcessSuccess()
     End Sub
 
@@ -298,7 +365,6 @@ Public Class Main
             SerialPort.Close()
             Connected = False
         End If
-
     End Sub
 
     Private Sub Button_Monitoring_Click(sender As Object, e As EventArgs) Handles Button_Monitoring.Click
@@ -441,6 +507,48 @@ Public Class Main
             SubItem.Text = ProcessedField.GetValue(Car.Processed)
             Item.SubItems.Add(SubItem)
             ListView_Processed.Items.Add(Item)
+        Next
+    End Sub
+
+    Private Sub DisplayTelemetry()
+        ListView_Telemetry.Items.Clear()
+        PrintStructure(ListView_Telemetry, Telemetry.Timestamp)
+        If Telemetry.Settings And MASK_PERF Then
+            PrintStructure(ListView_Telemetry, Telemetry.Performance)
+        End If
+        If Telemetry.Settings And MASK_BMS Then
+            PrintStructure(ListView_Telemetry, Telemetry.BMS)
+        End If
+        If Telemetry.Settings And MASK_TEMPS Then
+            PrintStructure(ListView_Telemetry, Telemetry.Temps)
+        End If
+        If Telemetry.Settings And MASK_PEDALS Then
+            PrintStructure(ListView_Telemetry, Telemetry.Pedals)
+        End If
+        If Telemetry.Settings And MASK_WHEELS Then
+            PrintStructure(ListView_Telemetry, Telemetry.Wheels)
+        End If
+        If Telemetry.Settings And MASK_VCU Then
+            PrintStructure(ListView_Telemetry, Telemetry.VCU)
+        End If
+        If Telemetry.Settings And MASK_IMU Then
+            PrintStructure(ListView_Telemetry, Telemetry.IMU)
+        End If
+
+    End Sub
+
+    Private Sub PrintStructure(ByRef List As ListView, ByRef Struct As Object)
+        Dim TelemetryType As Type = Struct.GetType
+        For Each ProcessedField As Reflection.FieldInfo In TelemetryType.GetFields
+            Dim Item As New ListViewItem()
+            Item.Text = ProcessedField.Name
+            Dim SubItem As New ListViewItem.ListViewSubItem()
+            SubItem.Text = ProcessedField.FieldType.Name
+            Item.SubItems.Add(SubItem)
+            SubItem = New ListViewItem.ListViewSubItem()
+            SubItem.Text = ProcessedField.GetValue(Struct)
+            Item.SubItems.Add(SubItem)
+            List.Items.Add(Item)
         Next
     End Sub
 
