@@ -228,6 +228,10 @@ Public Class Main
         Car = ReceivedMixedCar
     End Sub
 
+    Private LastTelemetry As Integer = 0
+    Private LostPackets As Integer = 0
+    Private LastIndex As Integer = 0
+    Private PacketSync As Boolean = False
 
     Private Sub LoadTelemetry()
         Dim Setting As Byte = RXData(1)
@@ -513,26 +517,48 @@ Public Class Main
     Private Sub DisplayTelemetry()
         ListView_Telemetry.Items.Clear()
         PrintStructure(ListView_Telemetry, Telemetry.Timestamp)
+        With Telemetry.Timestamp
+            Dim Tmp As Integer = ParseUInt32({0, .TimestampMSB, .TimestampMMSB, .TimestampLSB}, 0)
+            Label_Interval.Text = "Interval: " & Tmp - LastTelemetry & "ms"
+            LastTelemetry = Tmp
+        End With
+        With Telemetry.Timestamp
+            Dim Tmp As Integer = ParseUInt32({0, .IndexMSB, .IndexMMSB, .IndexLSB}, 0)
+            If Not PacketSync Then
+                LastIndex = Tmp - 1
+                PacketSync = True
+            End If
+            LostPackets += Tmp - LastIndex - 1
+            Label_LostPackets.Text = "Lost Packets: " & LostPackets
+            LastIndex = Tmp
+        End With
         If Telemetry.Settings And MASK_PERF Then
             PrintStructure(ListView_Telemetry, Telemetry.Performance)
+            DisplayPerformance(Telemetry.Performance)
         End If
         If Telemetry.Settings And MASK_BMS Then
             PrintStructure(ListView_Telemetry, Telemetry.BMS)
+            DisplayBMS(Telemetry.BMS)
         End If
         If Telemetry.Settings And MASK_TEMPS Then
             PrintStructure(ListView_Telemetry, Telemetry.Temps)
+            DisplayTemps(Telemetry.Temps)
         End If
         If Telemetry.Settings And MASK_PEDALS Then
             PrintStructure(ListView_Telemetry, Telemetry.Pedals)
+            DisplayPedals(Telemetry.Pedals)
         End If
         If Telemetry.Settings And MASK_WHEELS Then
             PrintStructure(ListView_Telemetry, Telemetry.Wheels)
+            DisplayWheels(Telemetry.Wheels)
         End If
         If Telemetry.Settings And MASK_VCU Then
             PrintStructure(ListView_Telemetry, Telemetry.VCU)
+            DisplayVCU(Telemetry.VCU)
         End If
         If Telemetry.Settings And MASK_IMU Then
             PrintStructure(ListView_Telemetry, Telemetry.IMU)
+            DisplayIMU(Telemetry.IMU)
         End If
 
     End Sub
