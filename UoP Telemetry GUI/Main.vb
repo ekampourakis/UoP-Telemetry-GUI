@@ -363,6 +363,10 @@ Public Class Main
             End If
             SerialPort.PortName = ComboBox_Ports.SelectedItem
             SerialPort.Open()
+            If CheckBox_OverrideConnection.Checked Then
+                Connected = True
+                Exit Sub
+            End If
             System.Threading.Thread.Sleep(110)
             Send({ID_CONNECTION})
         Else
