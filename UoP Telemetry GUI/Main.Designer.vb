@@ -110,6 +110,8 @@ Partial Class Main
         Me.Label_LostPackets = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.CheckBox_OverrideConnection = New System.Windows.Forms.CheckBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.GroupBox_Connection.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.GroupBox_Monitoring.SuspendLayout()
@@ -196,6 +198,7 @@ Partial Class Main
         '
         Me.SerialPort.BaudRate = 115200
         Me.SerialPort.PortName = "COM5"
+        Me.SerialPort.ReadBufferSize = 40960
         '
         'Timer_Serial
         '
@@ -440,9 +443,9 @@ Partial Class Main
         Me.ListView_VCU.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader_VCUFlag, Me.ColumnHeader_VCUValue})
         Me.ListView_VCU.GridLines = True
         Me.ListView_VCU.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9})
-        Me.ListView_VCU.Location = New System.Drawing.Point(412, 237)
+        Me.ListView_VCU.Location = New System.Drawing.Point(406, 237)
         Me.ListView_VCU.Name = "ListView_VCU"
-        Me.ListView_VCU.Size = New System.Drawing.Size(106, 150)
+        Me.ListView_VCU.Size = New System.Drawing.Size(118, 150)
         Me.ListView_VCU.TabIndex = 17
         Me.ListView_VCU.UseCompatibleStateImageBehavior = False
         Me.ListView_VCU.View = System.Windows.Forms.View.Details
@@ -455,7 +458,6 @@ Partial Class Main
         'ColumnHeader_VCUValue
         '
         Me.ColumnHeader_VCUValue.Text = "Value"
-        Me.ColumnHeader_VCUValue.Width = 45
         '
         'ListView_Temperature
         '
@@ -741,6 +743,8 @@ Partial Class Main
         'CheckBox_OverrideConnection
         '
         Me.CheckBox_OverrideConnection.AutoSize = True
+        Me.CheckBox_OverrideConnection.Checked = True
+        Me.CheckBox_OverrideConnection.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox_OverrideConnection.Location = New System.Drawing.Point(308, 41)
         Me.CheckBox_OverrideConnection.Name = "CheckBox_OverrideConnection"
         Me.CheckBox_OverrideConnection.Size = New System.Drawing.Size(66, 17)
@@ -748,11 +752,31 @@ Partial Class Main
         Me.CheckBox_OverrideConnection.Text = "Override"
         Me.CheckBox_OverrideConnection.UseVisualStyleBackColor = True
         '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(974, 22)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(115, 13)
+        Me.Label4.TabIndex = 35
+        Me.Label4.Text = "remove admin listviews"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(974, 35)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(137, 13)
+        Me.Label5.TabIndex = 36
+        Me.Label5.Text = "create bidirectional protocol"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1264, 761)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.CheckBox_OverrideConnection)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label_Interval)
@@ -764,7 +788,7 @@ Partial Class Main
         Me.MaximumSize = New System.Drawing.Size(1280, 800)
         Me.MinimumSize = New System.Drawing.Size(1280, 800)
         Me.Name = "Main"
-        Me.Text = "UoP Racing Telemetry"
+        Me.Text = " "
         Me.GroupBox_Connection.ResumeLayout(False)
         Me.GroupBox_Connection.PerformLayout()
         Me.StatusStrip.ResumeLayout(False)
@@ -854,4 +878,6 @@ Partial Class Main
     Friend WithEvents Label_LostPackets As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents CheckBox_OverrideConnection As CheckBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label5 As Label
 End Class

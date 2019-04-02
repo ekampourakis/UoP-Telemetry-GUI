@@ -284,7 +284,8 @@ Public Class Main
             Ind += Marshal.SizeOf(New Packet_Pedals)
             Telemetry.Pedals = Pedals
         End If
-
+        Dim x As Integer = 0
+        x = 1
     End Sub
 
     Private Sub ProcessData()
@@ -356,23 +357,26 @@ Public Class Main
 
 #Region "Buttons"
     Private Sub Button_Connect_Click(sender As Object, e As EventArgs) Handles Button_Connect.Click
-        'Try
-        If Button_Connect.Text = "Connect" Then
-            If SerialPort.IsOpen Then
+        Try
+            If Button_Connect.Text = "Connect" Then
+                If SerialPort.IsOpen Then
+                    SerialPort.Close()
+                End If
+                SerialPort.PortName = ComboBox_Ports.SelectedItem
+                SerialPort.Open()
+                If CheckBox_OverrideConnection.Checked Then
+                    Connected = True
+                    Exit Sub
+                End If
+                System.Threading.Thread.Sleep(110)
+                Send({ID_CONNECTION})
+            Else
                 SerialPort.Close()
+                Connected = False
             End If
-            SerialPort.PortName = ComboBox_Ports.SelectedItem
-            SerialPort.Open()
-            If CheckBox_OverrideConnection.Checked Then
-                Connected = True
-                Exit Sub
-            End If
-            System.Threading.Thread.Sleep(110)
-            Send({ID_CONNECTION})
-        Else
-            SerialPort.Close()
-            Connected = False
-        End If
+        Catch ex As Exception
+            Console.WriteLine(ex.Message)
+        End Try
     End Sub
 
     Private Sub Button_Monitoring_Click(sender As Object, e As EventArgs) Handles Button_Monitoring.Click
@@ -591,30 +595,40 @@ Public Class Main
     End Sub
 
     Private Sub DisplayBMS(ByVal Packet As Packet_BMS)
-        ListView_BMS.Items(0).SubItems(1).Text = Packet.Voltage_Min_Left & " V"
-        ListView_BMS.Items(0).SubItems(2).Text = Packet.Voltage_Max_Left & " V"
-        ListView_BMS.Items(0).SubItems(3).Text = Packet.Temp_Min_Left & " C"
-        ListView_BMS.Items(0).SubItems(4).Text = Packet.Temp_Max_Left & " C"
-        ListView_BMS.Items(1).SubItems(1).Text = Packet.Voltage_Min_Right & " V"
-        ListView_BMS.Items(1).SubItems(2).Text = Packet.Voltage_Max_Right & " V"
-        ListView_BMS.Items(1).SubItems(3).Text = Packet.Temp_Min_Right & " C"
-        ListView_BMS.Items(1).SubItems(4).Text = Packet.Temp_Max_Right & " C"
+        ListView_BMS.Items(0).SubItems(1).Text = (Packet.Voltage_Min_Left / 100.0F + 1.7) & " V"
+        ListView_BMS.Items(0).SubItems(2).Text = (Packet.Voltage_Max_Left / 100.0F + 1.7) & " V"
+        ListView_BMS.Items(0).SubItems(3).Text = Packet.Temp_Min_Left / 2.0F & " C"
+        ListView_BMS.Items(0).SubItems(4).Text = Packet.Temp_Max_Left / 2.0F & " C"
+        ListView_BMS.Items(1).SubItems(1).Text = (Packet.Voltage_Min_Right / 100.0F + 1.7) & " V"
+        ListView_BMS.Items(1).SubItems(2).Text = (Packet.Voltage_Max_Right / 100.0F + 1.7) & " V"
+        ListView_BMS.Items(1).SubItems(3).Text = Packet.Temp_Min_Right / 2.0F & " C"
+        ListView_BMS.Items(1).SubItems(4).Text = Packet.Temp_Max_Right / 2.0F & " C"
     End Sub
 
     Private Sub DisplayTemps(ByVal Packet As Packet_Temps)
-        ListView_Temperature.Items(0).SubItems(1).Text = Packet.IGBT & " C"
-        ListView_Temperature.Items(1).SubItems(1).Text = Packet.Motor & " C"
-        ListView_Temperature.Items(2).SubItems(1).Text = Packet.Coolant_In & " C"
-        ListView_Temperature.Items(3).SubItems(1).Text = Packet.Coolant_Out & " C"
-        ListView_Temperature.Items(4).SubItems(1).Text = Packet.Gearbox & " C"
+        ListView_Temperature.Items(0).SubItems(1).Text = (Packet.IGBT / 2.0F + 20) & " C"
+        ListView_Temperature.Items(1).SubItems(1).Text = (Packet.Motor / 2.0F + 20) & " C"
+        ListView_Temperature.Items(2).SubItems(1).Text = (Packet.Coolant_In / 2.0F + 20) & " C"
+        ListView_Temperature.Items(3).SubItems(1).Text = (Packet.Coolant_Out / 2.0F + 20) & " C"
+        ListView_Temperature.Items(4).SubItems(1).Text = (Packet.Gearbox / 2.0F + 20) & " C"
     End Sub
 
+    Private Function Constrain(ByVal Value, ByVal Min, ByVal Max)
+        If Value < Min Then
+            Return Min
+        ElseIf Value > Max Then
+            Return Max
+        Else
+            Return Value
+        End If
+    End Function
+
     Private Sub DisplayPedals(ByVal Packet As Packet_Pedals)
-        ProgressBar_Throttle.Value = Packet.Throttle_12
+        ProgressBar_Throttle.Value = Constrain(Packet.Throttle_12 / 2, 0, 100)
         Label_Throttle.Text = Packet.Throttle_12 & " %"
-        ProgressBar_BrakeFront.Value = Packet.Brake_Front
+        ProgressBar_BrakeFront.Value = Constrain(Packet.Brake_Front, 0, 200)
         Label_BrakeFront.Text = Packet.Brake_Front & " Bar"
-        ProgressBar_BrakeRear.Value = Packet.Brake_Rear
+        ProgressBar_BrakeRear.Value = Constrain(Packet.Brake_Rear, 0, 200)
         Label_BrakeRear.Text = Packet.Brake_Rear & " Bar"
     End Sub
 
