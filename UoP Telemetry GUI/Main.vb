@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.InteropServices
+Imports System.Windows.Forms.DataVisualization.Charting
 Imports UoP_Telemetry_GUI.Definitions
 
 Public Class Main
@@ -289,8 +290,8 @@ Public Class Main
     End Sub
 
     Private Sub ProcessData()
-        'Try
-        Select Case RXData(0)
+        Try
+            Select Case RXData(0)
                 Case ID_CONNECTION
                 Case ID_UNKNOWN
                     ' Client responded with unknown ID packet. That means the received
@@ -309,16 +310,17 @@ Public Class Main
                     DisplayProcessed()
                 Case ID_SEND_TELEMETRY
                     LoadTelemetry()
-                DisplayTelemetry()
-
-            Case Else
+                    DisplayTelemetry()
+                    PlotTelemetry(Telemetry)
+                    LogTelemetry(Telemetry)
+                Case Else
                     DisplayStatus("Unknown packet ID", Color.Orange, 3000)
             End Select
-        'Catch ex As Exception
-        '    ProcessSuccess()
-        '    MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-        '    'Console.WriteLine(ex.Message)
-        'End Try
+        Catch ex As Exception
+            ProcessSuccess()
+            'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+            Console.WriteLine(ex.Message)
+        End Try
         ProcessSuccess()
     End Sub
 
@@ -689,4 +691,138 @@ Public Class Main
 
     End Sub
 
+
+    Dim rnd As New Random
+    Private Sub Timer_RandomPlot_Tick(sender As Object, e As EventArgs) Handles Timer_RandomPlot.Tick
+
+        Telemetry.Pedals.Throttle_12 = rnd.Next(0, 100)
+        Telemetry.Pedals.Brake_Front = rnd.Next(0, 200)
+        Telemetry.Pedals.Brake_Rear = rnd.Next(0, 200)
+
+        Telemetry.Temps.Coolant_In = rnd.Next(0, 150)
+        Telemetry.Temps.Coolant_Out = rnd.Next(0, 150)
+        Telemetry.Temps.Motor = rnd.Next(0, 150)
+        Telemetry.Temps.IGBT = rnd.Next(0, 150)
+        Telemetry.Temps.Gearbox = rnd.Next(0, 150)
+
+        PlotTelemetry(Telemetry)
+
+    End Sub
+
+    Private Sub PlotTelemetry(ByVal Data As Car_Telemetry, ByVal Optional Time As Date = Nothing)
+        If Not CheckBox_Plotting.Checked Then
+            Exit Sub
+        End If
+        If Time = Nothing Then
+            Time = Now
+        End If
+
+        Chart.Series("Series_Throttle").Points.AddXY(Time, Data.Pedals.Throttle_12)
+        Chart.Series("Series_BrakeFront").Points.AddXY(Time, Data.Pedals.Brake_Front)
+        Chart.Series("Series_BrakeRear").Points.AddXY(Time, Data.Pedals.Brake_Rear)
+        Chart.Series("Series_CoolantIn").Points.AddXY(Time, Data.Temps.Coolant_In)
+        Chart.Series("Series_CoolantOut").Points.AddXY(Time, Data.Temps.Coolant_Out)
+        Chart.Series("Series_MotorTemp").Points.AddXY(Time, Data.Temps.Motor)
+        Chart.Series("Series_IGBTTemp").Points.AddXY(Time, Data.Temps.IGBT)
+        Chart.Series("Series_GearboxTemp").Points.AddXY(Time, Data.Temps.Gearbox)
+
+        If CheckBox_AutoScroll.Checked Then
+            Chart.ChartAreas("ChartArea_Pedals").AxisX.ScaleView.Scroll(Time)
+            Chart.ChartAreas("ChartArea_Coolant").AxisX.ScaleView.Scroll(Time)
+            Chart.ChartAreas("ChartArea_Temps").AxisX.ScaleView.Scroll(Time)
+        End If
+    End Sub
+
+    Private Sub LogTelemetry(ByVal Data As Car_Telemetry)
+        If Not CheckBox_Logging.Checked Then
+            Exit Sub
+        End If
+
+    End Sub
+
+    Private Sub Chart_AxisViewChanged(sender As Object, e As ViewEventArgs) Handles Chart.AxisViewChanged
+        Dim ca1 As ChartArea = Chart.ChartAreas(0)
+        Dim ca2 As ChartArea = Chart.ChartAreas(1)
+        Dim ca3 As ChartArea = Chart.ChartAreas(2)
+
+        Dim ax1 As Axis = ca1.AxisX
+        Dim ax2 As Axis = ca2.AxisX
+        Dim ax3 As Axis = ca3.AxisX
+
+        If e.Axis Is ax1 Then
+            ax2.ScaleView.Size = ax1.ScaleView.Size
+            ax2.ScaleView.Position = ax1.ScaleView.Position
+            ax3.ScaleView.Size = ax1.ScaleView.Size
+            ax3.ScaleView.Position = ax1.ScaleView.Position
+        End If
+
+        If e.Axis Is ax2 Then
+            ax1.ScaleView.Size = ax2.ScaleView.Size
+            ax1.ScaleView.Position = ax2.ScaleView.Position
+            ax3.ScaleView.Size = ax2.ScaleView.Size
+            ax3.ScaleView.Position = ax2.ScaleView.Position
+        End If
+
+        If e.Axis Is ax3 Then
+            ax1.ScaleView.Size = ax3.ScaleView.Size
+            ax1.ScaleView.Position = ax3.ScaleView.Position
+            ax2.ScaleView.Size = ax3.ScaleView.Size
+            ax2.ScaleView.Position = ax3.ScaleView.Position
+        End If
+
+        CheckBox_AutoScroll.Checked = False
+    End Sub
+
+    Private Sub Chart_MouseWheel(sender As Object, e As MouseEventArgs) Handles Chart.MouseWheel
+        With Chart
+            If (e.Delta < 0) Then
+                For Index As Integer = 0 To .ChartAreas.Count - 1
+
+                    .ChartAreas(Index).AxisX.ScaleView.Scroll(Now)
+
+                    .ChartAreas(Index).AxisX.ScaleView.Size = 20.0R
+                    .ChartAreas(Index).AxisX.ScaleView.SizeType = DateTimeIntervalType.Seconds
+                Next
+
+            End If
+            If (e.Delta > 0) Then
+                For Index As Integer = 0 To .ChartAreas.Count - 1
+                    Dim xMin As Double = .ChartAreas(Index).AxisX.ScaleView.ViewMinimum
+                    Dim xMax As Double = .ChartAreas(Index).AxisX.ScaleView.ViewMaximum
+                    Dim posXStart As Double = xMin + (xMax - xMin) * 0.1
+                    Dim posXFinish As Double = xMax - (xMax - xMin) * 0.1
+                    .ChartAreas(Index).AxisX.ScaleView.Zoom(posXStart, posXFinish)
+                Next
+
+            End If
+        End With
+    End Sub
+
+    Private Sub CheckSeries() Handles CheckBox_PlotThrottle.CheckedChanged, CheckBox_PlotMotorTemp.CheckedChanged,
+        CheckBox_PlotIGBTTemp.CheckedChanged, CheckBox_PlotGearboxTemp.CheckedChanged, CheckBox_PlotCoolantOut.CheckedChanged, CheckBox_PlotCoolantIn.CheckedChanged,
+        CheckBox_PlotBrakeRear.CheckedChanged, CheckBox_PlotBrakeFront.CheckedChanged
+        ' Make sure they were initialized
+        If Chart.Series.Count > 0 Then
+            Chart.Series("Series_Throttle").Enabled = CheckBox_PlotThrottle.Checked
+            Chart.Series("Series_BrakeFront").Enabled = CheckBox_PlotBrakeFront.Checked
+            Chart.Series("Series_BrakeRear").Enabled = CheckBox_PlotBrakeRear.Checked
+            Chart.Series("Series_CoolantIn").Enabled = CheckBox_PlotCoolantIn.Checked
+            Chart.Series("Series_CoolantOut").Enabled = CheckBox_PlotCoolantOut.Checked
+            Chart.Series("Series_MotorTemp").Enabled = CheckBox_PlotMotorTemp.Checked
+            Chart.Series("Series_IGBTTemp").Enabled = CheckBox_PlotIGBTTemp.Checked
+            Chart.Series("Series_GearboxTemp").Enabled = CheckBox_PlotGearboxTemp.Checked
+        End If
+        CheckAreas()
+    End Sub
+
+    Private Sub CheckAreas()
+        If Chart.ChartAreas.Count > 0 Then
+            Chart.ChartAreas("ChartArea_Pedals").Visible = Chart.Series("Series_Throttle").Enabled Or
+                Chart.Series("Series_BrakeFront").Enabled Or Chart.Series("Series_BrakeRear").Enabled
+            Chart.ChartAreas("ChartArea_Coolant").Visible = Chart.Series("Series_CoolantIn").Enabled Or
+                Chart.Series("Series_CoolantOut").Enabled
+            Chart.ChartAreas("ChartArea_Temps").Visible = Chart.Series("Series_MotorTemp").Enabled Or
+                Chart.Series("Series_IGBTTemp").Enabled Or Chart.Series("Series_GearboxTemp").Enabled
+        End If
+    End Sub
 End Class
