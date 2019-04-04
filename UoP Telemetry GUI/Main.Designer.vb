@@ -23,20 +23,20 @@ Partial Class Main
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Left", "0 V", "0 V", "0 C", "0 C"}, -1)
-        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Right", "0 V", "0 V", "0 C", "0 C"}, -1)
-        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"ETD", "0"}, -1)
-        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"BMSA", "0"}, -1)
-        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"MCMS", "0"}, -1)
-        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"EMA", "0"}, -1)
-        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"CDS", "0"}, -1)
-        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"PLS", "0"}, -1)
-        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current", "0"}, -1)
-        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant In", "0 C"}, -1)
-        Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant Out", "0 C"}, -1)
-        Dim ListViewItem12 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Gearbox", "0 C"}, -1)
-        Dim ListViewItem13 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"IGBT", "0 C"}, -1)
-        Dim ListViewItem14 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Motor", "0 C"}, -1)
+        Dim ListViewItem15 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Left", "0 V", "0 V", "0 C", "0 C"}, -1)
+        Dim ListViewItem16 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Right", "0 V", "0 V", "0 C", "0 C"}, -1)
+        Dim ListViewItem17 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"ETD", "0"}, -1)
+        Dim ListViewItem18 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"BMSA", "0"}, -1)
+        Dim ListViewItem19 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"MCMS", "0"}, -1)
+        Dim ListViewItem20 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"EMA", "0"}, -1)
+        Dim ListViewItem21 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"CDS", "0"}, -1)
+        Dim ListViewItem22 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"PLS", "0"}, -1)
+        Dim ListViewItem23 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current", "0"}, -1)
+        Dim ListViewItem24 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant In", "0 C"}, -1)
+        Dim ListViewItem25 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant Out", "0 C"}, -1)
+        Dim ListViewItem26 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Gearbox", "0 C"}, -1)
+        Dim ListViewItem27 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"IGBT", "0 C"}, -1)
+        Dim ListViewItem28 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Motor", "0 C"}, -1)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Me.GroupBox_Connection = New System.Windows.Forms.GroupBox()
         Me.Label_Serial = New System.Windows.Forms.Label()
@@ -112,13 +112,23 @@ Partial Class Main
         Me.CheckBox_OverrideConnection = New System.Windows.Forms.CheckBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
         Me.GroupBox_Connection.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.GroupBox_Monitoring.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.TabPage_Wireless.SuspendLayout()
         CType(Me.PictureBox_Car, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage_Graphing.SuspendLayout()
         Me.TabPage_Admin.SuspendLayout()
+        Me.TabPage_CAN.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox_Connection
@@ -404,7 +414,7 @@ Partial Class Main
         Me.ListView_BMS.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader_BMSPack, Me.ColumnHeader_BMS_Voltage_Min, Me.ColumnHeader_BMS_Voltage_Max, Me.ColumnHeader_BMS_Temp_Min, Me.ColumnHeader_BMS_Temp_Max})
         Me.ListView_BMS.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListView_BMS.GridLines = True
-        Me.ListView_BMS.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2})
+        Me.ListView_BMS.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem15, ListViewItem16})
         Me.ListView_BMS.Location = New System.Drawing.Point(321, 506)
         Me.ListView_BMS.Name = "ListView_BMS"
         Me.ListView_BMS.Scrollable = False
@@ -442,7 +452,7 @@ Partial Class Main
         '
         Me.ListView_VCU.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader_VCUFlag, Me.ColumnHeader_VCUValue})
         Me.ListView_VCU.GridLines = True
-        Me.ListView_VCU.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9})
+        Me.ListView_VCU.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem17, ListViewItem18, ListViewItem19, ListViewItem20, ListViewItem21, ListViewItem22, ListViewItem23})
         Me.ListView_VCU.Location = New System.Drawing.Point(406, 237)
         Me.ListView_VCU.Name = "ListView_VCU"
         Me.ListView_VCU.Size = New System.Drawing.Size(118, 150)
@@ -465,12 +475,12 @@ Partial Class Main
         Me.ListView_Temperature.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ListView_Temperature.FullRowSelect = True
         Me.ListView_Temperature.GridLines = True
-        ListViewItem10.StateImageIndex = 0
-        ListViewItem11.StateImageIndex = 0
-        ListViewItem12.StateImageIndex = 0
-        ListViewItem13.StateImageIndex = 0
-        ListViewItem14.StateImageIndex = 0
-        Me.ListView_Temperature.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem10, ListViewItem11, ListViewItem12, ListViewItem13, ListViewItem14})
+        ListViewItem24.StateImageIndex = 0
+        ListViewItem25.StateImageIndex = 0
+        ListViewItem26.StateImageIndex = 0
+        ListViewItem27.StateImageIndex = 0
+        ListViewItem28.StateImageIndex = 0
+        Me.ListView_Temperature.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem24, ListViewItem25, ListViewItem26, ListViewItem27, ListViewItem28})
         Me.ListView_Temperature.Location = New System.Drawing.Point(399, 13)
         Me.ListView_Temperature.Name = "ListView_Temperature"
         Me.ListView_Temperature.Size = New System.Drawing.Size(210, 151)
@@ -633,6 +643,12 @@ Partial Class Main
         '
         'TabPage_Graphing
         '
+        Me.TabPage_Graphing.Controls.Add(Me.Label11)
+        Me.TabPage_Graphing.Controls.Add(Me.Label10)
+        Me.TabPage_Graphing.Controls.Add(Me.Label9)
+        Me.TabPage_Graphing.Controls.Add(Me.Label8)
+        Me.TabPage_Graphing.Controls.Add(Me.Label7)
+        Me.TabPage_Graphing.Controls.Add(Me.Label6)
         Me.TabPage_Graphing.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Graphing.Name = "TabPage_Graphing"
         Me.TabPage_Graphing.Size = New System.Drawing.Size(1232, 627)
@@ -705,6 +721,7 @@ Partial Class Main
         '
         'TabPage_CAN
         '
+        Me.TabPage_CAN.Controls.Add(Me.Label12)
         Me.TabPage_CAN.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_CAN.Name = "TabPage_CAN"
         Me.TabPage_CAN.Padding = New System.Windows.Forms.Padding(3)
@@ -770,11 +787,84 @@ Partial Class Main
         Me.Label5.TabIndex = 36
         Me.Label5.Text = "create bidirectional protocol"
         '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(203, 141)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(358, 13)
+        Me.Label6.TabIndex = 0
+        Me.Label6.Text = "pedals graph: 2 brakes and 1 throttle at different scales left right and colors"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(207, 168)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(105, 13)
+        Me.Label7.TabIndex = 1
+        Me.Label7.Text = "temps: coolant in out"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(209, 198)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(96, 13)
+        Me.Label8.TabIndex = 2
+        Me.Label8.Text = "temps 2: motor igbt"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(203, 232)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(224, 13)
+        Me.Label9.TabIndex = 3
+        Me.Label9.Text = "perf: voltage current / power at another scale "
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(207, 266)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(218, 13)
+        Me.Label10.TabIndex = 4
+        Me.Label10.Text = "perf 2: rpm / 2 wheel speed at different scale"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(215, 311)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(180, 13)
+        Me.Label11.TabIndex = 5
+        Me.Label11.Text = "bms: minimums and maximums global"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(235, 127)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(144, 13)
+        Me.Label12.TabIndex = 0
+        Me.Label12.Text = "can forward and can transmit"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(974, 48)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(21, 13)
+        Me.Label13.TabIndex = 37
+        Me.Label13.Text = "log"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1264, 761)
+        Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.CheckBox_OverrideConnection)
@@ -799,8 +889,12 @@ Partial Class Main
         Me.TabPage_Wireless.ResumeLayout(False)
         Me.TabPage_Wireless.PerformLayout()
         CType(Me.PictureBox_Car, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage_Graphing.ResumeLayout(False)
+        Me.TabPage_Graphing.PerformLayout()
         Me.TabPage_Admin.ResumeLayout(False)
         Me.TabPage_Admin.PerformLayout()
+        Me.TabPage_CAN.ResumeLayout(False)
+        Me.TabPage_CAN.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -880,4 +974,12 @@ Partial Class Main
     Friend WithEvents CheckBox_OverrideConnection As CheckBox
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Label10 As Label
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label12 As Label
+    Friend WithEvents Label13 As Label
 End Class
