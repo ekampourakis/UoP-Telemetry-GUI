@@ -457,7 +457,7 @@ Public Class Main
         Return Result
     End Function
 
-    Private Function ParseUInt32(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As UInt32
+    Public Function ParseUInt32(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As UInt32
         Dim Result As UInt32
         If BigEndian Then
             Result = BitConverter.ToUInt32({Bytes(StartIndex + 3), Bytes(StartIndex + 2), Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
@@ -687,6 +687,8 @@ Public Class Main
     End Sub
 #End Region
 
+    Dim Log As Logger
+
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
@@ -706,7 +708,7 @@ Public Class Main
         Telemetry.Temps.Gearbox = rnd.Next(0, 150)
 
         PlotTelemetry(Telemetry)
-
+        LogTelemetry(Telemetry)
     End Sub
 
     Private Sub PlotTelemetry(ByVal Data As Car_Telemetry, ByVal Optional Time As Date = Nothing)
@@ -737,7 +739,7 @@ Public Class Main
         If Not CheckBox_Logging.Checked Then
             Exit Sub
         End If
-
+        Log.Write(Telemetry)
     End Sub
 
     Private Sub Chart_AxisViewChanged(sender As Object, e As ViewEventArgs) Handles Chart.AxisViewChanged
@@ -824,5 +826,18 @@ Public Class Main
             Chart.ChartAreas("ChartArea_Temps").Visible = Chart.Series("Series_MotorTemp").Enabled Or
                 Chart.Series("Series_IGBTTemp").Enabled Or Chart.Series("Series_GearboxTemp").Enabled
         End If
+    End Sub
+
+    Private Sub CheckBox_Logging_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_Logging.CheckedChanged
+        If CheckBox_Logging.Checked Then
+            Log = New Logger("C:\Users\Manos\Desktop")
+        Else
+            Log.Close()
+            Log = Nothing
+        End If
+    End Sub
+
+    Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        Log.Close()
     End Sub
 End Class
