@@ -613,6 +613,8 @@ Public Class Main
         ListView_Temperature.Items(2).SubItems(1).Text = (Packet.Coolant_In / 2.0F + 20) & " C"
         ListView_Temperature.Items(3).SubItems(1).Text = (Packet.Coolant_Out / 2.0F + 20) & " C"
         ListView_Temperature.Items(4).SubItems(1).Text = (Packet.Gearbox / 2.0F + 20) & " C"
+        Label_Temps_BrakeLeft.Text = (Packet.BrakeLeft / 2.0F + 20) & " C"
+        Label_Temps_BrakeRight.Text = (Packet.BrakeRight / 2.0F + 20) & " C"
     End Sub
 
     Private Function Constrain(ByVal Value, ByVal Min, ByVal Max)
@@ -838,6 +840,16 @@ Public Class Main
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        Log.Close()
+        If Log IsNot Nothing Then
+            Log.Close()
+        End If
+    End Sub
+
+    Private Sub CheckBox_RandomPlot_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_RandomPlot.CheckedChanged
+        If CheckBox_RandomPlot.Checked Then
+            Timer_RandomPlot.Start()
+        Else
+            Timer_RandomPlot.Stop()
+        End If
     End Sub
 End Class

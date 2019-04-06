@@ -110,6 +110,8 @@
         Public Coolant_In As Byte
         Public Coolant_Out As Byte
         Public Gearbox As Byte
+        Public BrakeLeft As Byte
+        Public BrakeRight As Byte
     End Structure
 
     Public Structure Packet_Pedals
