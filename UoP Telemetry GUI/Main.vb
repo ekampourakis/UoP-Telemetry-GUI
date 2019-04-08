@@ -298,16 +298,6 @@ Public Class Main
                     ' packet to the client had an ID unknown to the client.
                 Case ID_MESSAGE
                     LoadMessage()
-                Case ID_SEND_RAW
-                    LoadRaw()
-                    DisplayRaw()
-                Case ID_SEND_PROCESSED
-                    LoadProcessed()
-                    DisplayProcessed()
-                Case ID_SEND_MIXED
-                    LoadMixed()
-                    DisplayRaw()
-                    DisplayProcessed()
                 Case ID_SEND_TELEMETRY
                     LoadTelemetry()
                     DisplayTelemetry()
@@ -379,32 +369,6 @@ Public Class Main
         Catch ex As Exception
             Console.WriteLine(ex.Message)
         End Try
-    End Sub
-
-    Private Sub Button_Monitoring_Click(sender As Object, e As EventArgs) Handles Button_Monitoring.Click
-        If Button_Monitoring.Text = "Start Monitoring" Then
-            Timer_Monitoring.Start()
-            Button_Monitoring.Text = "Stop Monitoring"
-            Button_FetchRaw.Enabled = False
-            Button_FetchProcessed.Enabled = False
-        Else
-            Timer_Monitoring.Stop()
-            Button_Monitoring.Text = "Start Monitoring"
-            Button_FetchRaw.Enabled = True
-            Button_FetchProcessed.Enabled = True
-        End If
-    End Sub
-
-    Private Sub Button_FetchRaw_Click(sender As Object, e As EventArgs) Handles Button_FetchRaw.Click
-        RequestRawCar()
-    End Sub
-
-    Private Sub Button_FetchProcessed_Click(sender As Object, e As EventArgs) Handles Button_FetchProcessed.Click
-        RequestProcessedCar()
-    End Sub
-
-    Private Sub Button_FetchMixed_Click(sender As Object, e As EventArgs) Handles Button_FetchMixed.Click
-        RequestMixedCar()
     End Sub
 #End Region
 
@@ -492,38 +456,6 @@ Public Class Main
 #End Region
 
 #Region "Displaying"
-    Private Sub DisplayRaw()
-        Dim RawType As Type = Car.Raw.GetType
-        ListView_Raw.Items.Clear()
-        For Each RawField As Reflection.FieldInfo In RawType.GetFields
-            Dim Item As New ListViewItem()
-            Item.Text = RawField.Name
-            Dim SubItem As New ListViewItem.ListViewSubItem()
-            SubItem.Text = RawField.FieldType.Name
-            Item.SubItems.Add(SubItem)
-            SubItem = New ListViewItem.ListViewSubItem()
-            SubItem.Text = RawField.GetValue(Car.Raw)
-            Item.SubItems.Add(SubItem)
-            ListView_Raw.Items.Add(Item)
-        Next
-    End Sub
-
-    Private Sub DisplayProcessed()
-        Dim ProcessedType As Type = Car.Processed.GetType
-        ListView_Processed.Items.Clear()
-        For Each ProcessedField As Reflection.FieldInfo In ProcessedType.GetFields
-            Dim Item As New ListViewItem()
-            Item.Text = ProcessedField.Name
-            Dim SubItem As New ListViewItem.ListViewSubItem()
-            SubItem.Text = ProcessedField.FieldType.Name
-            Item.SubItems.Add(SubItem)
-            SubItem = New ListViewItem.ListViewSubItem()
-            SubItem.Text = ProcessedField.GetValue(Car.Processed)
-            Item.SubItems.Add(SubItem)
-            ListView_Processed.Items.Add(Item)
-        Next
-    End Sub
-
     Private Sub DisplayTelemetry()
         ListView_Telemetry.Items.Clear()
         PrintStructure(ListView_Telemetry, Telemetry.Timestamp)
@@ -655,37 +587,6 @@ Public Class Main
 
     Private Sub DisplayIMU(ByVal Packet As Packet_IMU)
         ' Not utilized yet
-    End Sub
-#End Region
-
-#Region "Monitoring"
-    Private Sub RequestRawCar()
-        Send({ID_SEND_RAW})
-    End Sub
-
-    Private Sub RequestProcessedCar()
-        Send({ID_SEND_PROCESSED})
-    End Sub
-
-    Private Sub RequestMixedCar()
-        Send({ID_SEND_MIXED})
-    End Sub
-
-    Private Sub Timer_Monitoring_Tick(sender As Object, e As EventArgs) Handles Timer_Monitoring.Tick
-        If TabControl.SelectedIndex = 0 Then
-            ' Wireless
-        ElseIf TabControl.SelectedIndex = 1 Then
-            ' Admin
-            If CheckBox_Raw.Checked Then
-                RequestRawCar()
-            End If
-            If CheckBox_Processed.Checked Then
-                RequestProcessedCar()
-            End If
-        Else
-            ' Graphing
-        End If
-
     End Sub
 #End Region
 
