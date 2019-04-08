@@ -1,4 +1,6 @@
-﻿Public Class Logger
+﻿Imports UoP_Telemetry_GUI.Arithmetic
+
+Public Class Logger
 
     Private _Writer As IO.StreamWriter
     Private _Reader As IO.StreamReader
@@ -28,7 +30,7 @@
     Public Sub Write(ByVal Telemetry As Definitions.Car_Telemetry)
         If _Writer IsNot Nothing Then
             With Telemetry
-                Dim Index As UInt32 = Main.ParseUInt32({0, .Timestamp.IndexMSB, .Timestamp.IndexMMSB, .Timestamp.IndexLSB}, 0)
+                Dim Index As UInt32 = ParseUInt32({0, .Timestamp.IndexMSB, .Timestamp.IndexMMSB, .Timestamp.IndexLSB}, 0)
                 _Writer.WriteLine("{0},{1:d},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12:F},{13:F}", Now.ToString("dd/MM/yyyy HH:mm:ss.fff"),
                                   Index, .Pedals.Throttle_12, .Pedals.Brake_Front, .Pedals.Brake_Rear,
                                   .Temps.Coolant_In, .Temps.Coolant_Out, .Temps.Motor, .Temps.IGBT, .Temps.Gearbox,

@@ -81,6 +81,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Arithmetic.vb" />
     <Compile Include="CRC.vb" />
     <Compile Include="Definitions.vb" />
     <Compile Include="Logger.vb" />

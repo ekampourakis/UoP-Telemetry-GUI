@@ -1,11 +1,13 @@
 ﻿Imports System.Runtime.InteropServices
 Imports System.Windows.Forms.DataVisualization.Charting
 Imports UoP_Telemetry_GUI.Definitions
+Imports UoP_Telemetry_GUI.Arithmetic
 
 Public Class Main
 
-    Private Car As Car_Mixed
     Private Telemetry As Car_Telemetry
+
+    Dim Log As Logger
 
     Private Const Monitoring As Boolean = True
 
@@ -199,36 +201,6 @@ Public Class Main
         DisplayStatus(Message, Color.Orange, 5000)
     End Sub
 
-    Private Sub LoadRaw()
-        Dim ReceivedRawCar As New Car_Raw()
-        Dim SizeOf As Integer = Marshal.SizeOf(ReceivedRawCar)
-        Dim RawCarPointer As IntPtr = Marshal.AllocHGlobal(SizeOf)
-        Marshal.Copy(RXData, 1, RawCarPointer, SizeOf)
-        ReceivedRawCar = CType(Marshal.PtrToStructure(RawCarPointer, GetType(Car_Raw)), Car_Raw)
-        Marshal.FreeHGlobal(RawCarPointer)
-        Car.Raw = ReceivedRawCar
-    End Sub
-
-    Private Sub LoadProcessed()
-        Dim ReceivedProcessedCar As New Car_Processed()
-        ' Marshal returns wrong value thus subtract 1
-        Dim SizeOf As Integer = Marshal.SizeOf(ReceivedProcessedCar) - 1
-        Dim ProcessedCarPointer As IntPtr = Marshal.AllocHGlobal(SizeOf)
-        Marshal.Copy(RXData, 1, ProcessedCarPointer, SizeOf)
-        ReceivedProcessedCar = CType(Marshal.PtrToStructure(ProcessedCarPointer, GetType(Car_Processed)), Car_Processed)
-        Marshal.FreeHGlobal(ProcessedCarPointer)
-        Car.Processed = ReceivedProcessedCar
-    End Sub
-
-    Private Sub LoadMixed()
-        Dim ReceivedMixedCar As New Car_Mixed()
-        Dim MixedCarPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(ReceivedMixedCar))
-        Marshal.Copy(RXData, 1, MixedCarPointer, Marshal.SizeOf(ReceivedMixedCar))
-        ReceivedMixedCar = CType(Marshal.PtrToStructure(MixedCarPointer, GetType(Car_Mixed)), Car_Mixed)
-        Marshal.FreeHGlobal(MixedCarPointer)
-        Car = ReceivedMixedCar
-    End Sub
-
     Private LastTelemetry As Integer = 0
     Private LostPackets As Integer = 0
     Private LastIndex As Integer = 0
@@ -372,89 +344,6 @@ Public Class Main
     End Sub
 #End Region
 
-#Region "Arithmetic"
-    Private Function ParseSingle(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As Single
-        Dim Result As Single
-        If BigEndian Then
-            Result = BitConverter.ToSingle({Bytes(StartIndex + 3), Bytes(StartIndex + 2), Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
-            StartIndex += 4
-        Else
-            Result = BitConverter.ToSingle(Bytes, StartIndex)
-            StartIndex += 4
-        End If
-        Return Result
-    End Function
-
-    Private Function ParseInt16(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As Int16
-        Dim Result As UInt16
-        If BigEndian Then
-            Result = BitConverter.ToInt16({Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
-            StartIndex += 2
-        Else
-            Result = BitConverter.ToInt16(Bytes, StartIndex)
-            StartIndex += 2
-        End If
-        Return Result
-    End Function
-
-    Private Function ParseUInt16(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As UInt16
-        Dim Result As UInt16
-        If BigEndian Then
-            Result = BitConverter.ToUInt16({Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
-            StartIndex += 2
-        Else
-            Result = BitConverter.ToUInt16(Bytes, StartIndex)
-            StartIndex += 2
-        End If
-        Return Result
-    End Function
-
-    Private Function ParseInt32(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As Int32
-        Dim Result As Int32
-        If BigEndian Then
-            Result = BitConverter.ToInt32({Bytes(StartIndex + 3), Bytes(StartIndex + 2), Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
-            StartIndex += 4
-        Else
-            Result = BitConverter.ToInt32(Bytes, StartIndex)
-            StartIndex += 4
-        End If
-        Return Result
-    End Function
-
-    Public Function ParseUInt32(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As UInt32
-        Dim Result As UInt32
-        If BigEndian Then
-            Result = BitConverter.ToUInt32({Bytes(StartIndex + 3), Bytes(StartIndex + 2), Bytes(StartIndex + 1), Bytes(StartIndex)}, 0)
-            StartIndex += 4
-        Else
-            Result = BitConverter.ToUInt32(Bytes, StartIndex)
-            StartIndex += 4
-        End If
-        Return Result
-    End Function
-
-    Private Function ParseByte(ByRef Bytes As Byte(), ByRef StartIndex As Integer) As Byte
-        Dim Result As Byte = Bytes(StartIndex)
-        StartIndex += 1
-        Return Result
-    End Function
-
-    Private Function ToDegrees(ByVal TemperatureVoltage As UInt16) As Single
-        Dim Voltage As Double = TemperatureVoltage * 0.0001
-        Const Rdiv As Double = 10000.0F
-        Const Rref As Double = 10000.0F
-        Const Vref As Double = 3.0F
-        Dim Rtherm As Double = (Voltage * Rdiv) / (Vref - Voltage)
-        Const A As Double = 0.003354016F
-        Const B As Double = 0.000256985F
-        Const C As Double = 0.000002620131F
-        Const D As Double = 0.00000006383091F
-        Dim LN As Double = Math.Log(Rtherm / Rref)
-        Dim T As Double = 1.0 / (A + B * LN + C * Math.Pow(LN, 2) + D * Math.Pow(LN, 3))
-        Return TemperatureVoltage - 273.15F
-    End Function
-#End Region
-
 #Region "Displaying"
     Private Sub DisplayTelemetry()
         ListView_Telemetry.Items.Clear()
@@ -549,16 +438,6 @@ Public Class Main
         Label_Temps_BrakeRight.Text = (Packet.BrakeRight / 2.0F + 20) & " C"
     End Sub
 
-    Private Function Constrain(ByVal Value, ByVal Min, ByVal Max)
-        If Value < Min Then
-            Return Min
-        ElseIf Value > Max Then
-            Return Max
-        Else
-            Return Value
-        End If
-    End Function
-
     Private Sub DisplayPedals(ByVal Packet As Packet_Pedals)
         ProgressBar_Throttle.Value = Constrain(Packet.Throttle_12 / 2, 0, 100)
         Label_Throttle.Text = Packet.Throttle_12 & " %"
@@ -590,7 +469,7 @@ Public Class Main
     End Sub
 #End Region
 
-    Dim Log As Logger
+
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -753,4 +632,5 @@ Public Class Main
             Timer_RandomPlot.Stop()
         End If
     End Sub
+
 End Class
