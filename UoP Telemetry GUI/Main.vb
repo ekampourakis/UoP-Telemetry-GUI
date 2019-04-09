@@ -1,15 +1,27 @@
-﻿Imports System.Runtime.InteropServices
-Imports System.Windows.Forms.DataVisualization.Charting
+﻿Imports UoP_Telemetry_GUI.Arithmetic
 Imports UoP_Telemetry_GUI.Definitions
-Imports UoP_Telemetry_GUI.Arithmetic
+
+Imports System.Runtime.InteropServices
+Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Main
 
     Private Telemetry As Car_Telemetry
-
-    Dim Log As Logger
+    Private Log As Logger = Nothing
 
     Private Const Monitoring As Boolean = True
+
+    Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If Log IsNot Nothing Then
+            Log.Close()
+        End If
+    End Sub
+
+#Region "GUI"
 
 #Region "Callbacks"
     Delegate Sub SetTextCallback(ByVal [text] As String)
@@ -42,6 +54,32 @@ Public Class Main
     End Sub
 #End Region
 
+    Private Sub Timer_GUIUpdate_Tick(sender As Object, e As EventArgs) Handles Timer_GUIUpdate.Tick
+        If Connected Then
+            ToolStripStatusLabel_Status.ForeColor = Color.Green
+            ToolStripStatusLabel_Status.Text = "Connected"
+            Button_Connect.Text = "Disconnect"
+        Else
+            ToolStripStatusLabel_Status.ForeColor = Color.Firebrick
+            ToolStripStatusLabel_Status.Text = "Disconnected"
+            Button_Connect.Text = "Connect"
+        End If
+        ToolStripStatusLabel_SerialInfo.Text = "Queued: " & TXQueue.Count & " | Processed: " & PacketsProcessed
+    End Sub
+
+    Private Sub DisplayStatus(ByVal Message As String, ByVal Color As Color, ByVal Optional Interval As Integer = 1500)
+        SetText(Message)
+        SetColor(Color)
+        SetTimer(True, Interval)
+    End Sub
+
+    Private Sub Timer_Status_Tick(sender As Object, e As EventArgs) Handles Timer_Status.Tick
+        ToolStripStatusLabel_Updates.Text = ""
+        SetTimer(False, 1500)
+    End Sub
+
+#End Region
+
 #Region "ComboBox Live Update"
     Private Sub ComboBox_Ports_Click(sender As Object, e As EventArgs) Handles ComboBox_Ports.Click
         Try
@@ -72,10 +110,9 @@ Public Class Main
     Private Const ID_CONNECTION As Byte = 0
     Private Const ID_UNKNOWN As Byte = 1
     Private Const ID_MESSAGE As Byte = 2
-    Private Const ID_SEND_RAW As Byte = 3
-    Private Const ID_SEND_PROCESSED As Byte = 4
-    Private Const ID_SEND_MIXED As Byte = 5
+    Private Const ID_SEND_CAN As Byte = 3
     Private Const ID_SEND_TELEMETRY As Byte = 6
+
 #End Region
 
 #Region "Receive"
@@ -206,6 +243,17 @@ Public Class Main
     Private LastIndex As Integer = 0
     Private PacketSync As Boolean = False
 
+    Private Sub LoadCAN()
+        Dim CANMessage As New CAN_Message
+        Dim Ind As Integer = 1
+        CANMessage.ID = ParseUInt16(RXData, Ind)
+        CANMessage.Length = ParseByte(RXData, Ind)
+        For Index As Integer = 0 To CANMessage.Length - 1
+            CANMessage.Data(Index) = ParseByte(RXData, Ind)
+        Next
+        DisplayCAN(CANMessage)
+    End Sub
+
     Private Sub LoadTelemetry()
         Dim Setting As Byte = RXData(1)
         Dim Ind As Integer = 2
@@ -270,6 +318,8 @@ Public Class Main
                     ' packet to the client had an ID unknown to the client.
                 Case ID_MESSAGE
                     LoadMessage()
+                Case ID_SEND_CAN
+                    LoadCAN()
                 Case ID_SEND_TELEMETRY
                     LoadTelemetry()
                     DisplayTelemetry()
@@ -293,31 +343,13 @@ Public Class Main
     End Sub
 #End Region
 
-#Region "GUI"
-    Private Sub Timer_GUIUpdate_Tick(sender As Object, e As EventArgs) Handles Timer_GUIUpdate.Tick
-        If Connected Then
-            ToolStripStatusLabel_Status.ForeColor = Color.Green
-            ToolStripStatusLabel_Status.Text = "Connected"
-            Button_Connect.Text = "Disconnect"
-        Else
-            ToolStripStatusLabel_Status.ForeColor = Color.Firebrick
-            ToolStripStatusLabel_Status.Text = "Disconnected"
-            Button_Connect.Text = "Connect"
-        End If
-        ToolStripStatusLabel_SerialInfo.Text = "Queued: " & TXQueue.Count & " | Processed: " & PacketsProcessed
-    End Sub
-
-    Private Sub DisplayStatus(ByVal Message As String, ByVal Color As Color, ByVal Optional Interval As Integer = 1500)
-        SetText(Message)
-        SetColor(Color)
-        SetTimer(True, Interval)
-    End Sub
-
-    Private Sub Timer_Status_Tick(sender As Object, e As EventArgs) Handles Timer_Status.Tick
-        ToolStripStatusLabel_Updates.Text = ""
-        SetTimer(False, 1500)
-    End Sub
-#End Region
+    Public Function HexDump(ByVal Data As Byte(), ByVal Len As Integer) As String
+        Dim Res As String = ""
+        For Index As Integer = 0 To Len - 1
+            Res &= Hex(Data(Index)) & " "
+        Next
+        Return Res.Substring(0, Res.Length - 1)
+    End Function
 
 #Region "Buttons"
     Private Sub Button_Connect_Click(sender As Object, e As EventArgs) Handles Button_Connect.Click
@@ -345,6 +377,26 @@ Public Class Main
 #End Region
 
 #Region "Displaying"
+    Private Sub DisplayCAN(ByVal Message As CAN_Message)
+        For Each Item As ListViewItem In ListView_CAN.Items
+            If Item.Text = Message.ID Then
+                ' Update item
+                Item.SubItems(1).Text = Message.Length
+                Item.SubItems(2).Text = HexDump(Message.Data, Message.Length)
+                Exit Sub
+            End If
+        Next
+        Dim Tmp As New ListViewItem()
+        Tmp.Text = Message.ID
+        Dim SubItem As New ListViewItem.ListViewSubItem()
+        SubItem.Text = Message.Length
+        Tmp.SubItems.Add(SubItem)
+        SubItem = New ListViewItem.ListViewSubItem()
+        SubItem.Text = HexDump(Message.Data, Message.Length)
+        Tmp.SubItems.Add(SubItem)
+        ListView_CAN.Items.Add(Tmp)
+    End Sub
+
     Private Sub DisplayTelemetry()
         ListView_Telemetry.Items.Clear()
         PrintStructure(ListView_Telemetry, Telemetry.Timestamp)
@@ -468,12 +520,6 @@ Public Class Main
         ' Not utilized yet
     End Sub
 #End Region
-
-
-
-    Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
 
 
     Dim rnd As New Random
@@ -616,12 +662,6 @@ Public Class Main
         Else
             Log.Close()
             Log = Nothing
-        End If
-    End Sub
-
-    Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If Log IsNot Nothing Then
-            Log.Close()
         End If
     End Sub
 

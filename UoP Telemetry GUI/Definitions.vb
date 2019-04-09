@@ -159,4 +159,10 @@
         Public VCU As Packet_VCU
         Public IMU As Packet_IMU
     End Structure
+
+    Public Structure CAN_Message
+        Public ID As UInt16
+        Public Length As Byte
+        Public Data(8) As Byte
+    End Structure
 End Class
