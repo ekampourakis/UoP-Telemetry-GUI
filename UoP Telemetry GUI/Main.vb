@@ -109,8 +109,8 @@ Public Class Main
     ' Packet IDs
     Private Const ID_CONNECTION As Byte = 0
     Private Const ID_UNKNOWN As Byte = 1
-    Private Const ID_MESSAGE As Byte = 2
-    Private Const ID_SEND_CAN As Byte = 3
+    Private Const ID_MESSAGE As Byte = 4
+    Private Const ID_SEND_CAN As Byte = 5
     Private Const ID_SEND_TELEMETRY As Byte = 6
 
 #End Region
@@ -136,7 +136,7 @@ Public Class Main
                 If RX.Count >= 2 Then
                     len = RX(1)
                     If RX.Count = 3 Then
-                        If RX(2) = WaitingID Or (Monitoring And RX(2) = ID_SEND_TELEMETRY) Then
+                        If RX(2) = WaitingID Or (Monitoring And (RX(2) = ID_SEND_TELEMETRY Or RX(2) = ID_SEND_CAN)) Then
                         Else
                             ' Command ID not correct
                             ReceiveFailed()
@@ -305,8 +305,6 @@ Public Class Main
             Ind += Marshal.SizeOf(New Packet_Pedals)
             Telemetry.Pedals = Pedals
         End If
-        Dim x As Integer = 0
-        x = 1
     End Sub
 
     Private Sub ProcessData()
@@ -322,7 +320,7 @@ Public Class Main
                     LoadCAN()
                 Case ID_SEND_TELEMETRY
                     LoadTelemetry()
-                    DisplayTelemetry()
+                    DisplayTelemetry(Telemetry)
                     PlotTelemetry(Telemetry)
                     LogTelemetry(Telemetry)
                 Case Else
@@ -344,6 +342,9 @@ Public Class Main
 #End Region
 
     Public Function HexDump(ByVal Data As Byte(), ByVal Len As Integer) As String
+        If Data Is Nothing Then
+            Return ""
+        End If
         Dim Res As String = ""
         For Index As Integer = 0 To Len - 1
             Res &= Hex(Data(Index)) & " "
@@ -397,7 +398,7 @@ Public Class Main
         ListView_CAN.Items.Add(Tmp)
     End Sub
 
-    Private Sub DisplayTelemetry()
+    Private Sub DisplayTelemetry(ByRef Telemetry As Car_Telemetry)
         ListView_Telemetry.Items.Clear()
         PrintStructure(ListView_Telemetry, Telemetry.Timestamp)
         With Telemetry.Timestamp
@@ -486,13 +487,13 @@ Public Class Main
         ListView_Temperature.Items(2).SubItems(1).Text = (Packet.Coolant_In / 2.0F + 20) & " C"
         ListView_Temperature.Items(3).SubItems(1).Text = (Packet.Coolant_Out / 2.0F + 20) & " C"
         ListView_Temperature.Items(4).SubItems(1).Text = (Packet.Gearbox / 2.0F + 20) & " C"
-        Label_Temps_BrakeLeft.Text = (Packet.BrakeLeft / 2.0F + 20) & " C"
-        Label_Temps_BrakeRight.Text = (Packet.BrakeRight / 2.0F + 20) & " C"
+        Label_Temps_BrakeLeft.Text = (Packet.BrakeLeft * 2.0F + 20) & " C"
+        Label_Temps_BrakeRight.Text = (Packet.BrakeRight * 2.0F + 20) & " C"
     End Sub
 
     Private Sub DisplayPedals(ByVal Packet As Packet_Pedals)
         ProgressBar_Throttle.Value = Constrain(Packet.Throttle_12 / 2, 0, 100)
-        Label_Throttle.Text = Packet.Throttle_12 & " %"
+        Label_Throttle.Text = Math.Floor(Packet.Throttle_12 / 2.0F) & " %"
         ProgressBar_BrakeFront.Value = Constrain(Packet.Brake_Front, 0, 200)
         Label_BrakeFront.Text = Packet.Brake_Front & " Bar"
         ProgressBar_BrakeRear.Value = Constrain(Packet.Brake_Rear, 0, 200)
@@ -523,7 +524,11 @@ Public Class Main
 
 
     Dim rnd As New Random
-    Private Sub Timer_RandomPlot_Tick(sender As Object, e As EventArgs) Handles Timer_RandomPlot.Tick
+    Private Sub Timer_RandomTelemetry_Tick(sender As Object, e As EventArgs) Handles Timer_RandomTelemetry.Tick
+
+        ' Constain to compressed values
+        Telemetry.Settings = 255
+
 
         Telemetry.Pedals.Throttle_12 = rnd.Next(0, 100)
         Telemetry.Pedals.Brake_Front = rnd.Next(0, 200)
@@ -535,6 +540,10 @@ Public Class Main
         Telemetry.Temps.IGBT = rnd.Next(0, 150)
         Telemetry.Temps.Gearbox = rnd.Next(0, 150)
 
+        Telemetry.Temps.BrakeLeft = rnd.Next(0, 255)
+        Telemetry.Temps.BrakeRight = rnd.Next(0, 255)
+
+        DisplayTelemetry(Telemetry)
         PlotTelemetry(Telemetry)
         LogTelemetry(Telemetry)
     End Sub
@@ -547,6 +556,8 @@ Public Class Main
             Time = Now
         End If
 
+        ' Decompress telemetry values before plotting
+
         Chart.Series("Series_Throttle").Points.AddXY(Time, Data.Pedals.Throttle_12)
         Chart.Series("Series_BrakeFront").Points.AddXY(Time, Data.Pedals.Brake_Front)
         Chart.Series("Series_BrakeRear").Points.AddXY(Time, Data.Pedals.Brake_Rear)
@@ -555,10 +566,12 @@ Public Class Main
         Chart.Series("Series_MotorTemp").Points.AddXY(Time, Data.Temps.Motor)
         Chart.Series("Series_IGBTTemp").Points.AddXY(Time, Data.Temps.IGBT)
         Chart.Series("Series_GearboxTemp").Points.AddXY(Time, Data.Temps.Gearbox)
+        Chart.Series("Series_BrakeLeft").Points.AddXY(Time, (Data.Temps.BrakeLeft * 2.0F + 20))
+        Chart.Series("Series_BrakeRight").Points.AddXY(Time, (Data.Temps.BrakeRight * 2.0F + 20))
 
         If CheckBox_AutoScroll.Checked Then
             Chart.ChartAreas("ChartArea_Pedals").AxisX.ScaleView.Scroll(Time)
-            Chart.ChartAreas("ChartArea_Coolant").AxisX.ScaleView.Scroll(Time)
+            Chart.ChartAreas("ChartArea_Temps2").AxisX.ScaleView.Scroll(Time)
             Chart.ChartAreas("ChartArea_Temps").AxisX.ScaleView.Scroll(Time)
         End If
     End Sub
@@ -630,7 +643,7 @@ Public Class Main
 
     Private Sub CheckSeries() Handles CheckBox_PlotThrottle.CheckedChanged, CheckBox_PlotMotorTemp.CheckedChanged,
         CheckBox_PlotIGBTTemp.CheckedChanged, CheckBox_PlotGearboxTemp.CheckedChanged, CheckBox_PlotCoolantOut.CheckedChanged, CheckBox_PlotCoolantIn.CheckedChanged,
-        CheckBox_PlotBrakeRear.CheckedChanged, CheckBox_PlotBrakeFront.CheckedChanged
+        CheckBox_PlotBrakeRear.CheckedChanged, CheckBox_PlotBrakeFront.CheckedChanged, CheckBox_PlotBrakeLeft.CheckedChanged, CheckBox_PlotBrakeRight.CheckedChanged
         ' Make sure they were initialized
         If Chart.Series.Count > 0 Then
             Chart.Series("Series_Throttle").Enabled = CheckBox_PlotThrottle.Checked
@@ -641,6 +654,8 @@ Public Class Main
             Chart.Series("Series_MotorTemp").Enabled = CheckBox_PlotMotorTemp.Checked
             Chart.Series("Series_IGBTTemp").Enabled = CheckBox_PlotIGBTTemp.Checked
             Chart.Series("Series_GearboxTemp").Enabled = CheckBox_PlotGearboxTemp.Checked
+            Chart.Series("Series_BrakeLeft").Enabled = CheckBox_PlotBrakeLeft.Checked
+            Chart.Series("Series_BrakeRight").Enabled = CheckBox_PlotBrakeRight.Checked
         End If
         CheckAreas()
     End Sub
@@ -649,8 +664,9 @@ Public Class Main
         If Chart.ChartAreas.Count > 0 Then
             Chart.ChartAreas("ChartArea_Pedals").Visible = Chart.Series("Series_Throttle").Enabled Or
                 Chart.Series("Series_BrakeFront").Enabled Or Chart.Series("Series_BrakeRear").Enabled
-            Chart.ChartAreas("ChartArea_Coolant").Visible = Chart.Series("Series_CoolantIn").Enabled Or
-                Chart.Series("Series_CoolantOut").Enabled
+            Chart.ChartAreas("ChartArea_Temps2").Visible = Chart.Series("Series_CoolantIn").Enabled Or
+                Chart.Series("Series_CoolantOut").Enabled Or
+                Chart.Series("Series_BrakeLeft").Enabled Or Chart.Series("Series_BrakeRight").Enabled
             Chart.ChartAreas("ChartArea_Temps").Visible = Chart.Series("Series_MotorTemp").Enabled Or
                 Chart.Series("Series_IGBTTemp").Enabled Or Chart.Series("Series_GearboxTemp").Enabled
         End If
@@ -665,11 +681,11 @@ Public Class Main
         End If
     End Sub
 
-    Private Sub CheckBox_RandomPlot_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_RandomPlot.CheckedChanged
-        If CheckBox_RandomPlot.Checked Then
-            Timer_RandomPlot.Start()
+    Private Sub CheckBox_RandomPlot_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_RandomTelemetry.CheckedChanged
+        If CheckBox_RandomTelemetry.Checked Then
+            Timer_RandomTelemetry.Start()
         Else
-            Timer_RandomPlot.Stop()
+            Timer_RandomTelemetry.Stop()
         End If
     End Sub
 

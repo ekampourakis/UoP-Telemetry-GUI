@@ -1363,7 +1363,7 @@
         +0Ryvi+PkktL03n+5Cc/abqj3kfJ5MwcbPY/8ykrE0TZY5cAAAAASUVORK5CYII=
 </value>
   </data>
-  <metadata name="Timer_RandomPlot.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="Timer_RandomTelemetry.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>917, 17</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

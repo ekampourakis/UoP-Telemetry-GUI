@@ -163,6 +163,6 @@
     Public Structure CAN_Message
         Public ID As UInt16
         Public Length As Byte
-        Public Data(8) As Byte
+        Public Data As Byte()
     End Structure
 End Class
