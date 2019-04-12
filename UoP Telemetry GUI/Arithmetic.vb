@@ -1,4 +1,5 @@
 ﻿Public Class Arithmetic
+
     Public Shared Function ParseSingle(ByRef Bytes As Byte(), ByRef StartIndex As Integer, ByVal Optional BigEndian As Boolean = True) As Single
         Dim Result As Single
         If BigEndian Then
@@ -89,4 +90,16 @@
             Return Value
         End If
     End Function
+
+    Public Shared Function HexDump(ByVal Data As Byte(), ByVal Len As Integer) As String
+        If Data Is Nothing Then
+            Return ""
+        End If
+        Dim Res As String = ""
+        For Index As Integer = 0 To Len - 1
+            Res &= Hex(Data(Index)) & " "
+        Next
+        Return Res.Substring(0, Res.Length - 1)
+    End Function
+
 End Class

@@ -1,4 +1,5 @@
 ﻿Public Class Definitions
+
     Public Structure Car_Raw
         Public RPM As UInt16
         Public Torque As Int16
@@ -165,4 +166,5 @@
         Public Length As Byte
         Public Data As Byte()
     End Structure
+
 End Class
