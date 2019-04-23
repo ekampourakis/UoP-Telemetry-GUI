@@ -159,6 +159,18 @@
         Public Wheels As Packet_Wheels
         Public VCU As Packet_VCU
         Public IMU As Packet_IMU
+        Public LeftBox As Byte()
+        Public RightBox As Byte()
+
+        Public Sub New(ByVal Optional Size = 96)
+            ReDim LeftBox(Size)
+            ReDim RightBox(Size)
+            For Index As Integer = 0 To Size
+                LeftBox(Index) = 0
+                RightBox(Index) = 0
+            Next
+        End Sub
+
     End Structure
 
     Public Structure CAN_Message

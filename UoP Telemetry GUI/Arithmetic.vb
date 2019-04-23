@@ -102,4 +102,22 @@
         Return Res.Substring(0, Res.Length - 1)
     End Function
 
+    Public Shared Function Map(ByVal x As Single, ByVal x1 As Single, ByVal x2 As Single, ByVal y1 As Single, ByVal y2 As Single) As Single
+        Return (x - x1) * (y2 - y1) / (x2 - x1) + y1
+    End Function
+
+    Public Shared Function InterpolateColor(ByVal firstcolor As Color, ByVal secondcolor As Color, ByVal alpha As Double) As Color
+        Dim R As Double = ((1 - alpha) * Convert.ToInt32(firstcolor.R)) + (alpha * Convert.ToInt32(secondcolor.R))
+        Dim B As Double = ((1 - alpha) * Convert.ToInt32(firstcolor.B)) + (alpha * Convert.ToInt32(secondcolor.B))
+        Dim G As Double = ((1 - alpha) * Convert.ToInt32(firstcolor.G)) + (alpha * Convert.ToInt32(secondcolor.G))
+        Dim A As Byte = 255
+        Return Color.FromArgb(A, Convert.ToByte(R), Convert.ToByte(G), Convert.ToByte(B))
+    End Function
+
+    Public Shared Function Constrain(ByRef Value As Single, ByVal Min As Single, ByVal Max As Single) As Single
+        Value = Math.Max(Value, Min)
+        Value = Math.min(Value, Max)
+        Return Value
+    End Function
+
 End Class

@@ -6,7 +6,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Main
 
-    Private Telemetry As Car_Telemetry
+    Private Telemetry As New Car_Telemetry(96)
     Private Log As Logger = Nothing
     Private Const Monitoring As Boolean = True
     Private RandomGenerator As New Random
@@ -19,6 +19,7 @@ Public Class Main
         If Log IsNot Nothing Then
             Log.Close()
         End If
+        My.Settings.Save()
     End Sub
 
 #Region "GUI"
@@ -113,6 +114,7 @@ Public Class Main
     Private Const ID_MESSAGE As Byte = 4
     Private Const ID_SEND_CAN As Byte = 5
     Private Const ID_SEND_TELEMETRY As Byte = 6
+    Private Const ID_SEND_BMS As Byte = 7
 
 #End Region
 
@@ -310,6 +312,17 @@ Public Class Main
         End If
     End Sub
 
+    Private Sub LoadBMS()
+        Dim LeftBoxSize As Integer = RXData(1)
+        For Index As Integer = 0 To LeftBoxSize
+            Telemetry.LeftBox(Index) = RXData(Index + 1)
+        Next
+        Dim RightBoxSize As Integer = RXData(1 + LeftBoxSize)
+        For Index As Integer = 0 To RightBoxSize
+            Telemetry.RightBox(Index) = RXData(Index + LeftBoxSize + 1)
+        Next
+    End Sub
+
     Private Sub ProcessData()
         Try
             Select Case RXData(0)
@@ -326,6 +339,10 @@ Public Class Main
                     DisplayTelemetry(Telemetry)
                     PlotTelemetry(Telemetry)
                     LogTelemetry(Telemetry)
+                Case ID_SEND_BMS
+                    LoadBMS()
+                    PlotBMS()
+                    'LogBMS()
                 Case Else
                     DisplayStatus("Unknown packet ID", Color.Orange, 3000)
             End Select
@@ -515,7 +532,7 @@ Public Class Main
     End Sub
 #End Region
 
-#Region "Plotting"
+#Region "Telemetry Plotting"
 
     ' Scrolling
     Private Sub Chart_AxisViewChanged(sender As Object, e As ViewEventArgs) Handles Chart.AxisViewChanged
@@ -769,6 +786,162 @@ Public Class Main
             Log.Close()
             Log = Nothing
         End If
+    End Sub
+
+#End Region
+
+#Region "BMS Plotting"
+
+    Private Sub PlotBMS()
+        Chart_BMS.Series("Series_BMS_Voltages").Points.Clear()
+        For Index As Integer = 0 To 59
+            Dim Value As Single = (Telemetry.LeftBox(Index) / 100.0) + 2.5
+            Constrain(Value, NumericUpDown_BMS_VoltageMin.Value, NumericUpDown_BMS_VoltageMax.Value)
+            Dim Mapped As Single = Map(Value, NumericUpDown_BMS_VoltageMin.Value, NumericUpDown_BMS_VoltageMax.Value, 0, 1)
+            Dim Color As Color = If(Not CheckBox_BMS_Coloring.Checked, PictureBox_BMS_LowColor.BackColor, InterpolateColor(PictureBox_BMS_LowColor.BackColor, PictureBox_BMS_HighColor.BackColor, Mapped))
+            Chart_BMS.Series("Series_BMS_Voltages").Points.AddXY(Index + 1, Value)
+            Chart_BMS.Series("Series_BMS_Voltages").Points().Item(Index).Color = Color
+        Next
+        For Index As Integer = 0 To 59
+            Dim Value As Single = (Telemetry.RightBox(Index) / 100.0) + 2.5
+            Constrain(Value, NumericUpDown_BMS_VoltageMin.Value, NumericUpDown_BMS_VoltageMax.Value)
+            Dim Mapped As Single = Map(Value, NumericUpDown_BMS_VoltageMin.Value, NumericUpDown_BMS_VoltageMax.Value, 0, 1)
+            Dim Color As Color = If(Not CheckBox_BMS_Coloring.Checked, PictureBox_BMS_LowColor.BackColor, InterpolateColor(PictureBox_BMS_LowColor.BackColor, PictureBox_BMS_HighColor.BackColor, Mapped))
+            Chart_BMS.Series("Series_BMS_Voltages").Points.AddXY(Index + 61, Value)
+            Chart_BMS.Series("Series_BMS_Voltages").Points().Item(Index + 60).Color = Color
+        Next
+    End Sub
+
+    Private Sub Button_RandomBMS_Click(sender As Object, e As EventArgs) Handles Button_RandomBMS.Click
+        For Index As Integer = 0 To 59
+            Telemetry.LeftBox(Index) = RandomGenerator.Next(0, 255)
+            Telemetry.RightBox(Index) = RandomGenerator.Next(0, 255)
+        Next
+        PlotBMS()
+    End Sub
+
+    Private IgnoreCellRangeChanged As Integer = 0
+    Private Sub NumericUpDown_BMS_CellMin_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDown_BMS_CellMin.ValueChanged
+        Try
+            With NumericUpDown_BMS_CellMin
+                If .Value >= 1 And .Value < NumericUpDown_BMS_CellMax.Value Then
+                    Chart_BMS.ChartAreas(0).AxisX.Minimum = .Value
+                    If IgnoreCellRangeChanged <= 0 Then
+                        ComboBox_BMS_CellRange.SelectedIndex = 15
+                    Else
+                        IgnoreCellRangeChanged -= 1
+                    End If
+                    .ForeColor = Color.Black
+                Else
+                    .ForeColor = Color.Firebrick
+                End If
+            End With
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub NumericUpDown_BMS_CellMax_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDown_BMS_CellMax.ValueChanged
+        Try
+            With NumericUpDown_BMS_CellMax
+                If .Value >= NumericUpDown_BMS_CellMin.Value And .Value <= 120 Then
+                    Chart_BMS.ChartAreas(0).AxisX.Maximum = .Value
+                    If IgnoreCellRangeChanged <= 0 Then
+                        ComboBox_BMS_CellRange.SelectedIndex = 15
+                    Else
+                        IgnoreCellRangeChanged -= 1
+                    End If
+                    .ForeColor = Color.Black
+                Else
+                    .ForeColor = Color.Firebrick
+                End If
+            End With
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub NumericUpDown_BMS_VoltageMax_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDown_BMS_VoltageMax.ValueChanged
+        Try
+            With NumericUpDown_BMS_VoltageMax
+                If .Value <= 4.2 And .Value > NumericUpDown_BMS_VoltageMin.Value Then
+                    Chart_BMS.ChartAreas(0).AxisY.Maximum = .Value
+                    .ForeColor = Color.Black
+                Else
+                    .ForeColor = Color.Firebrick
+                End If
+            End With
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub NumericUpDown_BMS_VoltageMin_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDown_BMS_VoltageMin.ValueChanged
+        Try
+            With NumericUpDown_BMS_VoltageMin
+                If .Value >= 2.8 And .Value < NumericUpDown_BMS_VoltageMax.Value Then
+                    Chart_BMS.ChartAreas(0).AxisY.Minimum = .Value
+                    .ForeColor = Color.Black
+                Else
+                    .ForeColor = Color.Firebrick
+                End If
+            End With
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub ComboBox_BMS_CellRange_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox_BMS_CellRange.SelectedIndexChanged
+        With ComboBox_BMS_CellRange
+            If .SelectedIndex >= 0 And .SelectedIndex < 12 Then
+                ' BMS Select
+                IgnoreCellRangeChanged += 4
+                NumericUpDown_BMS_CellMin.Value = 1
+                NumericUpDown_BMS_CellMax.Value = 120
+                Dim Min As Integer = .SelectedIndex * 10 + 1
+                Dim Max As Integer = Min + 9
+                NumericUpDown_BMS_CellMin.Value = Min
+                NumericUpDown_BMS_CellMax.Value = Max
+            ElseIf .SelectedIndex = 10 Then
+                ' Left
+                IgnoreCellRangeChanged += 4
+                NumericUpDown_BMS_CellMin.Value = 1
+                NumericUpDown_BMS_CellMax.Value = 120
+                NumericUpDown_BMS_CellMin.Value = 1
+                NumericUpDown_BMS_CellMax.Value = 60
+            ElseIf .SelectedIndex = 13 Then
+                ' Right
+                IgnoreCellRangeChanged += 4
+                NumericUpDown_BMS_CellMin.Value = 1
+                NumericUpDown_BMS_CellMax.Value = 120
+                NumericUpDown_BMS_CellMin.Value = 61
+                NumericUpDown_BMS_CellMax.Value = 120
+            ElseIf .SelectedIndex = 14 Then
+                ' All
+                IgnoreCellRangeChanged += 4
+                NumericUpDown_BMS_CellMin.Value = 1
+                NumericUpDown_BMS_CellMax.Value = 120
+                NumericUpDown_BMS_CellMin.Value = 1
+                NumericUpDown_BMS_CellMax.Value = 120
+            Else
+                ' Custom
+            End If
+        End With
+    End Sub
+
+    Private Sub CheckBox_BMS_Plot_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_BMS_PlotVoltages.CheckedChanged, CheckBox_BMS_PlotTemperatures.CheckedChanged
+        If Chart_BMS.Series.Count > 0 Then
+            Chart_BMS.Series("Series_BMS_Voltages").Enabled = CheckBox_BMS_PlotVoltages.Checked
+            'Chart_BMS.Series("Series_BMS_Temperatures").Enabled = CheckBox_BMS_PlotTemperatures.Checked
+        End If
+    End Sub
+
+    Private Sub PictureBox_BMS_HighColor_Click(sender As Object, e As EventArgs) Handles PictureBox_BMS_HighColor.Click
+        ColorDialog_BMS.Color = PictureBox_BMS_HighColor.BackColor
+        ColorDialog_BMS.ShowDialog()
+        PictureBox_BMS_HighColor.BackColor = ColorDialog_BMS.Color
+    End Sub
+
+    Private Sub PictureBox_BMS_LowColor_Click(sender As Object, e As EventArgs) Handles PictureBox_BMS_LowColor.Click
+        ColorDialog_BMS.Color = PictureBox_BMS_LowColor.BackColor
+        ColorDialog_BMS.ShowDialog()
+        PictureBox_BMS_LowColor.BackColor = ColorDialog_BMS.Color
     End Sub
 
 #End Region
