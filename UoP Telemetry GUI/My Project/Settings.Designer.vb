@@ -137,6 +137,18 @@ Namespace My
                 Me("BMS_Coloring") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property AutoStartLog() As Boolean
+            Get
+                Return CType(Me("AutoStartLog"),Boolean)
+            End Get
+            Set
+                Me("AutoStartLog") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

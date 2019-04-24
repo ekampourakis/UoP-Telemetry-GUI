@@ -7,18 +7,16 @@ Imports System.Windows.Forms.DataVisualization.Charting
 Public Class Main
 
     Private Telemetry As New Car_Telemetry(96)
-    Private Log As Logger = Nothing
     Private Const Monitoring As Boolean = True
     Private RandomGenerator As New Random
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        If CheckBox_AutoStartLog.Checked Then StartTelemetryLogging() : StartBMSLogging()
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If Log IsNot Nothing Then
-            Log.Close()
-        End If
+        If TelemetryLog IsNot Nothing Then TelemetryLog.Close()
+        If BMSLog IsNot Nothing Then BMSLog.Close()
         My.Settings.Save()
     End Sub
 
@@ -338,7 +336,7 @@ Public Class Main
                     LoadTelemetry()
                     DisplayTelemetry(Telemetry)
                     PlotTelemetry(Telemetry)
-                    LogTelemetry(Telemetry)
+                    LogTelemetry()
                 Case ID_SEND_BMS
                     LoadBMS()
                     PlotBMS()
@@ -723,7 +721,7 @@ Public Class Main
 
         DisplayTelemetry(Telemetry)
         PlotTelemetry(Telemetry)
-        LogTelemetry(Telemetry)
+        LogTelemetry()
 
     End Sub
 
@@ -772,20 +770,62 @@ Public Class Main
 
 #Region "Logging"
 
-    Private Sub LogTelemetry(ByVal Data As Car_Telemetry)
-        If Not CheckBox_Logging.Checked Then
-            Exit Sub
-        End If
-        Log.Write(Telemetry)
+    Private TelemetryLog As Logger = Nothing
+    Private BMSLog As Logger = Nothing
+
+    Private Sub StartTelemetryLogging()
+        TelemetryLog = New Logger(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ".csv", "Telemetry Log")
+        Dim FirstLine As String = "Timestamp,Throttle,Brake Front,Brake Rear,Coolant In, Coolant Out,"
+        FirstLine &= "Motor Temp,IGBT Temp,Gearbox Temp,RPM,Torque,IVT Voltage,IVT Current"
+        TelemetryLog.Write(FirstLine)
+        Button_TelemetryLog_StartStop.Text = "Stop Telemetry Log"
+        Button_TelemetryLog_StartStop.ForeColor = Color.Firebrick
     End Sub
 
-    Private Sub CheckBox_Logging_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_Logging.CheckedChanged
-        If CheckBox_Logging.Checked Then
-            Log = New Logger(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\")
-        Else
-            Log.Close()
-            Log = Nothing
-        End If
+    Private Sub StopTelemetryLogging()
+        TelemetryLog.Close()
+        TelemetryLog = Nothing
+        Button_TelemetryLog_StartStop.Text = "Start Telemetry Log"
+        Button_TelemetryLog_StartStop.ForeColor = Color.Green
+    End Sub
+
+    Private Sub StartBMSLogging()
+        BMSLog = New Logger(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ".csv", "BMS Log")
+        Dim FirstLine As String = "Timestamp,"
+        ' Voltages
+        For Index As Integer = 1 To 120
+            FirstLine &= "Cell #" & Index & ","
+        Next
+        ' Temperatures
+        FirstLine = FirstLine.Substring(0, FirstLine.Length - 1)
+        BMSLog.Write(FirstLine)
+        Button_BMSLog_StartStop.Text = "Stop BMS Log"
+        Button_BMSLog_StartStop.ForeColor = Color.Firebrick
+    End Sub
+
+    Private Sub StopBMSLogging()
+        BMSLog.Close()
+        BMSLog = Nothing
+        Button_BMSLog_StartStop.Text = "Start BMS Log"
+        Button_BMSLog_StartStop.ForeColor = Color.Green
+    End Sub
+
+    Private Sub LogTelemetry()
+        If TelemetryLog Is Nothing Then Exit Sub
+        With Telemetry
+            Dim Index As UInt32 = ParseUInt32({0, .Timestamp.IndexMSB, .Timestamp.IndexMMSB, .Timestamp.IndexLSB}, 0)
+            TelemetryLog.Write(String.Format("{0},{1:d},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12:F},{13:F}", Now.ToString("dd/MM/yyyy HH:mm:ss.fff"),
+                                  Index, .Pedals.Throttle_12, .Pedals.Brake_Front, .Pedals.Brake_Rear,
+                                  .Temps.Coolant_In, .Temps.Coolant_Out, .Temps.Motor, .Temps.IGBT, .Temps.Gearbox,
+                                  .Performance.RPM, .Performance.Torque, .Performance.IVT_Voltage, .Performance.IVT_Current))
+        End With
+    End Sub
+
+    Private Sub LogBMS()
+        If BMSLog Is Nothing Then Exit Sub
+        With Telemetry
+
+        End With
     End Sub
 
 #End Region
@@ -945,5 +985,21 @@ Public Class Main
     End Sub
 
 #End Region
+
+    Private Sub Button_TelemetryLog_StartStop_Click(sender As Object, e As EventArgs) Handles Button_TelemetryLog_StartStop.Click
+        If TelemetryLog Is Nothing Then
+            StartTelemetryLogging()
+        Else
+            StopTelemetryLogging()
+        End If
+    End Sub
+
+    Private Sub Button_BMSLog_StartStop_Click(sender As Object, e As EventArgs) Handles Button_BMSLog_StartStop.Click
+        If BMSLog Is Nothing Then
+            StartBMSLogging()
+        Else
+            StopBMSLogging()
+        End If
+    End Sub
 
 End Class
