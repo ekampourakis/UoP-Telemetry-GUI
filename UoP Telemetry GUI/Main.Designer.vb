@@ -62,7 +62,7 @@ Partial Class Main
         Dim ChartArea5 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim Series14 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
-        Me.ToolStripStatusLabel_Status = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel_SerialStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_SerialInfo = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_Spring = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_Updates = New System.Windows.Forms.ToolStripStatusLabel()
@@ -122,7 +122,6 @@ Partial Class Main
         Me.TabPage_BMS = New System.Windows.Forms.TabPage()
         Me.GroupBox_BMS_Settings = New System.Windows.Forms.GroupBox()
         Me.CheckBox_BMS_PlotVoltages = New System.Windows.Forms.CheckBox()
-        Me.Button_RandomBMS = New System.Windows.Forms.Button()
         Me.CheckBox_BMS_PlotTemperatures = New System.Windows.Forms.CheckBox()
         Me.CheckBox_BMS_Coloring = New System.Windows.Forms.CheckBox()
         Me.Label_BMS_CellRange = New System.Windows.Forms.Label()
@@ -147,6 +146,7 @@ Partial Class Main
         Me.Button_TelemetryLog_StartStop = New System.Windows.Forms.Button()
         Me.CheckBox_AutoStartLog = New System.Windows.Forms.CheckBox()
         Me.TabPage_Admin = New System.Windows.Forms.TabPage()
+        Me.Button_RandomBMS = New System.Windows.Forms.Button()
         Me.CheckBox_RandomTelemetry = New System.Windows.Forms.CheckBox()
         Me.CheckBox_Plotting = New System.Windows.Forms.CheckBox()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -156,11 +156,6 @@ Partial Class Main
         Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Label_LostPackets = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.TabPage_Connection = New System.Windows.Forms.TabPage()
         Me.GroupBox_Connection = New System.Windows.Forms.GroupBox()
         Me.Label_SerialPing = New System.Windows.Forms.Label()
@@ -171,6 +166,8 @@ Partial Class Main
         Me.Timer_RandomTelemetry = New System.Windows.Forms.Timer(Me.components)
         Me.ColorDialog_BMS = New System.Windows.Forms.ColorDialog()
         Me.Timer_Generic = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStripStatusLabel_TelemetryLogging = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ToolStripStatusLabel_BMSLogging = New System.Windows.Forms.ToolStripStatusLabel()
         Me.StatusStrip.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.TabPage_General.SuspendLayout()
@@ -195,19 +192,19 @@ Partial Class Main
         '
         'StatusStrip
         '
-        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel_Status, Me.ToolStripStatusLabel_SerialInfo, Me.ToolStripStatusLabel_Spring, Me.ToolStripStatusLabel_Updates})
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel_SerialStatus, Me.ToolStripStatusLabel_SerialInfo, Me.ToolStripStatusLabel_TelemetryLogging, Me.ToolStripStatusLabel_BMSLogging, Me.ToolStripStatusLabel_Spring, Me.ToolStripStatusLabel_Updates})
         Me.StatusStrip.Location = New System.Drawing.Point(0, 674)
         Me.StatusStrip.Name = "StatusStrip"
         Me.StatusStrip.Size = New System.Drawing.Size(1314, 22)
         Me.StatusStrip.TabIndex = 8
         Me.StatusStrip.Text = "StatusStrip"
         '
-        'ToolStripStatusLabel_Status
+        'ToolStripStatusLabel_SerialStatus
         '
-        Me.ToolStripStatusLabel_Status.ForeColor = System.Drawing.Color.Firebrick
-        Me.ToolStripStatusLabel_Status.Name = "ToolStripStatusLabel_Status"
-        Me.ToolStripStatusLabel_Status.Size = New System.Drawing.Size(79, 17)
-        Me.ToolStripStatusLabel_Status.Text = "Disconnected"
+        Me.ToolStripStatusLabel_SerialStatus.ForeColor = System.Drawing.Color.Firebrick
+        Me.ToolStripStatusLabel_SerialStatus.Name = "ToolStripStatusLabel_SerialStatus"
+        Me.ToolStripStatusLabel_SerialStatus.Size = New System.Drawing.Size(79, 17)
+        Me.ToolStripStatusLabel_SerialStatus.Text = "Disconnected"
         '
         'ToolStripStatusLabel_SerialInfo
         '
@@ -218,7 +215,7 @@ Partial Class Main
         'ToolStripStatusLabel_Spring
         '
         Me.ToolStripStatusLabel_Spring.Name = "ToolStripStatusLabel_Spring"
-        Me.ToolStripStatusLabel_Spring.Size = New System.Drawing.Size(981, 17)
+        Me.ToolStripStatusLabel_Spring.Size = New System.Drawing.Size(720, 17)
         Me.ToolStripStatusLabel_Spring.Spring = True
         '
         'ToolStripStatusLabel_Updates
@@ -1115,7 +1112,6 @@ Partial Class Main
         'GroupBox_BMS_Settings
         '
         Me.GroupBox_BMS_Settings.Controls.Add(Me.CheckBox_BMS_PlotVoltages)
-        Me.GroupBox_BMS_Settings.Controls.Add(Me.Button_RandomBMS)
         Me.GroupBox_BMS_Settings.Controls.Add(Me.CheckBox_BMS_PlotTemperatures)
         Me.GroupBox_BMS_Settings.Controls.Add(Me.CheckBox_BMS_Coloring)
         Me.GroupBox_BMS_Settings.Controls.Add(Me.Label_BMS_CellRange)
@@ -1145,15 +1141,6 @@ Partial Class Main
         Me.CheckBox_BMS_PlotVoltages.TabIndex = 1
         Me.CheckBox_BMS_PlotVoltages.Text = "Voltages"
         Me.CheckBox_BMS_PlotVoltages.UseVisualStyleBackColor = True
-        '
-        'Button_RandomBMS
-        '
-        Me.Button_RandomBMS.Location = New System.Drawing.Point(688, 29)
-        Me.Button_RandomBMS.Name = "Button_RandomBMS"
-        Me.Button_RandomBMS.Size = New System.Drawing.Size(75, 23)
-        Me.Button_RandomBMS.TabIndex = 15
-        Me.Button_RandomBMS.Text = "Random"
-        Me.Button_RandomBMS.UseVisualStyleBackColor = True
         '
         'CheckBox_BMS_PlotTemperatures
         '
@@ -1445,23 +1432,28 @@ Partial Class Main
         '
         'TabPage_Admin
         '
+        Me.TabPage_Admin.Controls.Add(Me.Button_RandomBMS)
         Me.TabPage_Admin.Controls.Add(Me.CheckBox_RandomTelemetry)
         Me.TabPage_Admin.Controls.Add(Me.CheckBox_Plotting)
         Me.TabPage_Admin.Controls.Add(Me.Label6)
         Me.TabPage_Admin.Controls.Add(Me.Label_Interval)
         Me.TabPage_Admin.Controls.Add(Me.ListView_Telemetry)
         Me.TabPage_Admin.Controls.Add(Me.Label_LostPackets)
-        Me.TabPage_Admin.Controls.Add(Me.Label11)
-        Me.TabPage_Admin.Controls.Add(Me.Label10)
-        Me.TabPage_Admin.Controls.Add(Me.Label5)
-        Me.TabPage_Admin.Controls.Add(Me.Label9)
-        Me.TabPage_Admin.Controls.Add(Me.Label3)
         Me.TabPage_Admin.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Admin.Name = "TabPage_Admin"
         Me.TabPage_Admin.Size = New System.Drawing.Size(1306, 648)
         Me.TabPage_Admin.TabIndex = 1
         Me.TabPage_Admin.Text = "Admin"
         Me.TabPage_Admin.UseVisualStyleBackColor = True
+        '
+        'Button_RandomBMS
+        '
+        Me.Button_RandomBMS.Location = New System.Drawing.Point(523, 242)
+        Me.Button_RandomBMS.Name = "Button_RandomBMS"
+        Me.Button_RandomBMS.Size = New System.Drawing.Size(75, 23)
+        Me.Button_RandomBMS.TabIndex = 44
+        Me.Button_RandomBMS.Text = "Random BMS"
+        Me.Button_RandomBMS.UseVisualStyleBackColor = True
         '
         'CheckBox_RandomTelemetry
         '
@@ -1542,51 +1534,6 @@ Partial Class Main
         Me.Label_LostPackets.TabIndex = 31
         Me.Label_LostPackets.Text = "Lost Packets: 0"
         '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(66, 431)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(180, 13)
-        Me.Label11.TabIndex = 5
-        Me.Label11.Text = "bms: minimums and maximums global"
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(66, 418)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(218, 13)
-        Me.Label10.TabIndex = 4
-        Me.Label10.Text = "perf 2: rpm / 2 wheel speed at different scale"
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(66, 470)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(137, 13)
-        Me.Label5.TabIndex = 36
-        Me.Label5.Text = "create bidirectional protocol"
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(66, 405)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(224, 13)
-        Me.Label9.TabIndex = 3
-        Me.Label9.Text = "perf: voltage current / power at another scale "
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(66, 444)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(278, 13)
-        Me.Label3.TabIndex = 33
-        Me.Label3.Text = "add dynamic min/max for progress bars with 30sec history"
-        '
         'TabPage_Connection
         '
         Me.TabPage_Connection.Controls.Add(Me.GroupBox_Connection)
@@ -1663,6 +1610,20 @@ Partial Class Main
         Me.ColorDialog_BMS.AnyColor = True
         Me.ColorDialog_BMS.FullOpen = True
         '
+        'ToolStripStatusLabel_TelemetryLogging
+        '
+        Me.ToolStripStatusLabel_TelemetryLogging.ForeColor = System.Drawing.Color.Firebrick
+        Me.ToolStripStatusLabel_TelemetryLogging.Name = "ToolStripStatusLabel_TelemetryLogging"
+        Me.ToolStripStatusLabel_TelemetryLogging.Size = New System.Drawing.Size(129, 17)
+        Me.ToolStripStatusLabel_TelemetryLogging.Text = "Telemetry Not Logging"
+        '
+        'ToolStripStatusLabel_BMSLogging
+        '
+        Me.ToolStripStatusLabel_BMSLogging.ForeColor = System.Drawing.Color.Firebrick
+        Me.ToolStripStatusLabel_BMSLogging.Name = "ToolStripStatusLabel_BMSLogging"
+        Me.ToolStripStatusLabel_BMSLogging.Size = New System.Drawing.Size(101, 17)
+        Me.ToolStripStatusLabel_BMSLogging.Text = "BMS Not Logging"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1707,7 +1668,7 @@ Partial Class Main
 
     End Sub
     Friend WithEvents StatusStrip As StatusStrip
-    Friend WithEvents ToolStripStatusLabel_Status As ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel_SerialStatus As ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel_SerialInfo As ToolStripStatusLabel
     Friend WithEvents ToolStripStatusLabel_Updates As ToolStripStatusLabel
     Friend WithEvents SerialPort As IO.Ports.SerialPort
@@ -1753,11 +1714,6 @@ Partial Class Main
     Friend WithEvents ColumnHeader6 As ColumnHeader
     Friend WithEvents Label_Interval As Label
     Friend WithEvents Label_LostPackets As Label
-    Friend WithEvents Label3 As Label
-    Friend WithEvents Label5 As Label
-    Friend WithEvents Label11 As Label
-    Friend WithEvents Label10 As Label
-    Friend WithEvents Label9 As Label
     Friend WithEvents TabPage_Plotting As TabPage
     Friend WithEvents Timer_RandomTelemetry As Timer
     Friend WithEvents Chart As DataVisualization.Charting.Chart
@@ -1801,7 +1757,6 @@ Partial Class Main
     Friend WithEvents CheckBox_BMS_Coloring As CheckBox
     Friend WithEvents PictureBox_BMS_HighColor As PictureBox
     Friend WithEvents PictureBox_BMS_LowColor As PictureBox
-    Friend WithEvents Button_RandomBMS As Button
     Friend WithEvents ColorDialog_BMS As ColorDialog
     Friend WithEvents GroupBox_BMS_Settings As GroupBox
     Friend WithEvents CheckBox_AutoStartLog As CheckBox
@@ -1816,4 +1771,7 @@ Partial Class Main
     Friend WithEvents Button_Ping As Button
     Friend WithEvents Timer_Generic As Timer
     Friend WithEvents Label_SerialPing As Label
+    Friend WithEvents Button_RandomBMS As Button
+    Friend WithEvents ToolStripStatusLabel_TelemetryLogging As ToolStripStatusLabel
+    Friend WithEvents ToolStripStatusLabel_BMSLogging As ToolStripStatusLabel
 End Class

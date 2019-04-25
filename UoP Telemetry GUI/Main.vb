@@ -56,18 +56,50 @@ Public Class Main
 #End Region
 
     Private Sub Timer_GUIUpdate_Tick(sender As Object, e As EventArgs) Handles Timer_GUIUpdate.Tick
+        ' Serial status
         If Connected Then
-            ToolStripStatusLabel_Status.ForeColor = Color.Green
-            ToolStripStatusLabel_Status.Text = "Connected"
+            ToolStripStatusLabel_SerialStatus.ForeColor = Color.Green
+            ToolStripStatusLabel_SerialStatus.Text = "Connected"
             Button_Connect.Text = "Disconnect"
             ComboBox_Ports.Enabled = False
         Else
-            ToolStripStatusLabel_Status.ForeColor = Color.Firebrick
-            ToolStripStatusLabel_Status.Text = "Disconnected"
+            ToolStripStatusLabel_SerialStatus.ForeColor = Color.Firebrick
+            ToolStripStatusLabel_SerialStatus.Text = "Disconnected"
             Button_Connect.Text = "Connect"
             ComboBox_Ports.Enabled = True
         End If
+        ' Packets status
         ToolStripStatusLabel_SerialInfo.Text = "Queued: " & TXQueue.Count & " | Processed: " & PacketsProcessed
+        ' Logging status
+        Static Counter As Integer = 0
+        Const BlinkInterval As Integer = 800 ' in ms
+        Dim CounterLimit As Integer = (BlinkInterval / Timer_GUIUpdate.Interval)
+        Counter += 1
+        If Counter > CounterLimit * 2 Then Counter = 0
+        If TelemetryLog IsNot Nothing Then
+            If Counter >= 0 And Counter < CounterLimit Then
+                ToolStripStatusLabel_TelemetryLogging.ForeColor = Color.Green
+                ToolStripStatusLabel_TelemetryLogging.Text = "Telemetry Logging"
+            Else
+                ToolStripStatusLabel_TelemetryLogging.ForeColor = Color.Orange
+                ToolStripStatusLabel_TelemetryLogging.Text = "Telemetry Logging"
+            End If
+        Else
+            ToolStripStatusLabel_TelemetryLogging.ForeColor = Color.Firebrick
+            ToolStripStatusLabel_TelemetryLogging.Text = "Telemetry Not Logging"
+        End If
+        If BMSLog IsNot Nothing Then
+            If Counter >= 0 And Counter < CounterLimit Then
+                ToolStripStatusLabel_BMSLogging.ForeColor = Color.Green
+                ToolStripStatusLabel_BMSLogging.Text = "BMS Logging"
+            Else
+                ToolStripStatusLabel_BMSLogging.ForeColor = Color.Orange
+                ToolStripStatusLabel_BMSLogging.Text = "BMS Logging"
+            End If
+        Else
+            ToolStripStatusLabel_BMSLogging.ForeColor = Color.Firebrick
+            ToolStripStatusLabel_BMSLogging.Text = "BMS Not Logging"
+        End If
     End Sub
 
     Private Sub DisplayStatus(ByVal Message As String, ByVal Color As Color, ByVal Optional Interval As Integer = 1500)
@@ -972,7 +1004,7 @@ Public Class Main
         Next
     End Sub
 
-    Private Sub Button_RandomBMS_Click(sender As Object, e As EventArgs) Handles Button_RandomBMS.Click
+    Private Sub Button_RandomBMS_Click(sender As Object, e As EventArgs)
         For Index As Integer = 0 To 59
             Telemetry.LeftBox(Index) = RandomGenerator.Next(0, 255)
             Telemetry.RightBox(Index) = RandomGenerator.Next(0, 255)
