@@ -11,6 +11,8 @@ Public Class Main
     Private RandomGenerator As New Random
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        HidePages()
+        AutoConnectSerial()
         If CheckBox_AutoStartLog.Checked Then StartTelemetryLogging() : StartBMSLogging()
     End Sub
 
@@ -77,9 +79,69 @@ Public Class Main
         SetTimer(False, 1500)
     End Sub
 
+#Region "Hidden Pages"
+    Private HiddenPages As New List(Of TabPage)
+
+    Private Sub ShowHiddenPages()
+        If HiddenPages.Count > 0 Then
+            For Each Tab As TabPage In HiddenPages
+                TabControl.TabPages.Insert(TabControl.TabCount - 1, Tab)
+            Next
+        End If
+    End Sub
+
+    Private Sub HidePages()
+        If HiddenPages.Count = 0 Then
+            Dim ConnectionPage As TabPage = TabControl.TabPages("TabPage_Connection")
+            For Each Tab As TabPage In TabControl.TabPages()
+                HiddenPages.Add(Tab)
+            Next
+            HiddenPages.Remove(ConnectionPage)
+            TabControl.TabPages.Clear()
+            TabControl.TabPages.Add(ConnectionPage)
+        End If
+    End Sub
+#End Region
+
 #End Region
 
 #Region "Serial"
+#Region "Connection"
+    Private Sub ConnectSerial(ByVal COMPort As String)
+        Try
+            If SerialPort.IsOpen Then
+                SerialPort.Close()
+            End If
+            SerialPort.PortName = COMPort
+            SerialPort.Open()
+            Connected = True
+            My.Settings.COMPort = SerialPort.PortName
+            ShowHiddenPages()
+        Catch ex As Exception
+            My.Settings.COMPort = ""
+        End Try
+        My.Settings.Save()
+    End Sub
+
+    Private Sub DisconnectSerial()
+        SerialPort.Close()
+        Connected = False
+        HidePages()
+        My.Settings.COMPort = ""
+        My.Settings.Save()
+    End Sub
+
+    Private Sub AutoConnectSerial()
+        For Each sp As String In My.Computer.Ports.SerialPortNames
+            If sp = My.Settings.COMPort And sp IsNot "" Then
+                ComboBox_Ports.Text = sp
+                ConnectSerial(sp)
+            End If
+        Next
+        TabControl.SelectedIndex = 0
+    End Sub
+#End Region
+
 #Region "ComboBox Live Update"
     Private Sub ComboBox_Ports_Click(sender As Object, e As EventArgs) Handles ComboBox_Ports.Click
         Try
@@ -364,20 +426,12 @@ Public Class Main
     Private Sub Button_Connect_Click(sender As Object, e As EventArgs) Handles Button_Connect.Click
         Try
             If Button_Connect.Text = "Connect" Then
-                If SerialPort.IsOpen Then
-                    SerialPort.Close()
-                End If
-                SerialPort.PortName = ComboBox_Ports.SelectedItem
-                SerialPort.Open()
-                If CheckBox_OverrideConnection.Checked Then
-                    Connected = True
-                    Exit Sub
-                End If
-                System.Threading.Thread.Sleep(110)
-                Send({ID_CONNECTION})
+                ConnectSerial(ComboBox_Ports.SelectedItem)
+                ' Not utilized
+                'System.Threading.Thread.Sleep(110)
+                'Send({ID_CONNECTION})
             Else
-                SerialPort.Close()
-                Connected = False
+                DisconnectSerial()
             End If
         Catch ex As Exception
             Console.WriteLine(ex.Message)
@@ -1001,5 +1055,4 @@ Public Class Main
             StopBMSLogging()
         End If
     End Sub
-
 End Class
