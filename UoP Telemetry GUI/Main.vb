@@ -60,10 +60,12 @@ Public Class Main
             ToolStripStatusLabel_Status.ForeColor = Color.Green
             ToolStripStatusLabel_Status.Text = "Connected"
             Button_Connect.Text = "Disconnect"
+            ComboBox_Ports.Enabled = False
         Else
             ToolStripStatusLabel_Status.ForeColor = Color.Firebrick
             ToolStripStatusLabel_Status.Text = "Disconnected"
             Button_Connect.Text = "Connect"
+            ComboBox_Ports.Enabled = True
         End If
         ToolStripStatusLabel_SerialInfo.Text = "Queued: " & TXQueue.Count & " | Processed: " & PacketsProcessed
     End Sub
@@ -291,6 +293,49 @@ Public Class Main
         TXQueue.Clear()
     End Sub
 #End Region
+
+#Region "Serial Ping"
+    Private WaitingSerialPing As Boolean = False
+    Private SerialPingReceived As Boolean = False
+    Private SerialPingTimerStage As Boolean = False
+    Private SerialPingDelegate As New EventHandler(AddressOf SerialPingTimer)
+
+    Private Sub SerialPingTimer()
+        Timer_Generic.Stop()
+        If SerialPingTimerStage Then
+            RemoveHandler Timer_Generic.Tick, SerialPingDelegate
+            SerialPingTimerStage = False
+            Label_SerialPing.Text = ""
+            Button_Ping.Enabled = True
+        Else
+            If SerialPingReceived Then
+                Label_SerialPing.ForeColor = Color.Green
+                Label_SerialPing.Text = "Connection OK"
+            Else
+                Label_SerialPing.ForeColor = Color.Firebrick
+                Label_SerialPing.Text = "Connection Invalid"
+            End If
+            WaitingSerialPing = False
+            SerialPingReceived = False
+            SerialPingTimerStage = True
+            Timer_Generic.Interval = 1500
+            Timer_Generic.Start()
+        End If
+    End Sub
+
+    Private Sub SerialPing()
+        Button_Ping.Enabled = False
+        Label_SerialPing.ForeColor = SystemColors.ControlText
+        Label_SerialPing.Text = "Waiting..."
+        Send({ID_CONNECTION})
+        AddHandler Timer_Generic.Tick, SerialPingDelegate
+        Timer_Generic.Interval = 1000
+        Timer_Generic.Start()
+        SerialPingTimerStage = False
+        WaitingSerialPing = True
+        SerialPingReceived = False
+    End Sub
+#End Region
 #End Region
 
 #Region "Process"
@@ -387,6 +432,7 @@ Public Class Main
         Try
             Select Case RXData(0)
                 Case ID_CONNECTION
+                    If WaitingSerialPing Then SerialPingReceived = True
                 Case ID_UNKNOWN
                     ' Client responded with unknown ID packet. That means the received
                     ' packet to the client had an ID unknown to the client.
@@ -436,6 +482,10 @@ Public Class Main
         Catch ex As Exception
             Console.WriteLine(ex.Message)
         End Try
+    End Sub
+
+    Private Sub Button_Ping_Click(sender As Object, e As EventArgs) Handles Button_Ping.Click
+        SerialPing()
     End Sub
 #End Region
 
@@ -882,6 +932,22 @@ Public Class Main
         End With
     End Sub
 
+    Private Sub Button_TelemetryLog_StartStop_Click(sender As Object, e As EventArgs) Handles Button_TelemetryLog_StartStop.Click
+        If TelemetryLog Is Nothing Then
+            StartTelemetryLogging()
+        Else
+            StopTelemetryLogging()
+        End If
+    End Sub
+
+    Private Sub Button_BMSLog_StartStop_Click(sender As Object, e As EventArgs) Handles Button_BMSLog_StartStop.Click
+        If BMSLog Is Nothing Then
+            StartBMSLogging()
+        Else
+            StopBMSLogging()
+        End If
+    End Sub
+
 #End Region
 
 #Region "BMS Plotting"
@@ -1040,19 +1106,8 @@ Public Class Main
 
 #End Region
 
-    Private Sub Button_TelemetryLog_StartStop_Click(sender As Object, e As EventArgs) Handles Button_TelemetryLog_StartStop.Click
-        If TelemetryLog Is Nothing Then
-            StartTelemetryLogging()
-        Else
-            StopTelemetryLogging()
-        End If
+    Private Sub Tmp()
+
     End Sub
 
-    Private Sub Button_BMSLog_StartStop_Click(sender As Object, e As EventArgs) Handles Button_BMSLog_StartStop.Click
-        If BMSLog Is Nothing Then
-            StartBMSLogging()
-        Else
-            StopBMSLogging()
-        End If
-    End Sub
 End Class
