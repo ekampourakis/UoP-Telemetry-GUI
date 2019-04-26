@@ -128,7 +128,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
         Public Property BMS_Coloring() As Boolean
             Get
                 Return CType(Me("BMS_Coloring"),Boolean)
@@ -159,6 +159,54 @@ Namespace My
             End Get
             Set
                 Me("COMPort") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property CAN_Binary() As Boolean
+            Get
+                Return CType(Me("CAN_Binary"),Boolean)
+            End Get
+            Set
+                Me("CAN_Binary") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property CAN_Decimal() As Boolean
+            Get
+                Return CType(Me("CAN_Decimal"),Boolean)
+            End Get
+            Set
+                Me("CAN_Decimal") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property CAN_Hex() As Boolean
+            Get
+                Return CType(Me("CAN_Hex"),Boolean)
+            End Get
+            Set
+                Me("CAN_Hex") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property CAN_Warn() As Boolean
+            Get
+                Return CType(Me("CAN_Warn"),Boolean)
+            End Get
+            Set
+                Me("CAN_Warn") = value
             End Set
         End Property
     End Class

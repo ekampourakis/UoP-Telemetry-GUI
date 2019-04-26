@@ -1138,8 +1138,217 @@ Public Class Main
 
 #End Region
 
-    Private Sub Tmp()
+#Region "CAN"
+#Region "CAN GUI"
+    Private CANRepresentation As NumberRepresentation = NumberRepresentation.Dec
 
+    Private Sub RadioButton_CAN_Binary_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_CAN_Binary.CheckedChanged
+        If RadioButton_CAN_Binary.Checked Then
+            For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
+                ' 00000000-11111111
+                If Control.GetType() Is GetType(TextBox) Then
+                    Dim Textbox As TextBox = CType(Control, TextBox)
+                    If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then Textbox.MaxLength = 8
+                End If
+            Next
+            ConvertRepresentation(NumberRepresentation.Bin)
+        End If
+    End Sub
+
+    Private Sub RadioButton_CAN_Decimal_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_CAN_Decimal.CheckedChanged
+        For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
+            ' 0-255
+            If Control.GetType() Is GetType(TextBox) Then
+                Dim Textbox As TextBox = CType(Control, TextBox)
+                If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then Textbox.MaxLength = 3
+            End If
+            ConvertRepresentation(NumberRepresentation.Dec)
+        Next
+    End Sub
+
+    Private Sub RadioButton_CAN_Hex_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_CAN_Hex.CheckedChanged
+        For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
+            ' 00-FF 
+            If Control.GetType() Is GetType(TextBox) Then
+                Dim Textbox As TextBox = CType(Control, TextBox)
+                If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then Textbox.MaxLength = 2
+            End If
+            ConvertRepresentation(NumberRepresentation.Hex)
+        Next
+    End Sub
+
+    ' Format the content of the textboxes live
+    Private Sub TextBox_CAN_Byte_TextChanged(sender As TextBox, e As EventArgs) Handles TextBox_CAN_Byte0.TextChanged, TextBox_CAN_Byte1.TextChanged,
+            TextBox_CAN_Byte2.TextChanged, TextBox_CAN_Byte3.TextChanged, TextBox_CAN_Byte4.TextChanged,
+            TextBox_CAN_Byte5.TextChanged, TextBox_CAN_Byte6.TextChanged, TextBox_CAN_Byte7.TextChanged
+
+        ' Only allow allowed characters
+        Dim Allowed As String = Nothing
+        Select Case CANRepresentation
+            Case NumberRepresentation.Bin
+                Allowed = "01-"
+            Case NumberRepresentation.Dec
+                Allowed = "0123456789-"
+            Case NumberRepresentation.Hex
+                Allowed = "0123456789ABCDEFabcdef-"
+        End Select
+        For Each c As Char In sender.Text
+            If Not Allowed.Contains(c) Then
+                sender.Text = sender.Text.Replace(c, "")
+            End If
+        Next
+        ' 3 digits decimals can represent up to 999 while we need 0-255
+        If sender.Text.Length > 0 And Not sender.Text.Contains("-") Then
+            Dim Number As Integer = CInt(sender.Text)
+            If Number > 255 Then
+                ' If bigger than 255 remove the last digit
+                sender.Text = sender.Text.Substring(0, 2)
+            End If
+        Else
+            If sender.Text.Length > 0 Then
+                sender.Text = "-"
+            End If
+        End If
+        ' Set all previous empty textboxes to 0
+        For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
+            If Control.GetType() Is GetType(TextBox) Then
+                Dim Textbox As TextBox = CType(Control, TextBox)
+                If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then
+                    If CByte(Textbox.Name.Replace("TextBox_CAN_Byte", "")) < CByte(sender.Name.Replace("TextBox_CAN_Byte", "")) Then
+                        If Not sender.Text.Contains("-") And Textbox.Text.Contains("-") Then
+                            Textbox.Text = "0"
+                        End If
+                    End If
+
+                End If
+            End If
+        Next
+        ' Set the cursor at the end of the text
+        sender.SelectionStart = sender.Text.Length
+    End Sub
+
+    Private Sub TextBox_CAN_Byte_Enter(sender As Object, e As EventArgs) Handles TextBox_CAN_Byte0.Enter, TextBox_CAN_Byte1.Enter,
+            TextBox_CAN_Byte2.Enter, TextBox_CAN_Byte3.Enter, TextBox_CAN_Byte4.Enter,
+            TextBox_CAN_Byte5.Enter, TextBox_CAN_Byte6.Enter, TextBox_CAN_Byte7.Enter
+        If sender.Text.Contains("-") Then
+            sender.Text = ""
+        End If
+    End Sub
+
+    Private Sub Button_CAN_Clear_Click(sender As Object, e As EventArgs) Handles Button_CAN_Clear.Click
+        For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
+            If Control.GetType() Is GetType(TextBox) Then
+                Dim Textbox As TextBox = CType(Control, TextBox)
+                If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then Textbox.Text = "-"
+            End If
+            ConvertRepresentation(NumberRepresentation.Dec)
+        Next
+    End Sub
+
+    Private Sub ConvertRepresentation(ByVal NewRepresentation As NumberRepresentation)
+        If CANRepresentation <> NewRepresentation Then
+            For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
+                If Control.GetType() Is GetType(TextBox) Then
+                    Dim Textbox As TextBox = CType(Control, TextBox)
+                    If Textbox.Name.StartsWith("TextBox_CAN_Byte") And Not Textbox.Text.Contains("-") Then
+                        Dim Number As Byte = 0
+                        Select Case CANRepresentation
+                            Case NumberRepresentation.Bin
+                                Number = BinToDec(Textbox.Text)
+                            Case NumberRepresentation.Dec
+                                Number = CByte(Textbox.Text)
+                            Case NumberRepresentation.Hex
+                                Number = HexToDec(Textbox.Text)
+                        End Select
+                        Select Case NewRepresentation
+                            Case NumberRepresentation.Bin
+                                Textbox.Text = DecToBin(Number)
+                            Case NumberRepresentation.Dec
+                                Textbox.Text = Number
+                            Case NumberRepresentation.Hex
+                                Textbox.Text = DecToHex(Number)
+                        End Select
+                    End If
+                End If
+            Next
+            CANRepresentation = NewRepresentation
+        End If
+    End Sub
+#End Region
+
+#Region "CAN Send"
+    Private Sub Button_CAN_Send_Click(sender As Object, e As EventArgs) Handles Button_CAN_Send.Click
+        ' Format message ID
+        If TextBox_CAN_MessageID.TextLength = 0 Then
+            MsgBox("Please fill the message ID field.", MsgBoxStyle.Critical, "Error")
+            Exit Sub
+        End If
+        Dim Allowed As String = "0123456789ABCDEFabcdef"
+        For Each c As Char In TextBox_CAN_MessageID.Text
+            If Not Allowed.Contains(c) Then
+                MsgBox("Illegal character '" & c & "' found in message ID. Please fix the format.", MsgBoxStyle.Critical, "Error")
+                Exit Sub
+            End If
+        Next
+        ' Create message
+        Dim Message As New CAN_Message(8)
+        Message.ID = CInt("&H" & TextBox_CAN_MessageID.Text)
+        ' Iterate textboxes in order
+        For TextboxIndex As Byte = 0 To 7
+            For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
+                If Control.GetType() Is GetType(TextBox) Then
+                    Dim Textbox As TextBox = CType(Control, TextBox)
+                    If Textbox.Name.StartsWith("TextBox_CAN_Byte" & TextboxIndex.ToString) Then
+                        If Not Textbox.Text.Contains("-") And Textbox.TextLength > 0 Then
+                            ' Add byte depending on representation
+                            Select Case CANRepresentation
+                                Case NumberRepresentation.Bin
+                                    Message.Data(Message.Length) = BinToDec(Textbox.Text)
+                                Case NumberRepresentation.Dec
+                                    Message.Data(Message.Length) = CByte(Textbox.Text)
+                                Case NumberRepresentation.Hex
+                                    Message.Data(Message.Length) = HexToDec(Textbox.Text)
+                            End Select
+                            Message.Length += 1
+                        End If
+                    End If
+                End If
+            Next
+        Next
+        ' Perform last checks
+        If Message.Length = 0 Then
+            MsgBox("You are not allowed to send empty CAN messages. Please fill the data fields. ", MsgBoxStyle.Exclamation, "Warning")
+            Exit Sub
+        End If
+        ' Warn user
+        If CheckBox_CAN_Warn.Checked Then
+            Dim Result As DialogResult = MessageBox.Show("You are about to send a CAN message to the car. This is extremely dangerous and incorrect use may bring unexpected results. Are you sure you want to transmit the message?", "Warning", MessageBoxButtons.YesNo)
+            If Result = DialogResult.No Then
+                MsgBox("Transmission cancelled", MsgBoxStyle.Exclamation, "Warning")
+                Exit Sub
+            End If
+        End If
+        SendCAN(Message)
+    End Sub
+
+    ' Packetize CAN message and transmit
+    Private Sub SendCAN(ByVal Message As CAN_Message)
+        Dim BytesCount As Byte = Message.Length + 3
+        Dim TX(BytesCount) As Byte
+        TX(0) = ID_SEND_CAN
+        TX(1) = CByte((Message.ID And &HFF00&) / 256)
+        TX(2) = CByte(Message.ID And &HFF&)
+        TX(3) = Message.Length
+        For Index As Integer = 0 To Message.Length - 1
+            TX(Index + 4) = Message.Data(Index)
+        Next
+        Send(TX)
+    End Sub
+#End Region
+#End Region
+
+    Private Sub Button_Break_Click(sender As Object, e As EventArgs) Handles Button_Break.Click
+        Dim X As Byte = 0
     End Sub
 
 End Class

@@ -120,4 +120,40 @@
         Return Value
     End Function
 
+    Public Shared Function BinToDec(ByVal Bin As String) As Byte
+        Dim dec As Byte = Nothing
+        Dim length As Integer = Len(Bin)
+        Dim temp As Integer = Nothing
+        Dim x As Integer = Nothing
+        For x = 1 To length
+            temp = Val(Mid(Bin, length, 1))
+            length = length - 1
+            If temp <> "0" Then
+                dec += (2 ^ (x - 1))
+            End If
+        Next
+        Return dec
+    End Function
+
+    Public Shared Function BinToHex(ByVal Bin As String) As Byte
+        Dim Dec As Byte = BinToDec(Bin)
+        Return Convert.ToString(Dec, 16).PadLeft(2, "0")
+    End Function
+
+    Public Shared Function DecToBin(ByVal Dec As Byte) As String
+        Return Convert.ToString(Dec, 2).PadLeft(8, "0")
+    End Function
+
+    Public Shared Function DecToHex(ByVal Dec As Byte) As String
+        Return Convert.ToString(Dec, 16).PadLeft(2, "0")
+    End Function
+
+    Public Shared Function HexToBin(ByVal Hex As String) As String
+        Return DecToBin(HexToDec(Hex))
+    End Function
+
+    Public Shared Function HexToDec(ByVal Hex As String) As Byte
+        Return CByte("&H" & Hex)
+    End Function
+
 End Class

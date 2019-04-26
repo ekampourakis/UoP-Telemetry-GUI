@@ -162,7 +162,7 @@
         Public LeftBox As Byte()
         Public RightBox As Byte()
 
-        Public Sub New(ByVal Optional Size = 96)
+        Public Sub New(ByVal Optional Size As Byte = 96)
             ReDim LeftBox(Size)
             ReDim RightBox(Size)
             For Index As Integer = 0 To Size
@@ -177,6 +177,18 @@
         Public ID As UInt16
         Public Length As Byte
         Public Data As Byte()
+        Public Sub New(ByVal Optional DataSize As Byte = 8)
+            ReDim Data(DataSize)
+            For Index As Integer = 0 To DataSize
+                Data(DataSize) = 0
+            Next
+        End Sub
     End Structure
+
+    Public Enum NumberRepresentation
+        Bin
+        Dec
+        Hex
+    End Enum
 
 End Class
