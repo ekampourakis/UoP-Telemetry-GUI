@@ -121,6 +121,7 @@ Public Class Main
             For Each Tab As TabPage In HiddenPages
                 TabControl.TabPages.Insert(TabControl.TabCount - 1, Tab)
             Next
+            HiddenPages.Clear()
         End If
     End Sub
 
