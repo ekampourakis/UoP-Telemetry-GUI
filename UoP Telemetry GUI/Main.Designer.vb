@@ -23,44 +23,44 @@ Partial Class Main
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Left", "0 V", "0 V", "0 C", "0 C"}, -1)
-        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Right", "0 V", "0 V", "0 C", "0 C"}, -1)
-        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"ETD", "0"}, -1)
-        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"BMSA", "0"}, -1)
-        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"MCMS", "0"}, -1)
-        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"EMA", "0"}, -1)
-        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"CDS", "0"}, -1)
-        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"PLS", "0"}, -1)
-        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current", "0"}, -1)
-        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant In", "0 C"}, -1)
-        Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant Out", "0 C"}, -1)
-        Dim ListViewItem12 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Gearbox", "0 C"}, -1)
-        Dim ListViewItem13 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"IGBT", "0 C"}, -1)
-        Dim ListViewItem14 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Motor", "0 C"}, -1)
+        Dim ListViewItem29 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Left", "0 V", "0 V", "0 C", "0 C"}, -1)
+        Dim ListViewItem30 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Right", "0 V", "0 V", "0 C", "0 C"}, -1)
+        Dim ListViewItem31 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"ETD", "0"}, -1)
+        Dim ListViewItem32 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"BMSA", "0"}, -1)
+        Dim ListViewItem33 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"MCMS", "0"}, -1)
+        Dim ListViewItem34 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"EMA", "0"}, -1)
+        Dim ListViewItem35 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"CDS", "0"}, -1)
+        Dim ListViewItem36 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"PLS", "0"}, -1)
+        Dim ListViewItem37 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current", "0"}, -1)
+        Dim ListViewItem38 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant In", "0 C"}, -1)
+        Dim ListViewItem39 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant Out", "0 C"}, -1)
+        Dim ListViewItem40 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Gearbox", "0 C"}, -1)
+        Dim ListViewItem41 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"IGBT", "0 C"}, -1)
+        Dim ListViewItem42 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Motor", "0 C"}, -1)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim ChartArea4 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Legend4 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series4 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series5 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series6 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series7 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series8 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series10 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series11 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series12 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Series13 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea5 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Series14 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea11 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim ChartArea12 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim ChartArea13 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim ChartArea14 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Legend10 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Legend11 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Legend12 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series29 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series30 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series31 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series32 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series33 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series34 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series35 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series36 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series37 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series38 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series39 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series40 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series41 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea15 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Series42 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel_SerialStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_SerialInfo = New System.Windows.Forms.ToolStripStatusLabel()
@@ -125,24 +125,13 @@ Partial Class Main
         Me.GroupBox_BMS_Settings = New System.Windows.Forms.GroupBox()
         Me.CheckBox_BMS_PlotVoltages = New System.Windows.Forms.CheckBox()
         Me.CheckBox_BMS_PlotTemperatures = New System.Windows.Forms.CheckBox()
-        Me.CheckBox_BMS_Coloring = New System.Windows.Forms.CheckBox()
         Me.Label_BMS_CellRange = New System.Windows.Forms.Label()
-        Me.PictureBox_BMS_HighColor = New System.Windows.Forms.PictureBox()
-        Me.NumericUpDown_BMS_CellMin = New System.Windows.Forms.NumericUpDown()
-        Me.PictureBox_BMS_LowColor = New System.Windows.Forms.PictureBox()
-        Me.NumericUpDown_BMS_CellMax = New System.Windows.Forms.NumericUpDown()
-        Me.NumericUpDown_BMS_VoltageMax = New System.Windows.Forms.NumericUpDown()
         Me.ComboBox_BMS_CellRange = New System.Windows.Forms.ComboBox()
-        Me.NumericUpDown_BMS_VoltageMin = New System.Windows.Forms.NumericUpDown()
         Me.Label_BMS_VoltageRange = New System.Windows.Forms.Label()
         Me.Chart_BMS = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.TabPage_CAN = New System.Windows.Forms.TabPage()
-        Me.CheckBox_CAN_Warn = New System.Windows.Forms.CheckBox()
         Me.Button_CAN_Send = New System.Windows.Forms.Button()
         Me.Button_CAN_Clear = New System.Windows.Forms.Button()
-        Me.RadioButton_CAN_Hex = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_CAN_Decimal = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_CAN_Binary = New System.Windows.Forms.RadioButton()
         Me.Label_CAN_Byte7 = New System.Windows.Forms.Label()
         Me.Label_CAN_Byte6 = New System.Windows.Forms.Label()
         Me.Label_CAN_Byte2 = New System.Windows.Forms.Label()
@@ -168,10 +157,14 @@ Partial Class Main
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.TabPage_Configuration = New System.Windows.Forms.TabPage()
+        Me.GroupBox_Config_BMS = New System.Windows.Forms.GroupBox()
+        Me.GroupBox_Config_FrontNode = New System.Windows.Forms.GroupBox()
+        Me.GroupBox_Config_BackNode = New System.Windows.Forms.GroupBox()
+        Me.GroupBox_Config_ECU = New System.Windows.Forms.GroupBox()
+        Me.GroupBox_Config_Fusebox = New System.Windows.Forms.GroupBox()
         Me.TabPage_Logging = New System.Windows.Forms.TabPage()
         Me.Button_BMSLog_StartStop = New System.Windows.Forms.Button()
         Me.Button_TelemetryLog_StartStop = New System.Windows.Forms.Button()
-        Me.CheckBox_AutoStartLog = New System.Windows.Forms.CheckBox()
         Me.TabPage_Admin = New System.Windows.Forms.TabPage()
         Me.Button_Break = New System.Windows.Forms.Button()
         Me.Button_RandomBMS = New System.Windows.Forms.Button()
@@ -194,11 +187,20 @@ Partial Class Main
         Me.Timer_RandomTelemetry = New System.Windows.Forms.Timer(Me.components)
         Me.ColorDialog_BMS = New System.Windows.Forms.ColorDialog()
         Me.Timer_Generic = New System.Windows.Forms.Timer(Me.components)
-        Me.GroupBox_Config_Fusebox = New System.Windows.Forms.GroupBox()
-        Me.GroupBox_Config_ECU = New System.Windows.Forms.GroupBox()
-        Me.GroupBox_Config_BackNode = New System.Windows.Forms.GroupBox()
-        Me.GroupBox_Config_FrontNode = New System.Windows.Forms.GroupBox()
-        Me.GroupBox_Config_BMS = New System.Windows.Forms.GroupBox()
+        Me.CheckBox_BMS_Coloring = New System.Windows.Forms.CheckBox()
+        Me.PictureBox_BMS_HighColor = New System.Windows.Forms.PictureBox()
+        Me.NumericUpDown_BMS_CellMin = New System.Windows.Forms.NumericUpDown()
+        Me.PictureBox_BMS_LowColor = New System.Windows.Forms.PictureBox()
+        Me.NumericUpDown_BMS_CellMax = New System.Windows.Forms.NumericUpDown()
+        Me.NumericUpDown_BMS_VoltageMax = New System.Windows.Forms.NumericUpDown()
+        Me.NumericUpDown_BMS_VoltageMin = New System.Windows.Forms.NumericUpDown()
+        Me.CheckBox_CAN_Warn = New System.Windows.Forms.CheckBox()
+        Me.RadioButton_CAN_Hex = New System.Windows.Forms.RadioButton()
+        Me.RadioButton_CAN_Decimal = New System.Windows.Forms.RadioButton()
+        Me.RadioButton_CAN_Binary = New System.Windows.Forms.RadioButton()
+        Me.CheckBox_Logging_Delimiter = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_AutoStartLog = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_Plotting_Sync = New System.Windows.Forms.CheckBox()
         Me.StatusStrip.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.TabPage_General.SuspendLayout()
@@ -207,12 +209,6 @@ Partial Class Main
         CType(Me.Chart, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage_BMS.SuspendLayout()
         Me.GroupBox_BMS_Settings.SuspendLayout()
-        CType(Me.PictureBox_BMS_HighColor, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown_BMS_CellMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox_BMS_LowColor, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown_BMS_CellMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown_BMS_VoltageMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NumericUpDown_BMS_VoltageMin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Chart_BMS, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage_CAN.SuspendLayout()
         Me.TabPage_Configuration.SuspendLayout()
@@ -220,6 +216,12 @@ Partial Class Main
         Me.TabPage_Admin.SuspendLayout()
         Me.TabPage_Connection.SuspendLayout()
         Me.GroupBox_Connection.SuspendLayout()
+        CType(Me.PictureBox_BMS_HighColor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown_BMS_CellMin, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox_BMS_LowColor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown_BMS_CellMax, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown_BMS_VoltageMax, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown_BMS_VoltageMin, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'StatusStrip
@@ -227,7 +229,7 @@ Partial Class Main
         Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel_SerialStatus, Me.ToolStripStatusLabel_SerialInfo, Me.ToolStripStatusLabel_TelemetryLogging, Me.ToolStripStatusLabel_BMSLogging, Me.ToolStripStatusLabel_Spring, Me.ToolStripStatusLabel_Updates})
         Me.StatusStrip.Location = New System.Drawing.Point(0, 674)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(1314, 22)
+        Me.StatusStrip.Size = New System.Drawing.Size(1365, 22)
         Me.StatusStrip.TabIndex = 8
         Me.StatusStrip.Text = "StatusStrip"
         '
@@ -261,7 +263,7 @@ Partial Class Main
         'ToolStripStatusLabel_Spring
         '
         Me.ToolStripStatusLabel_Spring.Name = "ToolStripStatusLabel_Spring"
-        Me.ToolStripStatusLabel_Spring.Size = New System.Drawing.Size(751, 17)
+        Me.ToolStripStatusLabel_Spring.Size = New System.Drawing.Size(802, 17)
         Me.ToolStripStatusLabel_Spring.Spring = True
         '
         'ToolStripStatusLabel_Updates
@@ -309,7 +311,7 @@ Partial Class Main
         Me.TabControl.Location = New System.Drawing.Point(0, 0)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
-        Me.TabControl.Size = New System.Drawing.Size(1314, 674)
+        Me.TabControl.Size = New System.Drawing.Size(1365, 674)
         Me.TabControl.TabIndex = 27
         '
         'TabPage_General
@@ -369,7 +371,7 @@ Partial Class Main
         Me.ListView_BMS.FullRowSelect = True
         Me.ListView_BMS.GridLines = True
         Me.ListView_BMS.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.ListView_BMS.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2})
+        Me.ListView_BMS.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem29, ListViewItem30})
         Me.ListView_BMS.Location = New System.Drawing.Point(321, 506)
         Me.ListView_BMS.MaximumSize = New System.Drawing.Size(383, 75)
         Me.ListView_BMS.MinimumSize = New System.Drawing.Size(383, 75)
@@ -411,7 +413,7 @@ Partial Class Main
         Me.ListView_VCU.FullRowSelect = True
         Me.ListView_VCU.GridLines = True
         Me.ListView_VCU.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.ListView_VCU.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9})
+        Me.ListView_VCU.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem31, ListViewItem32, ListViewItem33, ListViewItem34, ListViewItem35, ListViewItem36, ListViewItem37})
         Me.ListView_VCU.Location = New System.Drawing.Point(406, 239)
         Me.ListView_VCU.Name = "ListView_VCU"
         Me.ListView_VCU.Scrollable = False
@@ -436,12 +438,12 @@ Partial Class Main
         Me.ListView_Temperature.FullRowSelect = True
         Me.ListView_Temperature.GridLines = True
         Me.ListView_Temperature.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        ListViewItem10.StateImageIndex = 0
-        ListViewItem11.StateImageIndex = 0
-        ListViewItem12.StateImageIndex = 0
-        ListViewItem13.StateImageIndex = 0
-        ListViewItem14.StateImageIndex = 0
-        Me.ListView_Temperature.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem10, ListViewItem11, ListViewItem12, ListViewItem13, ListViewItem14})
+        ListViewItem38.StateImageIndex = 0
+        ListViewItem39.StateImageIndex = 0
+        ListViewItem40.StateImageIndex = 0
+        ListViewItem41.StateImageIndex = 0
+        ListViewItem42.StateImageIndex = 0
+        Me.ListView_Temperature.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem38, ListViewItem39, ListViewItem40, ListViewItem41, ListViewItem42})
         Me.ListView_Temperature.Location = New System.Drawing.Point(399, 13)
         Me.ListView_Temperature.MaximumSize = New System.Drawing.Size(204, 147)
         Me.ListView_Temperature.MinimumSize = New System.Drawing.Size(204, 147)
@@ -607,6 +609,7 @@ Partial Class Main
         '
         'TabPage_Plotting
         '
+        Me.TabPage_Plotting.Controls.Add(Me.CheckBox_Plotting_Sync)
         Me.TabPage_Plotting.Controls.Add(Me.CheckBox_PlotRPM)
         Me.TabPage_Plotting.Controls.Add(Me.CheckBox_PlotFrontRightRPM)
         Me.TabPage_Plotting.Controls.Add(Me.CheckBox_PlotFrontLeftRPM)
@@ -625,7 +628,7 @@ Partial Class Main
         Me.TabPage_Plotting.Controls.Add(Me.Chart)
         Me.TabPage_Plotting.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Plotting.Name = "TabPage_Plotting"
-        Me.TabPage_Plotting.Size = New System.Drawing.Size(1306, 648)
+        Me.TabPage_Plotting.Size = New System.Drawing.Size(1357, 648)
         Me.TabPage_Plotting.TabIndex = 2
         Me.TabPage_Plotting.Text = "Plotting"
         Me.TabPage_Plotting.UseVisualStyleBackColor = True
@@ -668,11 +671,11 @@ Partial Class Main
         '
         'CheckBox_AutoScale
         '
-        Me.CheckBox_AutoScale.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox_AutoScale.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox_AutoScale.AutoSize = True
         Me.CheckBox_AutoScale.Checked = True
         Me.CheckBox_AutoScale.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox_AutoScale.Location = New System.Drawing.Point(1142, 3)
+        Me.CheckBox_AutoScale.Location = New System.Drawing.Point(1188, 632)
         Me.CheckBox_AutoScale.Name = "CheckBox_AutoScale"
         Me.CheckBox_AutoScale.Size = New System.Drawing.Size(78, 17)
         Me.CheckBox_AutoScale.TabIndex = 12
@@ -801,11 +804,11 @@ Partial Class Main
         '
         'CheckBox_AutoScroll
         '
-        Me.CheckBox_AutoScroll.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox_AutoScroll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox_AutoScroll.AutoSize = True
         Me.CheckBox_AutoScroll.Checked = True
         Me.CheckBox_AutoScroll.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox_AutoScroll.Location = New System.Drawing.Point(1226, 3)
+        Me.CheckBox_AutoScroll.Location = New System.Drawing.Point(1272, 632)
         Me.CheckBox_AutoScroll.Name = "CheckBox_AutoScroll"
         Me.CheckBox_AutoScroll.Size = New System.Drawing.Size(77, 17)
         Me.CheckBox_AutoScroll.TabIndex = 1
@@ -814,333 +817,333 @@ Partial Class Main
         '
         'Chart
         '
-        ChartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea1.AxisX.Interval = 30.0R
-        ChartArea1.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea1.AxisX.LabelStyle.Format = "HH:mm:ss"
-        ChartArea1.AxisX.LabelStyle.Interval = 5.0R
-        ChartArea1.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea1.AxisX.MajorGrid.Interval = 10.0R
-        ChartArea1.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea1.AxisX.MajorTickMark.Interval = 30.0R
-        ChartArea1.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea1.AxisX.MinorGrid.Enabled = True
-        ChartArea1.AxisX.MinorGrid.Interval = 1.0R
-        ChartArea1.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea1.AxisX.MinorGrid.LineColor = System.Drawing.Color.Gray
-        ChartArea1.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
-        ChartArea1.AxisX.MinorTickMark.Enabled = True
-        ChartArea1.AxisX.MinorTickMark.Interval = 1.0R
-        ChartArea1.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea1.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Gray
-        ChartArea1.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.InsideArea
-        ChartArea1.AxisX.ScaleView.MinSize = 100.0R
-        ChartArea1.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Milliseconds
-        ChartArea1.AxisX.ScaleView.Position = 0.66192726851851857R
-        ChartArea1.AxisX.ScaleView.Size = 20.0R
-        ChartArea1.AxisX.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea1.AxisX.ScaleView.SmallScrollMinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea1.AxisX.ScaleView.SmallScrollSize = 10.0R
-        ChartArea1.AxisX.ScaleView.SmallScrollSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea1.AxisX.ScrollBar.BackColor = System.Drawing.Color.White
-        ChartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.SystemColors.ControlLight
-        ChartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black
-        ChartArea1.AxisY.Maximum = 100.0R
-        ChartArea1.AxisY.Minimum = 0R
-        ChartArea1.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea1.AxisY2.Maximum = 200.0R
-        ChartArea1.AxisY2.Minimum = 0R
-        ChartArea1.CursorX.IsUserEnabled = True
-        ChartArea1.CursorX.IsUserSelectionEnabled = True
-        ChartArea1.Name = "ChartArea_Pedals"
-        ChartArea2.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea2.AxisX.Interval = 30.0R
-        ChartArea2.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea2.AxisX.LabelStyle.Format = "HH:mm:ss"
-        ChartArea2.AxisX.LabelStyle.Interval = 5.0R
-        ChartArea2.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea2.AxisX.MajorGrid.Interval = 10.0R
-        ChartArea2.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea2.AxisX.MajorTickMark.Interval = 30.0R
-        ChartArea2.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea2.AxisX.MinorGrid.Enabled = True
-        ChartArea2.AxisX.MinorGrid.Interval = 1.0R
-        ChartArea2.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea2.AxisX.MinorGrid.LineColor = System.Drawing.Color.Gray
-        ChartArea2.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
-        ChartArea2.AxisX.MinorTickMark.Enabled = True
-        ChartArea2.AxisX.MinorTickMark.Interval = 1.0R
-        ChartArea2.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea2.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Gray
-        ChartArea2.AxisX.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
-        ChartArea2.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.InsideArea
-        ChartArea2.AxisX.ScaleView.MinSize = 100.0R
-        ChartArea2.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Milliseconds
-        ChartArea2.AxisX.ScaleView.Position = 0.66192726851851857R
-        ChartArea2.AxisX.ScaleView.Size = 20.0R
-        ChartArea2.AxisX.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea2.AxisX.ScaleView.SmallScrollMinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea2.AxisX.ScaleView.SmallScrollSize = 10.0R
-        ChartArea2.AxisX.ScaleView.SmallScrollSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea2.AxisX.ScrollBar.BackColor = System.Drawing.Color.White
-        ChartArea2.AxisX.ScrollBar.ButtonColor = System.Drawing.SystemColors.ControlLight
-        ChartArea2.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black
-        ChartArea2.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea2.AxisY.Maximum = 150.0R
-        ChartArea2.AxisY.Minimum = 0R
-        ChartArea2.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea2.AxisY2.Maximum = 150.0R
-        ChartArea2.AxisY2.Minimum = 0R
-        ChartArea2.CursorX.IsUserEnabled = True
-        ChartArea2.CursorX.IsUserSelectionEnabled = True
-        ChartArea2.Name = "ChartArea_Temps"
-        ChartArea3.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea3.AxisX.Interval = 30.0R
-        ChartArea3.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea3.AxisX.LabelStyle.Format = "HH:mm:ss"
-        ChartArea3.AxisX.LabelStyle.Interval = 5.0R
-        ChartArea3.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea3.AxisX.MajorGrid.Interval = 10.0R
-        ChartArea3.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea3.AxisX.MajorTickMark.Interval = 30.0R
-        ChartArea3.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea3.AxisX.MinorGrid.Enabled = True
-        ChartArea3.AxisX.MinorGrid.Interval = 1.0R
-        ChartArea3.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea3.AxisX.MinorGrid.LineColor = System.Drawing.Color.Gray
-        ChartArea3.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
-        ChartArea3.AxisX.MinorTickMark.Enabled = True
-        ChartArea3.AxisX.MinorTickMark.Interval = 1.0R
-        ChartArea3.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea3.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Gray
-        ChartArea3.AxisX.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
-        ChartArea3.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.InsideArea
-        ChartArea3.AxisX.ScaleView.MinSize = 100.0R
-        ChartArea3.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Milliseconds
-        ChartArea3.AxisX.ScaleView.Position = 0.66192726851851857R
-        ChartArea3.AxisX.ScaleView.Size = 20.0R
-        ChartArea3.AxisX.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea3.AxisX.ScaleView.SmallScrollMinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea3.AxisX.ScaleView.SmallScrollSize = 10.0R
-        ChartArea3.AxisX.ScaleView.SmallScrollSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea3.AxisX.ScrollBar.BackColor = System.Drawing.Color.White
-        ChartArea3.AxisX.ScrollBar.ButtonColor = System.Drawing.SystemColors.ControlLight
-        ChartArea3.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black
-        ChartArea3.AxisY.IsStartedFromZero = False
-        ChartArea3.AxisY.Maximum = 150.0R
-        ChartArea3.AxisY.Minimum = 0R
-        ChartArea3.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea3.AxisY2.IsStartedFromZero = False
-        ChartArea3.AxisY2.Maximum = 400.0R
-        ChartArea3.AxisY2.Minimum = 100.0R
-        ChartArea3.CursorX.IsUserEnabled = True
-        ChartArea3.CursorX.IsUserSelectionEnabled = True
-        ChartArea3.Name = "ChartArea_Temps2"
-        ChartArea4.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea4.AxisX.Interval = 30.0R
-        ChartArea4.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea4.AxisX.LabelStyle.Format = "HH:mm:ss"
-        ChartArea4.AxisX.LabelStyle.Interval = 5.0R
-        ChartArea4.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea4.AxisX.MajorGrid.Interval = 10.0R
-        ChartArea4.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea4.AxisX.MajorTickMark.Interval = 30.0R
-        ChartArea4.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea4.AxisX.MinorGrid.Enabled = True
-        ChartArea4.AxisX.MinorGrid.Interval = 1.0R
-        ChartArea4.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea4.AxisX.MinorGrid.LineColor = System.Drawing.Color.Gray
-        ChartArea4.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
-        ChartArea4.AxisX.MinorTickMark.Enabled = True
-        ChartArea4.AxisX.MinorTickMark.Interval = 1.0R
-        ChartArea4.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea4.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Gray
-        ChartArea4.AxisX.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
-        ChartArea4.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.InsideArea
-        ChartArea4.AxisX.ScaleView.MinSize = 100.0R
-        ChartArea4.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Milliseconds
-        ChartArea4.AxisX.ScaleView.Position = 0.66192726851851857R
-        ChartArea4.AxisX.ScaleView.Size = 20.0R
-        ChartArea4.AxisX.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea4.AxisX.ScaleView.SmallScrollMinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea4.AxisX.ScaleView.SmallScrollSize = 10.0R
-        ChartArea4.AxisX.ScaleView.SmallScrollSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
-        ChartArea4.AxisX.ScrollBar.BackColor = System.Drawing.Color.White
-        ChartArea4.AxisX.ScrollBar.ButtonColor = System.Drawing.SystemColors.ControlLight
-        ChartArea4.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black
-        ChartArea4.Name = "ChartArea_RPM"
-        Me.Chart.ChartAreas.Add(ChartArea1)
-        Me.Chart.ChartAreas.Add(ChartArea2)
-        Me.Chart.ChartAreas.Add(ChartArea3)
-        Me.Chart.ChartAreas.Add(ChartArea4)
+        ChartArea11.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea11.AxisX.Interval = 30.0R
+        ChartArea11.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea11.AxisX.LabelStyle.Format = "HH:mm:ss"
+        ChartArea11.AxisX.LabelStyle.Interval = 5.0R
+        ChartArea11.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea11.AxisX.MajorGrid.Interval = 10.0R
+        ChartArea11.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea11.AxisX.MajorTickMark.Interval = 30.0R
+        ChartArea11.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea11.AxisX.MinorGrid.Enabled = True
+        ChartArea11.AxisX.MinorGrid.Interval = 1.0R
+        ChartArea11.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea11.AxisX.MinorGrid.LineColor = System.Drawing.Color.Gray
+        ChartArea11.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
+        ChartArea11.AxisX.MinorTickMark.Enabled = True
+        ChartArea11.AxisX.MinorTickMark.Interval = 1.0R
+        ChartArea11.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea11.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Gray
+        ChartArea11.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.InsideArea
+        ChartArea11.AxisX.ScaleView.MinSize = 100.0R
+        ChartArea11.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Milliseconds
+        ChartArea11.AxisX.ScaleView.Position = 0.66192726851851857R
+        ChartArea11.AxisX.ScaleView.Size = 20.0R
+        ChartArea11.AxisX.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea11.AxisX.ScaleView.SmallScrollMinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea11.AxisX.ScaleView.SmallScrollSize = 10.0R
+        ChartArea11.AxisX.ScaleView.SmallScrollSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea11.AxisX.ScrollBar.BackColor = System.Drawing.Color.White
+        ChartArea11.AxisX.ScrollBar.ButtonColor = System.Drawing.SystemColors.ControlLight
+        ChartArea11.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black
+        ChartArea11.AxisY.Maximum = 100.0R
+        ChartArea11.AxisY.Minimum = 0R
+        ChartArea11.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea11.AxisY2.Maximum = 200.0R
+        ChartArea11.AxisY2.Minimum = 0R
+        ChartArea11.CursorX.IsUserEnabled = True
+        ChartArea11.CursorX.IsUserSelectionEnabled = True
+        ChartArea11.Name = "ChartArea_Pedals"
+        ChartArea12.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea12.AxisX.Interval = 30.0R
+        ChartArea12.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea12.AxisX.LabelStyle.Format = "HH:mm:ss"
+        ChartArea12.AxisX.LabelStyle.Interval = 5.0R
+        ChartArea12.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea12.AxisX.MajorGrid.Interval = 10.0R
+        ChartArea12.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea12.AxisX.MajorTickMark.Interval = 30.0R
+        ChartArea12.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea12.AxisX.MinorGrid.Enabled = True
+        ChartArea12.AxisX.MinorGrid.Interval = 1.0R
+        ChartArea12.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea12.AxisX.MinorGrid.LineColor = System.Drawing.Color.Gray
+        ChartArea12.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
+        ChartArea12.AxisX.MinorTickMark.Enabled = True
+        ChartArea12.AxisX.MinorTickMark.Interval = 1.0R
+        ChartArea12.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea12.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Gray
+        ChartArea12.AxisX.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
+        ChartArea12.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.InsideArea
+        ChartArea12.AxisX.ScaleView.MinSize = 100.0R
+        ChartArea12.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Milliseconds
+        ChartArea12.AxisX.ScaleView.Position = 0.66192726851851857R
+        ChartArea12.AxisX.ScaleView.Size = 20.0R
+        ChartArea12.AxisX.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea12.AxisX.ScaleView.SmallScrollMinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea12.AxisX.ScaleView.SmallScrollSize = 10.0R
+        ChartArea12.AxisX.ScaleView.SmallScrollSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea12.AxisX.ScrollBar.BackColor = System.Drawing.Color.White
+        ChartArea12.AxisX.ScrollBar.ButtonColor = System.Drawing.SystemColors.ControlLight
+        ChartArea12.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black
+        ChartArea12.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea12.AxisY.Maximum = 150.0R
+        ChartArea12.AxisY.Minimum = 0R
+        ChartArea12.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea12.AxisY2.Maximum = 150.0R
+        ChartArea12.AxisY2.Minimum = 0R
+        ChartArea12.CursorX.IsUserEnabled = True
+        ChartArea12.CursorX.IsUserSelectionEnabled = True
+        ChartArea12.Name = "ChartArea_Temps"
+        ChartArea13.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea13.AxisX.Interval = 30.0R
+        ChartArea13.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea13.AxisX.LabelStyle.Format = "HH:mm:ss"
+        ChartArea13.AxisX.LabelStyle.Interval = 5.0R
+        ChartArea13.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea13.AxisX.MajorGrid.Interval = 10.0R
+        ChartArea13.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea13.AxisX.MajorTickMark.Interval = 30.0R
+        ChartArea13.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea13.AxisX.MinorGrid.Enabled = True
+        ChartArea13.AxisX.MinorGrid.Interval = 1.0R
+        ChartArea13.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea13.AxisX.MinorGrid.LineColor = System.Drawing.Color.Gray
+        ChartArea13.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
+        ChartArea13.AxisX.MinorTickMark.Enabled = True
+        ChartArea13.AxisX.MinorTickMark.Interval = 1.0R
+        ChartArea13.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea13.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Gray
+        ChartArea13.AxisX.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
+        ChartArea13.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.InsideArea
+        ChartArea13.AxisX.ScaleView.MinSize = 100.0R
+        ChartArea13.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Milliseconds
+        ChartArea13.AxisX.ScaleView.Position = 0.66192726851851857R
+        ChartArea13.AxisX.ScaleView.Size = 20.0R
+        ChartArea13.AxisX.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea13.AxisX.ScaleView.SmallScrollMinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea13.AxisX.ScaleView.SmallScrollSize = 10.0R
+        ChartArea13.AxisX.ScaleView.SmallScrollSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea13.AxisX.ScrollBar.BackColor = System.Drawing.Color.White
+        ChartArea13.AxisX.ScrollBar.ButtonColor = System.Drawing.SystemColors.ControlLight
+        ChartArea13.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black
+        ChartArea13.AxisY.IsStartedFromZero = False
+        ChartArea13.AxisY.Maximum = 150.0R
+        ChartArea13.AxisY.Minimum = 0R
+        ChartArea13.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea13.AxisY2.IsStartedFromZero = False
+        ChartArea13.AxisY2.Maximum = 400.0R
+        ChartArea13.AxisY2.Minimum = 100.0R
+        ChartArea13.CursorX.IsUserEnabled = True
+        ChartArea13.CursorX.IsUserSelectionEnabled = True
+        ChartArea13.Name = "ChartArea_Temps2"
+        ChartArea14.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea14.AxisX.Interval = 30.0R
+        ChartArea14.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea14.AxisX.LabelStyle.Format = "HH:mm:ss"
+        ChartArea14.AxisX.LabelStyle.Interval = 5.0R
+        ChartArea14.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea14.AxisX.MajorGrid.Interval = 10.0R
+        ChartArea14.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea14.AxisX.MajorTickMark.Interval = 30.0R
+        ChartArea14.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea14.AxisX.MinorGrid.Enabled = True
+        ChartArea14.AxisX.MinorGrid.Interval = 1.0R
+        ChartArea14.AxisX.MinorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea14.AxisX.MinorGrid.LineColor = System.Drawing.Color.Gray
+        ChartArea14.AxisX.MinorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
+        ChartArea14.AxisX.MinorTickMark.Enabled = True
+        ChartArea14.AxisX.MinorTickMark.Interval = 1.0R
+        ChartArea14.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea14.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Gray
+        ChartArea14.AxisX.MinorTickMark.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot
+        ChartArea14.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.InsideArea
+        ChartArea14.AxisX.ScaleView.MinSize = 100.0R
+        ChartArea14.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Milliseconds
+        ChartArea14.AxisX.ScaleView.Position = 0.66192726851851857R
+        ChartArea14.AxisX.ScaleView.Size = 20.0R
+        ChartArea14.AxisX.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea14.AxisX.ScaleView.SmallScrollMinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea14.AxisX.ScaleView.SmallScrollSize = 10.0R
+        ChartArea14.AxisX.ScaleView.SmallScrollSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Seconds
+        ChartArea14.AxisX.ScrollBar.BackColor = System.Drawing.Color.White
+        ChartArea14.AxisX.ScrollBar.ButtonColor = System.Drawing.SystemColors.ControlLight
+        ChartArea14.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black
+        ChartArea14.Name = "ChartArea_RPM"
+        Me.Chart.ChartAreas.Add(ChartArea11)
+        Me.Chart.ChartAreas.Add(ChartArea12)
+        Me.Chart.ChartAreas.Add(ChartArea13)
+        Me.Chart.ChartAreas.Add(ChartArea14)
         Me.Chart.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Chart.IsSoftShadows = False
-        Legend1.DockedToChartArea = "ChartArea_Pedals"
-        Legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top
-        Legend1.IsEquallySpacedItems = True
-        Legend1.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Column
-        Legend1.Name = "Legend_Pedals"
-        Legend1.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide
-        Legend1.TextWrapThreshold = 35
-        Legend2.DockedToChartArea = "ChartArea_Temps2"
-        Legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top
-        Legend2.IsEquallySpacedItems = True
-        Legend2.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Column
-        Legend2.Name = "Legend_Temps2"
-        Legend2.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide
-        Legend2.TextWrapThreshold = 35
-        Legend3.DockedToChartArea = "ChartArea_Temps"
-        Legend3.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top
-        Legend3.IsEquallySpacedItems = True
-        Legend3.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Column
-        Legend3.Name = "Legend_Temps"
-        Legend3.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide
-        Legend3.TextWrapThreshold = 35
-        Legend4.DockedToChartArea = "ChartArea_RPM"
-        Legend4.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top
-        Legend4.IsEquallySpacedItems = True
-        Legend4.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Column
-        Legend4.Name = "Legend_RPM"
-        Legend4.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide
-        Legend4.TextWrapThreshold = 35
-        Me.Chart.Legends.Add(Legend1)
-        Me.Chart.Legends.Add(Legend2)
-        Me.Chart.Legends.Add(Legend3)
-        Me.Chart.Legends.Add(Legend4)
+        Legend9.DockedToChartArea = "ChartArea_Pedals"
+        Legend9.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top
+        Legend9.IsEquallySpacedItems = True
+        Legend9.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Column
+        Legend9.Name = "Legend_Pedals"
+        Legend9.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide
+        Legend9.TextWrapThreshold = 35
+        Legend10.DockedToChartArea = "ChartArea_Temps2"
+        Legend10.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top
+        Legend10.IsEquallySpacedItems = True
+        Legend10.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Column
+        Legend10.Name = "Legend_Temps2"
+        Legend10.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide
+        Legend10.TextWrapThreshold = 35
+        Legend11.DockedToChartArea = "ChartArea_Temps"
+        Legend11.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top
+        Legend11.IsEquallySpacedItems = True
+        Legend11.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Column
+        Legend11.Name = "Legend_Temps"
+        Legend11.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide
+        Legend11.TextWrapThreshold = 35
+        Legend12.DockedToChartArea = "ChartArea_RPM"
+        Legend12.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top
+        Legend12.IsEquallySpacedItems = True
+        Legend12.LegendStyle = System.Windows.Forms.DataVisualization.Charting.LegendStyle.Column
+        Legend12.Name = "Legend_RPM"
+        Legend12.TableStyle = System.Windows.Forms.DataVisualization.Charting.LegendTableStyle.Wide
+        Legend12.TextWrapThreshold = 35
+        Me.Chart.Legends.Add(Legend9)
+        Me.Chart.Legends.Add(Legend10)
+        Me.Chart.Legends.Add(Legend11)
+        Me.Chart.Legends.Add(Legend12)
         Me.Chart.Location = New System.Drawing.Point(0, 0)
         Me.Chart.Name = "Chart"
-        Series1.BorderWidth = 3
-        Series1.ChartArea = "ChartArea_Pedals"
-        Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series1.Color = System.Drawing.Color.LimeGreen
-        Series1.CustomProperties = "IsXAxisQuantitative=False"
-        Series1.Legend = "Legend_Pedals"
-        Series1.LegendText = "Throttle Min: #MIN{D0}%, Max: #MAX{D0}%"
-        Series1.LegendToolTip = "The position of the throttle pedal"
-        Series1.Name = "Series_Throttle"
-        Series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series2.BorderWidth = 3
-        Series2.ChartArea = "ChartArea_Pedals"
-        Series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series2.Color = System.Drawing.Color.Firebrick
-        Series2.Legend = "Legend_Pedals"
-        Series2.LegendText = "Front Min: #MIN{D0}Bar, Max: #MAX{D0}Bar"
-        Series2.LegendToolTip = "The front brake pressure"
-        Series2.Name = "Series_BrakeFront"
-        Series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series2.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
-        Series3.BorderWidth = 3
-        Series3.ChartArea = "ChartArea_Pedals"
-        Series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series3.Color = System.Drawing.Color.Coral
-        Series3.Legend = "Legend_Pedals"
-        Series3.LegendText = "Rear Min: #MIN{D0}Bar, Max: #MAX{D0}Bar"
-        Series3.LegendToolTip = "The rear brake pressure"
-        Series3.Name = "Series_BrakeRear"
-        Series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series3.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
-        Series4.BorderWidth = 3
-        Series4.ChartArea = "ChartArea_Temps2"
-        Series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series4.Color = System.Drawing.Color.Firebrick
-        Series4.Legend = "Legend_Temps2"
-        Series4.LegendText = "Coolant In Min: #MIN{D0}°C, Max: #MAX{D0}°C"
-        Series4.LegendToolTip = "The input temperature of the coolant"
-        Series4.Name = "Series_CoolantIn"
-        Series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series5.BorderWidth = 3
-        Series5.ChartArea = "ChartArea_Temps2"
-        Series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series5.Color = System.Drawing.Color.LimeGreen
-        Series5.Legend = "Legend_Temps2"
-        Series5.LegendText = "Coolant Out Min: #MIN{D0}°C, Max: #MAX{D0}°C"
-        Series5.LegendToolTip = "The output temperature of the coolant"
-        Series5.Name = "Series_CoolantOut"
-        Series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series6.BorderWidth = 3
-        Series6.ChartArea = "ChartArea_Temps2"
-        Series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series6.Color = System.Drawing.Color.RoyalBlue
-        Series6.Legend = "Legend_Temps2"
-        Series6.LegendText = "Left Brake Min: #MIN{D0}°C, Max: #MAX{D0}°C"
-        Series6.LegendToolTip = "The temperature of the front left brake caliper"
-        Series6.Name = "Series_BrakeLeft"
-        Series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series6.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
-        Series7.BorderWidth = 3
-        Series7.ChartArea = "ChartArea_Temps2"
-        Series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series7.Color = System.Drawing.Color.BlueViolet
-        Series7.Legend = "Legend_Temps2"
-        Series7.LegendText = "Right Brake Min: #MIN{D0}°C, Max: #MAX{D0}°C"
-        Series7.LegendToolTip = "The temperature of the front right brake caliper"
-        Series7.Name = "Series_BrakeRight"
-        Series7.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series7.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
-        Series8.BorderWidth = 3
-        Series8.ChartArea = "ChartArea_Temps"
-        Series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series8.Legend = "Legend_Temps"
-        Series8.LegendText = "Gearbox Min: #MIN{D0}°C, Max: #MAX{D0}°C"
-        Series8.LegendToolTip = "The temperature of the gearbox"
-        Series8.Name = "Series_GearboxTemp"
-        Series8.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series9.BorderWidth = 3
-        Series9.ChartArea = "ChartArea_Temps"
-        Series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series9.Legend = "Legend_Temps"
-        Series9.LegendText = "Motor Min: #MIN{D0}°C, Max: #MAX{D0}°C"
-        Series9.LegendToolTip = "The temperature of the motor"
-        Series9.Name = "Series_MotorTemp"
-        Series9.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series10.BorderWidth = 3
-        Series10.ChartArea = "ChartArea_Temps"
-        Series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series10.Legend = "Legend_Temps"
-        Series10.LegendText = "IGBT Min: #MIN{D0}°C, Max: #MAX{D0}°C"
-        Series10.LegendToolTip = "The temperature of the inverter's IGBTs"
-        Series10.Name = "Series_IGBTTemp"
-        Series10.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series10.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
-        Series11.BorderWidth = 3
-        Series11.ChartArea = "ChartArea_RPM"
-        Series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series11.Legend = "Legend_RPM"
-        Series11.LegendText = "Left Wheel Min: #MIN{D0} RPM, #MAX{D0} RPM"
-        Series11.LegendToolTip = "The RPM of the front left wheel"
-        Series11.Name = "Series_FrontLeftRPM"
-        Series11.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series12.BorderWidth = 3
-        Series12.ChartArea = "ChartArea_RPM"
-        Series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series12.Legend = "Legend_RPM"
-        Series12.LegendText = "Right Wheel Min: #MIN{D0} RPM, #MAX{D0} RPM"
-        Series12.LegendToolTip = "The RPM of the front right wheel"
-        Series12.Name = "Series_FrontRightRPM"
-        Series12.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series13.BorderWidth = 3
-        Series13.ChartArea = "ChartArea_RPM"
-        Series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
-        Series13.Legend = "Legend_RPM"
-        Series13.LegendText = "RPM Min: #MIN{D0} RPM, Max: #MAX{D0} RPM"
-        Series13.LegendToolTip = "The RPM of the motor"
-        Series13.Name = "Series_RPM"
-        Series13.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Series13.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
-        Me.Chart.Series.Add(Series1)
-        Me.Chart.Series.Add(Series2)
-        Me.Chart.Series.Add(Series3)
-        Me.Chart.Series.Add(Series4)
-        Me.Chart.Series.Add(Series5)
-        Me.Chart.Series.Add(Series6)
-        Me.Chart.Series.Add(Series7)
-        Me.Chart.Series.Add(Series8)
-        Me.Chart.Series.Add(Series9)
-        Me.Chart.Series.Add(Series10)
-        Me.Chart.Series.Add(Series11)
-        Me.Chart.Series.Add(Series12)
-        Me.Chart.Series.Add(Series13)
-        Me.Chart.Size = New System.Drawing.Size(1306, 648)
+        Series29.BorderWidth = 3
+        Series29.ChartArea = "ChartArea_Pedals"
+        Series29.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series29.Color = System.Drawing.Color.LimeGreen
+        Series29.CustomProperties = "IsXAxisQuantitative=False"
+        Series29.Legend = "Legend_Pedals"
+        Series29.LegendText = "Throttle Min: #MIN{D0}%, Max: #MAX{D0}%"
+        Series29.LegendToolTip = "The position of the throttle pedal"
+        Series29.Name = "Series_Throttle"
+        Series29.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series30.BorderWidth = 3
+        Series30.ChartArea = "ChartArea_Pedals"
+        Series30.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series30.Color = System.Drawing.Color.Firebrick
+        Series30.Legend = "Legend_Pedals"
+        Series30.LegendText = "Front Min: #MIN{D0}Bar, Max: #MAX{D0}Bar"
+        Series30.LegendToolTip = "The front brake pressure"
+        Series30.Name = "Series_BrakeFront"
+        Series30.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series30.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series31.BorderWidth = 3
+        Series31.ChartArea = "ChartArea_Pedals"
+        Series31.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series31.Color = System.Drawing.Color.Coral
+        Series31.Legend = "Legend_Pedals"
+        Series31.LegendText = "Rear Min: #MIN{D0}Bar, Max: #MAX{D0}Bar"
+        Series31.LegendToolTip = "The rear brake pressure"
+        Series31.Name = "Series_BrakeRear"
+        Series31.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series31.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series32.BorderWidth = 3
+        Series32.ChartArea = "ChartArea_Temps2"
+        Series32.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series32.Color = System.Drawing.Color.Firebrick
+        Series32.Legend = "Legend_Temps2"
+        Series32.LegendText = "Coolant In Min: #MIN{D0}°C, Max: #MAX{D0}°C"
+        Series32.LegendToolTip = "The input temperature of the coolant"
+        Series32.Name = "Series_CoolantIn"
+        Series32.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series33.BorderWidth = 3
+        Series33.ChartArea = "ChartArea_Temps2"
+        Series33.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series33.Color = System.Drawing.Color.LimeGreen
+        Series33.Legend = "Legend_Temps2"
+        Series33.LegendText = "Coolant Out Min: #MIN{D0}°C, Max: #MAX{D0}°C"
+        Series33.LegendToolTip = "The output temperature of the coolant"
+        Series33.Name = "Series_CoolantOut"
+        Series33.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series34.BorderWidth = 3
+        Series34.ChartArea = "ChartArea_Temps2"
+        Series34.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series34.Color = System.Drawing.Color.RoyalBlue
+        Series34.Legend = "Legend_Temps2"
+        Series34.LegendText = "Left Brake Min: #MIN{D0}°C, Max: #MAX{D0}°C"
+        Series34.LegendToolTip = "The temperature of the front left brake caliper"
+        Series34.Name = "Series_BrakeLeft"
+        Series34.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series34.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series35.BorderWidth = 3
+        Series35.ChartArea = "ChartArea_Temps2"
+        Series35.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series35.Color = System.Drawing.Color.BlueViolet
+        Series35.Legend = "Legend_Temps2"
+        Series35.LegendText = "Right Brake Min: #MIN{D0}°C, Max: #MAX{D0}°C"
+        Series35.LegendToolTip = "The temperature of the front right brake caliper"
+        Series35.Name = "Series_BrakeRight"
+        Series35.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series35.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series36.BorderWidth = 3
+        Series36.ChartArea = "ChartArea_Temps"
+        Series36.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series36.Legend = "Legend_Temps"
+        Series36.LegendText = "Gearbox Min: #MIN{D0}°C, Max: #MAX{D0}°C"
+        Series36.LegendToolTip = "The temperature of the gearbox"
+        Series36.Name = "Series_GearboxTemp"
+        Series36.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series37.BorderWidth = 3
+        Series37.ChartArea = "ChartArea_Temps"
+        Series37.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series37.Legend = "Legend_Temps"
+        Series37.LegendText = "Motor Min: #MIN{D0}°C, Max: #MAX{D0}°C"
+        Series37.LegendToolTip = "The temperature of the motor"
+        Series37.Name = "Series_MotorTemp"
+        Series37.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series38.BorderWidth = 3
+        Series38.ChartArea = "ChartArea_Temps"
+        Series38.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series38.Legend = "Legend_Temps"
+        Series38.LegendText = "IGBT Min: #MIN{D0}°C, Max: #MAX{D0}°C"
+        Series38.LegendToolTip = "The temperature of the inverter's IGBTs"
+        Series38.Name = "Series_IGBTTemp"
+        Series38.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series38.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series39.BorderWidth = 3
+        Series39.ChartArea = "ChartArea_RPM"
+        Series39.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series39.Legend = "Legend_RPM"
+        Series39.LegendText = "Left Wheel Min: #MIN{D0} RPM, #MAX{D0} RPM"
+        Series39.LegendToolTip = "The RPM of the front left wheel"
+        Series39.Name = "Series_FrontLeftRPM"
+        Series39.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series40.BorderWidth = 3
+        Series40.ChartArea = "ChartArea_RPM"
+        Series40.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series40.Legend = "Legend_RPM"
+        Series40.LegendText = "Right Wheel Min: #MIN{D0} RPM, #MAX{D0} RPM"
+        Series40.LegendToolTip = "The RPM of the front right wheel"
+        Series40.Name = "Series_FrontRightRPM"
+        Series40.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series41.BorderWidth = 3
+        Series41.ChartArea = "ChartArea_RPM"
+        Series41.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series41.Legend = "Legend_RPM"
+        Series41.LegendText = "RPM Min: #MIN{D0} RPM, Max: #MAX{D0} RPM"
+        Series41.LegendToolTip = "The RPM of the motor"
+        Series41.Name = "Series_RPM"
+        Series41.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series41.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Me.Chart.Series.Add(Series29)
+        Me.Chart.Series.Add(Series30)
+        Me.Chart.Series.Add(Series31)
+        Me.Chart.Series.Add(Series32)
+        Me.Chart.Series.Add(Series33)
+        Me.Chart.Series.Add(Series34)
+        Me.Chart.Series.Add(Series35)
+        Me.Chart.Series.Add(Series36)
+        Me.Chart.Series.Add(Series37)
+        Me.Chart.Series.Add(Series38)
+        Me.Chart.Series.Add(Series39)
+        Me.Chart.Series.Add(Series40)
+        Me.Chart.Series.Add(Series41)
+        Me.Chart.Size = New System.Drawing.Size(1357, 648)
         Me.Chart.TabIndex = 0
         Me.Chart.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.Normal
         '
@@ -1198,19 +1201,6 @@ Partial Class Main
         Me.CheckBox_BMS_PlotTemperatures.Text = "Temperatures"
         Me.CheckBox_BMS_PlotTemperatures.UseVisualStyleBackColor = True
         '
-        'CheckBox_BMS_Coloring
-        '
-        Me.CheckBox_BMS_Coloring.AutoSize = True
-        Me.CheckBox_BMS_Coloring.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring
-        Me.CheckBox_BMS_Coloring.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox_BMS_Coloring.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CheckBox_BMS_Coloring.Location = New System.Drawing.Point(368, 12)
-        Me.CheckBox_BMS_Coloring.Name = "CheckBox_BMS_Coloring"
-        Me.CheckBox_BMS_Coloring.Size = New System.Drawing.Size(64, 17)
-        Me.CheckBox_BMS_Coloring.TabIndex = 14
-        Me.CheckBox_BMS_Coloring.Text = "Coloring"
-        Me.CheckBox_BMS_Coloring.UseVisualStyleBackColor = True
-        '
         'Label_BMS_CellRange
         '
         Me.Label_BMS_CellRange.AutoSize = True
@@ -1219,61 +1209,6 @@ Partial Class Main
         Me.Label_BMS_CellRange.Size = New System.Drawing.Size(62, 13)
         Me.Label_BMS_CellRange.TabIndex = 7
         Me.Label_BMS_CellRange.Text = "Cell Range:"
-        '
-        'PictureBox_BMS_HighColor
-        '
-        Me.PictureBox_BMS_HighColor.BackColor = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring_High
-        Me.PictureBox_BMS_HighColor.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring_High", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.PictureBox_BMS_HighColor.Location = New System.Drawing.Point(368, 31)
-        Me.PictureBox_BMS_HighColor.Name = "PictureBox_BMS_HighColor"
-        Me.PictureBox_BMS_HighColor.Size = New System.Drawing.Size(69, 21)
-        Me.PictureBox_BMS_HighColor.TabIndex = 13
-        Me.PictureBox_BMS_HighColor.TabStop = False
-        '
-        'NumericUpDown_BMS_CellMin
-        '
-        Me.NumericUpDown_BMS_CellMin.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_CellRange_Min", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NumericUpDown_BMS_CellMin.Location = New System.Drawing.Point(9, 32)
-        Me.NumericUpDown_BMS_CellMin.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
-        Me.NumericUpDown_BMS_CellMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NumericUpDown_BMS_CellMin.Name = "NumericUpDown_BMS_CellMin"
-        Me.NumericUpDown_BMS_CellMin.Size = New System.Drawing.Size(54, 20)
-        Me.NumericUpDown_BMS_CellMin.TabIndex = 4
-        Me.NumericUpDown_BMS_CellMin.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_CellRange_Min
-        '
-        'PictureBox_BMS_LowColor
-        '
-        Me.PictureBox_BMS_LowColor.BackColor = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring_Low
-        Me.PictureBox_BMS_LowColor.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring_Low", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.PictureBox_BMS_LowColor.Location = New System.Drawing.Point(443, 31)
-        Me.PictureBox_BMS_LowColor.Name = "PictureBox_BMS_LowColor"
-        Me.PictureBox_BMS_LowColor.Size = New System.Drawing.Size(69, 21)
-        Me.PictureBox_BMS_LowColor.TabIndex = 12
-        Me.PictureBox_BMS_LowColor.TabStop = False
-        '
-        'NumericUpDown_BMS_CellMax
-        '
-        Me.NumericUpDown_BMS_CellMax.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_CellRange_Max", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NumericUpDown_BMS_CellMax.Location = New System.Drawing.Point(69, 32)
-        Me.NumericUpDown_BMS_CellMax.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
-        Me.NumericUpDown_BMS_CellMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NumericUpDown_BMS_CellMax.Name = "NumericUpDown_BMS_CellMax"
-        Me.NumericUpDown_BMS_CellMax.Size = New System.Drawing.Size(54, 20)
-        Me.NumericUpDown_BMS_CellMax.TabIndex = 5
-        Me.NumericUpDown_BMS_CellMax.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_CellRange_Max
-        '
-        'NumericUpDown_BMS_VoltageMax
-        '
-        Me.NumericUpDown_BMS_VoltageMax.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_VoltageRange_Max", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NumericUpDown_BMS_VoltageMax.DecimalPlaces = 2
-        Me.NumericUpDown_BMS_VoltageMax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMax.Location = New System.Drawing.Point(308, 32)
-        Me.NumericUpDown_BMS_VoltageMax.Maximum = New Decimal(New Integer() {42, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMax.Minimum = New Decimal(New Integer() {28, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMax.Name = "NumericUpDown_BMS_VoltageMax"
-        Me.NumericUpDown_BMS_VoltageMax.Size = New System.Drawing.Size(54, 20)
-        Me.NumericUpDown_BMS_VoltageMax.TabIndex = 11
-        Me.NumericUpDown_BMS_VoltageMax.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_VoltageRange_Max
         '
         'ComboBox_BMS_CellRange
         '
@@ -1285,19 +1220,6 @@ Partial Class Main
         Me.ComboBox_BMS_CellRange.Name = "ComboBox_BMS_CellRange"
         Me.ComboBox_BMS_CellRange.Size = New System.Drawing.Size(113, 21)
         Me.ComboBox_BMS_CellRange.TabIndex = 6
-        '
-        'NumericUpDown_BMS_VoltageMin
-        '
-        Me.NumericUpDown_BMS_VoltageMin.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_VoltageRange_Min", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NumericUpDown_BMS_VoltageMin.DecimalPlaces = 2
-        Me.NumericUpDown_BMS_VoltageMin.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMin.Location = New System.Drawing.Point(248, 32)
-        Me.NumericUpDown_BMS_VoltageMin.Maximum = New Decimal(New Integer() {42, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMin.Minimum = New Decimal(New Integer() {28, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMin.Name = "NumericUpDown_BMS_VoltageMin"
-        Me.NumericUpDown_BMS_VoltageMin.Size = New System.Drawing.Size(54, 20)
-        Me.NumericUpDown_BMS_VoltageMin.TabIndex = 10
-        Me.NumericUpDown_BMS_VoltageMin.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_VoltageRange_Min
         '
         'Label_BMS_VoltageRange
         '
@@ -1313,61 +1235,61 @@ Partial Class Main
         Me.Chart_BMS.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        ChartArea5.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea5.AxisX.InterlacedColor = System.Drawing.Color.WhiteSmoke
-        ChartArea5.AxisX.Interval = 1.0R
-        ChartArea5.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount
-        ChartArea5.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisX.IsInterlaced = True
-        ChartArea5.AxisX.IsStartedFromZero = False
-        ChartArea5.AxisX.LabelStyle.Format = "###"
-        ChartArea5.AxisX.LabelStyle.Interval = 1.0R
-        ChartArea5.AxisX.MajorGrid.Interval = 10.0R
-        ChartArea5.AxisX.MajorGrid.IntervalOffset = 0R
-        ChartArea5.AxisX.MajorGrid.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisX.MajorTickMark.Interval = 5.0R
-        ChartArea5.AxisX.MajorTickMark.IntervalOffset = -1.0R
-        ChartArea5.AxisX.MajorTickMark.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisX.MajorTickMark.Size = 1.5!
-        ChartArea5.AxisX.Maximum = 120.0R
-        ChartArea5.AxisX.Minimum = 1.0R
-        ChartArea5.AxisX.MinorTickMark.Enabled = True
-        ChartArea5.AxisX.MinorTickMark.Interval = 2.0R
-        ChartArea5.AxisX.MinorTickMark.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisX.MinorTickMark.Size = 0.5!
-        ChartArea5.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
-        ChartArea5.AxisY.Interval = 0.2R
-        ChartArea5.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount
-        ChartArea5.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisY.IsStartedFromZero = False
-        ChartArea5.AxisY.MajorGrid.Interval = 0.2R
-        ChartArea5.AxisY.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisY.MajorTickMark.Enabled = False
-        ChartArea5.AxisY.MajorTickMark.Interval = 0.2R
-        ChartArea5.AxisY.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
-        ChartArea5.AxisY.MajorTickMark.Size = 0.5!
-        ChartArea5.AxisY.MajorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.None
-        ChartArea5.AxisY.Maximum = 4.2R
-        ChartArea5.AxisY.Minimum = 2.8R
-        ChartArea5.AxisY.MinorTickMark.Enabled = True
-        ChartArea5.AxisY.MinorTickMark.Interval = 0.1R
-        ChartArea5.AxisY.MinorTickMark.Size = 0.5!
-        ChartArea5.AxisY.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis
-        ChartArea5.Name = "ChartArea_BMS"
-        Me.Chart_BMS.ChartAreas.Add(ChartArea5)
+        ChartArea15.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea15.AxisX.InterlacedColor = System.Drawing.Color.WhiteSmoke
+        ChartArea15.AxisX.Interval = 1.0R
+        ChartArea15.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount
+        ChartArea15.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisX.IsInterlaced = True
+        ChartArea15.AxisX.IsStartedFromZero = False
+        ChartArea15.AxisX.LabelStyle.Format = "###"
+        ChartArea15.AxisX.LabelStyle.Interval = 1.0R
+        ChartArea15.AxisX.MajorGrid.Interval = 10.0R
+        ChartArea15.AxisX.MajorGrid.IntervalOffset = 0R
+        ChartArea15.AxisX.MajorGrid.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisX.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisX.MajorTickMark.Interval = 5.0R
+        ChartArea15.AxisX.MajorTickMark.IntervalOffset = -1.0R
+        ChartArea15.AxisX.MajorTickMark.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisX.MajorTickMark.Size = 1.5!
+        ChartArea15.AxisX.Maximum = 120.0R
+        ChartArea15.AxisX.Minimum = 1.0R
+        ChartArea15.AxisX.MinorTickMark.Enabled = True
+        ChartArea15.AxisX.MinorTickMark.Interval = 2.0R
+        ChartArea15.AxisX.MinorTickMark.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisX.MinorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisX.MinorTickMark.Size = 0.5!
+        ChartArea15.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea15.AxisY.Interval = 0.2R
+        ChartArea15.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount
+        ChartArea15.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisY.IsStartedFromZero = False
+        ChartArea15.AxisY.MajorGrid.Interval = 0.2R
+        ChartArea15.AxisY.MajorGrid.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisY.MajorTickMark.Enabled = False
+        ChartArea15.AxisY.MajorTickMark.Interval = 0.2R
+        ChartArea15.AxisY.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number
+        ChartArea15.AxisY.MajorTickMark.Size = 0.5!
+        ChartArea15.AxisY.MajorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.None
+        ChartArea15.AxisY.Maximum = 4.2R
+        ChartArea15.AxisY.Minimum = 2.8R
+        ChartArea15.AxisY.MinorTickMark.Enabled = True
+        ChartArea15.AxisY.MinorTickMark.Interval = 0.1R
+        ChartArea15.AxisY.MinorTickMark.Size = 0.5!
+        ChartArea15.AxisY.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.AcrossAxis
+        ChartArea15.Name = "ChartArea_BMS"
+        Me.Chart_BMS.ChartAreas.Add(ChartArea15)
         Me.Chart_BMS.Location = New System.Drawing.Point(0, 67)
         Me.Chart_BMS.Name = "Chart_BMS"
-        Series14.ChartArea = "ChartArea_BMS"
-        Series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn
-        Series14.IsXValueIndexed = True
-        Series14.Name = "Series_BMS_Voltages"
-        Series14.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
-        Series14.YValuesPerPoint = 6
-        Series14.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.[Single]
-        Me.Chart_BMS.Series.Add(Series14)
+        Series42.ChartArea = "ChartArea_BMS"
+        Series42.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn
+        Series42.IsXValueIndexed = True
+        Series42.Name = "Series_BMS_Voltages"
+        Series42.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
+        Series42.YValuesPerPoint = 6
+        Series42.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.[Single]
+        Me.Chart_BMS.Series.Add(Series42)
         Me.Chart_BMS.Size = New System.Drawing.Size(1306, 581)
         Me.Chart_BMS.TabIndex = 0
         Me.Chart_BMS.Text = "Chart_BMS"
@@ -1377,9 +1299,6 @@ Partial Class Main
         Me.TabPage_CAN.Controls.Add(Me.CheckBox_CAN_Warn)
         Me.TabPage_CAN.Controls.Add(Me.Button_CAN_Send)
         Me.TabPage_CAN.Controls.Add(Me.Button_CAN_Clear)
-        Me.TabPage_CAN.Controls.Add(Me.RadioButton_CAN_Hex)
-        Me.TabPage_CAN.Controls.Add(Me.RadioButton_CAN_Decimal)
-        Me.TabPage_CAN.Controls.Add(Me.RadioButton_CAN_Binary)
         Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte7)
         Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte6)
         Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte2)
@@ -1400,28 +1319,17 @@ Partial Class Main
         Me.TabPage_CAN.Controls.Add(Me.Label_CAN_MessageID)
         Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Outcoming)
         Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Incoming)
+        Me.TabPage_CAN.Controls.Add(Me.RadioButton_CAN_Hex)
+        Me.TabPage_CAN.Controls.Add(Me.RadioButton_CAN_Decimal)
+        Me.TabPage_CAN.Controls.Add(Me.RadioButton_CAN_Binary)
         Me.TabPage_CAN.Controls.Add(Me.ListView_CAN)
         Me.TabPage_CAN.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_CAN.Name = "TabPage_CAN"
         Me.TabPage_CAN.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_CAN.Size = New System.Drawing.Size(1306, 648)
+        Me.TabPage_CAN.Size = New System.Drawing.Size(1357, 648)
         Me.TabPage_CAN.TabIndex = 3
         Me.TabPage_CAN.Text = "CAN"
         Me.TabPage_CAN.UseVisualStyleBackColor = True
-        '
-        'CheckBox_CAN_Warn
-        '
-        Me.CheckBox_CAN_Warn.AutoSize = True
-        Me.CheckBox_CAN_Warn.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Warn
-        Me.CheckBox_CAN_Warn.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox_CAN_Warn.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Warn", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CheckBox_CAN_Warn.Location = New System.Drawing.Point(484, 240)
-        Me.CheckBox_CAN_Warn.Name = "CheckBox_CAN_Warn"
-        Me.CheckBox_CAN_Warn.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.CheckBox_CAN_Warn.Size = New System.Drawing.Size(52, 17)
-        Me.CheckBox_CAN_Warn.TabIndex = 57
-        Me.CheckBox_CAN_Warn.Text = "Warn"
-        Me.CheckBox_CAN_Warn.UseVisualStyleBackColor = True
         '
         'Button_CAN_Send
         '
@@ -1440,43 +1348,6 @@ Partial Class Main
         Me.Button_CAN_Clear.TabIndex = 55
         Me.Button_CAN_Clear.Text = "Clear"
         Me.Button_CAN_Clear.UseVisualStyleBackColor = True
-        '
-        'RadioButton_CAN_Hex
-        '
-        Me.RadioButton_CAN_Hex.AutoSize = True
-        Me.RadioButton_CAN_Hex.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Hex
-        Me.RadioButton_CAN_Hex.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Hex", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Hex.Location = New System.Drawing.Point(330, 263)
-        Me.RadioButton_CAN_Hex.Name = "RadioButton_CAN_Hex"
-        Me.RadioButton_CAN_Hex.Size = New System.Drawing.Size(44, 17)
-        Me.RadioButton_CAN_Hex.TabIndex = 54
-        Me.RadioButton_CAN_Hex.Text = "Hex"
-        Me.RadioButton_CAN_Hex.UseVisualStyleBackColor = True
-        '
-        'RadioButton_CAN_Decimal
-        '
-        Me.RadioButton_CAN_Decimal.AutoSize = True
-        Me.RadioButton_CAN_Decimal.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Decimal
-        Me.RadioButton_CAN_Decimal.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Decimal", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Decimal.Location = New System.Drawing.Point(330, 240)
-        Me.RadioButton_CAN_Decimal.Name = "RadioButton_CAN_Decimal"
-        Me.RadioButton_CAN_Decimal.Size = New System.Drawing.Size(63, 17)
-        Me.RadioButton_CAN_Decimal.TabIndex = 53
-        Me.RadioButton_CAN_Decimal.TabStop = True
-        Me.RadioButton_CAN_Decimal.Text = "Decimal"
-        Me.RadioButton_CAN_Decimal.UseVisualStyleBackColor = True
-        '
-        'RadioButton_CAN_Binary
-        '
-        Me.RadioButton_CAN_Binary.AutoSize = True
-        Me.RadioButton_CAN_Binary.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Binary
-        Me.RadioButton_CAN_Binary.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Binary", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Binary.Location = New System.Drawing.Point(330, 217)
-        Me.RadioButton_CAN_Binary.Name = "RadioButton_CAN_Binary"
-        Me.RadioButton_CAN_Binary.Size = New System.Drawing.Size(54, 17)
-        Me.RadioButton_CAN_Binary.TabIndex = 52
-        Me.RadioButton_CAN_Binary.Text = "Binary"
-        Me.RadioButton_CAN_Binary.UseVisualStyleBackColor = True
         '
         'Label_CAN_Byte7
         '
@@ -1713,8 +1584,54 @@ Partial Class Main
         Me.TabPage_Configuration.Text = "Configuration"
         Me.TabPage_Configuration.UseVisualStyleBackColor = True
         '
+        'GroupBox_Config_BMS
+        '
+        Me.GroupBox_Config_BMS.Location = New System.Drawing.Point(699, 344)
+        Me.GroupBox_Config_BMS.Name = "GroupBox_Config_BMS"
+        Me.GroupBox_Config_BMS.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_BMS.TabIndex = 4
+        Me.GroupBox_Config_BMS.TabStop = False
+        Me.GroupBox_Config_BMS.Text = "BMS"
+        '
+        'GroupBox_Config_FrontNode
+        '
+        Me.GroupBox_Config_FrontNode.Location = New System.Drawing.Point(147, 344)
+        Me.GroupBox_Config_FrontNode.Name = "GroupBox_Config_FrontNode"
+        Me.GroupBox_Config_FrontNode.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_FrontNode.TabIndex = 3
+        Me.GroupBox_Config_FrontNode.TabStop = False
+        Me.GroupBox_Config_FrontNode.Text = "Front Node"
+        '
+        'GroupBox_Config_BackNode
+        '
+        Me.GroupBox_Config_BackNode.Location = New System.Drawing.Point(423, 344)
+        Me.GroupBox_Config_BackNode.Name = "GroupBox_Config_BackNode"
+        Me.GroupBox_Config_BackNode.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_BackNode.TabIndex = 2
+        Me.GroupBox_Config_BackNode.TabStop = False
+        Me.GroupBox_Config_BackNode.Text = "Back Node"
+        '
+        'GroupBox_Config_ECU
+        '
+        Me.GroupBox_Config_ECU.Location = New System.Drawing.Point(423, 182)
+        Me.GroupBox_Config_ECU.Name = "GroupBox_Config_ECU"
+        Me.GroupBox_Config_ECU.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_ECU.TabIndex = 1
+        Me.GroupBox_Config_ECU.TabStop = False
+        Me.GroupBox_Config_ECU.Text = "ECU"
+        '
+        'GroupBox_Config_Fusebox
+        '
+        Me.GroupBox_Config_Fusebox.Location = New System.Drawing.Point(147, 182)
+        Me.GroupBox_Config_Fusebox.Name = "GroupBox_Config_Fusebox"
+        Me.GroupBox_Config_Fusebox.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_Fusebox.TabIndex = 0
+        Me.GroupBox_Config_Fusebox.TabStop = False
+        Me.GroupBox_Config_Fusebox.Text = "Fusebox"
+        '
         'TabPage_Logging
         '
+        Me.TabPage_Logging.Controls.Add(Me.CheckBox_Logging_Delimiter)
         Me.TabPage_Logging.Controls.Add(Me.Button_BMSLog_StartStop)
         Me.TabPage_Logging.Controls.Add(Me.Button_TelemetryLog_StartStop)
         Me.TabPage_Logging.Controls.Add(Me.CheckBox_AutoStartLog)
@@ -1743,18 +1660,6 @@ Partial Class Main
         Me.Button_TelemetryLog_StartStop.TabIndex = 42
         Me.Button_TelemetryLog_StartStop.Text = "Start Telemetry Log"
         Me.Button_TelemetryLog_StartStop.UseVisualStyleBackColor = True
-        '
-        'CheckBox_AutoStartLog
-        '
-        Me.CheckBox_AutoStartLog.AutoSize = True
-        Me.CheckBox_AutoStartLog.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.AutoStartLog
-        Me.CheckBox_AutoStartLog.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "AutoStartLog", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CheckBox_AutoStartLog.Location = New System.Drawing.Point(103, 42)
-        Me.CheckBox_AutoStartLog.Name = "CheckBox_AutoStartLog"
-        Me.CheckBox_AutoStartLog.Size = New System.Drawing.Size(114, 17)
-        Me.CheckBox_AutoStartLog.TabIndex = 41
-        Me.CheckBox_AutoStartLog.Text = "Auto Start Logging"
-        Me.CheckBox_AutoStartLog.UseVisualStyleBackColor = True
         '
         'TabPage_Admin
         '
@@ -1946,56 +1851,178 @@ Partial Class Main
         Me.ColorDialog_BMS.AnyColor = True
         Me.ColorDialog_BMS.FullOpen = True
         '
-        'GroupBox_Config_Fusebox
+        'CheckBox_BMS_Coloring
         '
-        Me.GroupBox_Config_Fusebox.Location = New System.Drawing.Point(147, 182)
-        Me.GroupBox_Config_Fusebox.Name = "GroupBox_Config_Fusebox"
-        Me.GroupBox_Config_Fusebox.Size = New System.Drawing.Size(200, 100)
-        Me.GroupBox_Config_Fusebox.TabIndex = 0
-        Me.GroupBox_Config_Fusebox.TabStop = False
-        Me.GroupBox_Config_Fusebox.Text = "Fusebox"
+        Me.CheckBox_BMS_Coloring.AutoSize = True
+        Me.CheckBox_BMS_Coloring.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring
+        Me.CheckBox_BMS_Coloring.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_BMS_Coloring.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.CheckBox_BMS_Coloring.Location = New System.Drawing.Point(368, 12)
+        Me.CheckBox_BMS_Coloring.Name = "CheckBox_BMS_Coloring"
+        Me.CheckBox_BMS_Coloring.Size = New System.Drawing.Size(64, 17)
+        Me.CheckBox_BMS_Coloring.TabIndex = 14
+        Me.CheckBox_BMS_Coloring.Text = "Coloring"
+        Me.CheckBox_BMS_Coloring.UseVisualStyleBackColor = True
         '
-        'GroupBox_Config_ECU
+        'PictureBox_BMS_HighColor
         '
-        Me.GroupBox_Config_ECU.Location = New System.Drawing.Point(423, 182)
-        Me.GroupBox_Config_ECU.Name = "GroupBox_Config_ECU"
-        Me.GroupBox_Config_ECU.Size = New System.Drawing.Size(200, 100)
-        Me.GroupBox_Config_ECU.TabIndex = 1
-        Me.GroupBox_Config_ECU.TabStop = False
-        Me.GroupBox_Config_ECU.Text = "ECU"
+        Me.PictureBox_BMS_HighColor.BackColor = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring_High
+        Me.PictureBox_BMS_HighColor.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring_High", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.PictureBox_BMS_HighColor.Location = New System.Drawing.Point(368, 31)
+        Me.PictureBox_BMS_HighColor.Name = "PictureBox_BMS_HighColor"
+        Me.PictureBox_BMS_HighColor.Size = New System.Drawing.Size(69, 21)
+        Me.PictureBox_BMS_HighColor.TabIndex = 13
+        Me.PictureBox_BMS_HighColor.TabStop = False
         '
-        'GroupBox_Config_BackNode
+        'NumericUpDown_BMS_CellMin
         '
-        Me.GroupBox_Config_BackNode.Location = New System.Drawing.Point(423, 344)
-        Me.GroupBox_Config_BackNode.Name = "GroupBox_Config_BackNode"
-        Me.GroupBox_Config_BackNode.Size = New System.Drawing.Size(200, 100)
-        Me.GroupBox_Config_BackNode.TabIndex = 2
-        Me.GroupBox_Config_BackNode.TabStop = False
-        Me.GroupBox_Config_BackNode.Text = "Back Node"
+        Me.NumericUpDown_BMS_CellMin.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_CellRange_Min", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.NumericUpDown_BMS_CellMin.Location = New System.Drawing.Point(9, 32)
+        Me.NumericUpDown_BMS_CellMin.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.NumericUpDown_BMS_CellMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDown_BMS_CellMin.Name = "NumericUpDown_BMS_CellMin"
+        Me.NumericUpDown_BMS_CellMin.Size = New System.Drawing.Size(54, 20)
+        Me.NumericUpDown_BMS_CellMin.TabIndex = 4
+        Me.NumericUpDown_BMS_CellMin.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_CellRange_Min
         '
-        'GroupBox_Config_FrontNode
+        'PictureBox_BMS_LowColor
         '
-        Me.GroupBox_Config_FrontNode.Location = New System.Drawing.Point(147, 344)
-        Me.GroupBox_Config_FrontNode.Name = "GroupBox_Config_FrontNode"
-        Me.GroupBox_Config_FrontNode.Size = New System.Drawing.Size(200, 100)
-        Me.GroupBox_Config_FrontNode.TabIndex = 3
-        Me.GroupBox_Config_FrontNode.TabStop = False
-        Me.GroupBox_Config_FrontNode.Text = "Front Node"
+        Me.PictureBox_BMS_LowColor.BackColor = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring_Low
+        Me.PictureBox_BMS_LowColor.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring_Low", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.PictureBox_BMS_LowColor.Location = New System.Drawing.Point(443, 31)
+        Me.PictureBox_BMS_LowColor.Name = "PictureBox_BMS_LowColor"
+        Me.PictureBox_BMS_LowColor.Size = New System.Drawing.Size(69, 21)
+        Me.PictureBox_BMS_LowColor.TabIndex = 12
+        Me.PictureBox_BMS_LowColor.TabStop = False
         '
-        'GroupBox_Config_BMS
+        'NumericUpDown_BMS_CellMax
         '
-        Me.GroupBox_Config_BMS.Location = New System.Drawing.Point(699, 344)
-        Me.GroupBox_Config_BMS.Name = "GroupBox_Config_BMS"
-        Me.GroupBox_Config_BMS.Size = New System.Drawing.Size(200, 100)
-        Me.GroupBox_Config_BMS.TabIndex = 4
-        Me.GroupBox_Config_BMS.TabStop = False
-        Me.GroupBox_Config_BMS.Text = "BMS"
+        Me.NumericUpDown_BMS_CellMax.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_CellRange_Max", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.NumericUpDown_BMS_CellMax.Location = New System.Drawing.Point(69, 32)
+        Me.NumericUpDown_BMS_CellMax.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.NumericUpDown_BMS_CellMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDown_BMS_CellMax.Name = "NumericUpDown_BMS_CellMax"
+        Me.NumericUpDown_BMS_CellMax.Size = New System.Drawing.Size(54, 20)
+        Me.NumericUpDown_BMS_CellMax.TabIndex = 5
+        Me.NumericUpDown_BMS_CellMax.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_CellRange_Max
+        '
+        'NumericUpDown_BMS_VoltageMax
+        '
+        Me.NumericUpDown_BMS_VoltageMax.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_VoltageRange_Max", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.NumericUpDown_BMS_VoltageMax.DecimalPlaces = 2
+        Me.NumericUpDown_BMS_VoltageMax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMax.Location = New System.Drawing.Point(308, 32)
+        Me.NumericUpDown_BMS_VoltageMax.Maximum = New Decimal(New Integer() {42, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMax.Minimum = New Decimal(New Integer() {28, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMax.Name = "NumericUpDown_BMS_VoltageMax"
+        Me.NumericUpDown_BMS_VoltageMax.Size = New System.Drawing.Size(54, 20)
+        Me.NumericUpDown_BMS_VoltageMax.TabIndex = 11
+        Me.NumericUpDown_BMS_VoltageMax.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_VoltageRange_Max
+        '
+        'NumericUpDown_BMS_VoltageMin
+        '
+        Me.NumericUpDown_BMS_VoltageMin.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_VoltageRange_Min", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.NumericUpDown_BMS_VoltageMin.DecimalPlaces = 2
+        Me.NumericUpDown_BMS_VoltageMin.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMin.Location = New System.Drawing.Point(248, 32)
+        Me.NumericUpDown_BMS_VoltageMin.Maximum = New Decimal(New Integer() {42, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMin.Minimum = New Decimal(New Integer() {28, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMin.Name = "NumericUpDown_BMS_VoltageMin"
+        Me.NumericUpDown_BMS_VoltageMin.Size = New System.Drawing.Size(54, 20)
+        Me.NumericUpDown_BMS_VoltageMin.TabIndex = 10
+        Me.NumericUpDown_BMS_VoltageMin.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_VoltageRange_Min
+        '
+        'CheckBox_CAN_Warn
+        '
+        Me.CheckBox_CAN_Warn.AutoSize = True
+        Me.CheckBox_CAN_Warn.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Warn
+        Me.CheckBox_CAN_Warn.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_CAN_Warn.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Warn", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.CheckBox_CAN_Warn.Location = New System.Drawing.Point(484, 240)
+        Me.CheckBox_CAN_Warn.Name = "CheckBox_CAN_Warn"
+        Me.CheckBox_CAN_Warn.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.CheckBox_CAN_Warn.Size = New System.Drawing.Size(52, 17)
+        Me.CheckBox_CAN_Warn.TabIndex = 57
+        Me.CheckBox_CAN_Warn.Text = "Warn"
+        Me.CheckBox_CAN_Warn.UseVisualStyleBackColor = True
+        '
+        'RadioButton_CAN_Hex
+        '
+        Me.RadioButton_CAN_Hex.AutoSize = True
+        Me.RadioButton_CAN_Hex.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Hex
+        Me.RadioButton_CAN_Hex.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Hex", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.RadioButton_CAN_Hex.Location = New System.Drawing.Point(330, 263)
+        Me.RadioButton_CAN_Hex.Name = "RadioButton_CAN_Hex"
+        Me.RadioButton_CAN_Hex.Size = New System.Drawing.Size(44, 17)
+        Me.RadioButton_CAN_Hex.TabIndex = 54
+        Me.RadioButton_CAN_Hex.Text = "Hex"
+        Me.RadioButton_CAN_Hex.UseVisualStyleBackColor = True
+        '
+        'RadioButton_CAN_Decimal
+        '
+        Me.RadioButton_CAN_Decimal.AutoSize = True
+        Me.RadioButton_CAN_Decimal.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Decimal
+        Me.RadioButton_CAN_Decimal.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Decimal", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.RadioButton_CAN_Decimal.Location = New System.Drawing.Point(330, 240)
+        Me.RadioButton_CAN_Decimal.Name = "RadioButton_CAN_Decimal"
+        Me.RadioButton_CAN_Decimal.Size = New System.Drawing.Size(63, 17)
+        Me.RadioButton_CAN_Decimal.TabIndex = 53
+        Me.RadioButton_CAN_Decimal.TabStop = True
+        Me.RadioButton_CAN_Decimal.Text = "Decimal"
+        Me.RadioButton_CAN_Decimal.UseVisualStyleBackColor = True
+        '
+        'RadioButton_CAN_Binary
+        '
+        Me.RadioButton_CAN_Binary.AutoSize = True
+        Me.RadioButton_CAN_Binary.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Binary
+        Me.RadioButton_CAN_Binary.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Binary", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.RadioButton_CAN_Binary.Location = New System.Drawing.Point(330, 217)
+        Me.RadioButton_CAN_Binary.Name = "RadioButton_CAN_Binary"
+        Me.RadioButton_CAN_Binary.Size = New System.Drawing.Size(54, 17)
+        Me.RadioButton_CAN_Binary.TabIndex = 52
+        Me.RadioButton_CAN_Binary.Text = "Binary"
+        Me.RadioButton_CAN_Binary.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Logging_Delimiter
+        '
+        Me.CheckBox_Logging_Delimiter.AutoSize = True
+        Me.CheckBox_Logging_Delimiter.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.UseLogSemicolon
+        Me.CheckBox_Logging_Delimiter.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "UseLogSemicolon", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.CheckBox_Logging_Delimiter.Location = New System.Drawing.Point(103, 134)
+        Me.CheckBox_Logging_Delimiter.Name = "CheckBox_Logging_Delimiter"
+        Me.CheckBox_Logging_Delimiter.Size = New System.Drawing.Size(94, 17)
+        Me.CheckBox_Logging_Delimiter.TabIndex = 44
+        Me.CheckBox_Logging_Delimiter.Text = "Use Semicolor"
+        Me.CheckBox_Logging_Delimiter.UseVisualStyleBackColor = True
+        '
+        'CheckBox_AutoStartLog
+        '
+        Me.CheckBox_AutoStartLog.AutoSize = True
+        Me.CheckBox_AutoStartLog.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.AutoStartLog
+        Me.CheckBox_AutoStartLog.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "AutoStartLog", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.CheckBox_AutoStartLog.Location = New System.Drawing.Point(103, 42)
+        Me.CheckBox_AutoStartLog.Name = "CheckBox_AutoStartLog"
+        Me.CheckBox_AutoStartLog.Size = New System.Drawing.Size(114, 17)
+        Me.CheckBox_AutoStartLog.TabIndex = 41
+        Me.CheckBox_AutoStartLog.Text = "Auto Start Logging"
+        Me.CheckBox_AutoStartLog.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Plotting_Sync
+        '
+        Me.CheckBox_Plotting_Sync.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox_Plotting_Sync.AutoSize = True
+        Me.CheckBox_Plotting_Sync.Location = New System.Drawing.Point(1132, 632)
+        Me.CheckBox_Plotting_Sync.Name = "CheckBox_Plotting_Sync"
+        Me.CheckBox_Plotting_Sync.Size = New System.Drawing.Size(50, 17)
+        Me.CheckBox_Plotting_Sync.TabIndex = 16
+        Me.CheckBox_Plotting_Sync.Text = "Sync"
+        Me.CheckBox_Plotting_Sync.UseVisualStyleBackColor = True
         '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1314, 696)
+        Me.ClientSize = New System.Drawing.Size(1365, 696)
         Me.Controls.Add(Me.TabControl)
         Me.Controls.Add(Me.StatusStrip)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -2014,12 +2041,6 @@ Partial Class Main
         Me.TabPage_BMS.ResumeLayout(False)
         Me.GroupBox_BMS_Settings.ResumeLayout(False)
         Me.GroupBox_BMS_Settings.PerformLayout()
-        CType(Me.PictureBox_BMS_HighColor, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown_BMS_CellMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox_BMS_LowColor, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown_BMS_CellMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown_BMS_VoltageMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown_BMS_VoltageMin, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Chart_BMS, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage_CAN.ResumeLayout(False)
         Me.TabPage_CAN.PerformLayout()
@@ -2031,6 +2052,12 @@ Partial Class Main
         Me.TabPage_Connection.ResumeLayout(False)
         Me.GroupBox_Connection.ResumeLayout(False)
         Me.GroupBox_Connection.PerformLayout()
+        CType(Me.PictureBox_BMS_HighColor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_BMS_CellMin, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox_BMS_LowColor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_BMS_CellMax, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_BMS_VoltageMax, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_BMS_VoltageMin, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -2173,4 +2200,6 @@ Partial Class Main
     Friend WithEvents GroupBox_Config_BackNode As GroupBox
     Friend WithEvents GroupBox_Config_ECU As GroupBox
     Friend WithEvents GroupBox_Config_Fusebox As GroupBox
+    Friend WithEvents CheckBox_Logging_Delimiter As CheckBox
+    Friend WithEvents CheckBox_Plotting_Sync As CheckBox
 End Class

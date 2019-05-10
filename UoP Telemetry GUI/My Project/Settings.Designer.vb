@@ -209,6 +209,18 @@ Namespace My
                 Me("CAN_Warn") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property UseLogSemicolon() As Boolean
+            Get
+                Return CType(Me("UseLogSemicolon"),Boolean)
+            End Get
+            Set
+                Me("UseLogSemicolon") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

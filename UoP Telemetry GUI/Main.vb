@@ -126,6 +126,7 @@ Public Class Main
                 TabControl.TabPages.Insert(TabControl.TabCount - 1, Tab)
             Next
             HiddenPages.Clear()
+            TabControl.SelectedIndex = 0
         End If
     End Sub
 
@@ -677,6 +678,7 @@ Public Class Main
 
     ' Scrolling
     Private Sub Chart_AxisViewChanged(sender As Object, e As ViewEventArgs) Handles Chart.AxisViewChanged
+        If Not CheckBox_Plotting_Sync.Checked Then Exit Sub
         ' Keep the scroll aligned between all charts
         Dim ca1 As ChartArea = Chart.ChartAreas(0)
         Dim ca2 As ChartArea = Chart.ChartAreas(1)
@@ -918,8 +920,11 @@ Public Class Main
 
     Private Sub StartTelemetryLogging()
         TelemetryLog = New Logger(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), ".csv", "Telemetry Log")
-        Dim FirstLine As String = "Timestamp,Throttle,Brake Front,Brake Rear,Coolant In, Coolant Out,"
-        FirstLine &= "Motor Temp,IGBT Temp,Gearbox Temp,RPM,Torque,IVT Voltage,IVT Current"
+        Dim FirstLine As String = "Timestamp,Index,Throttle,Brake Front,Brake Rear,Coolant In,Coolant Out,"
+        FirstLine &= "Motor Temp,IGBT Temp,Gearbox Temp,RPM,Torque,IVT Voltage,IVT Current,FL Brake,FR Brake,FL RPM, FR RPM"
+        If CheckBox_Logging_Delimiter.Checked Then
+            FirstLine = FirstLine.Replace(",", ";")
+        End If
         TelemetryLog.Write(FirstLine)
         Button_TelemetryLog_StartStop.Text = "Stop Telemetry Log"
         Button_TelemetryLog_StartStop.ForeColor = Color.Firebrick
@@ -955,12 +960,14 @@ Public Class Main
 
     Private Sub LogTelemetry()
         If TelemetryLog Is Nothing Then Exit Sub
+        Dim Delimiter As Char = If(CheckBox_Logging_Delimiter.Checked, ";", ",")
         With Telemetry
             Dim Index As UInt32 = ParseUInt32({0, .Timestamp.IndexMSB, .Timestamp.IndexMMSB, .Timestamp.IndexLSB}, 0)
-            TelemetryLog.Write(String.Format("{0},{1:d},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12:F},{13:F}", Now.ToString("dd/MM/yyyy HH:mm:ss.fff"),
-                                  Index, .Pedals.Throttle_12, .Pedals.Brake_Front, .Pedals.Brake_Rear,
+            TelemetryLog.Write(String.Format("{0}{18}{1:d}{18}{2}{18}{3}{18}{4}{18}{5}{18}{6}{18}{7}{18}{8}{18}{9}{18}{10}{18}{11}{18}{12:F}{18}{13:F}{18}{14}{18}{15}{18}{16}{18}{17}",
+                                  Now.ToString("dd/MM/yyyy HH:mm:ss.fff"), Index, .Pedals.Throttle_12, .Pedals.Brake_Front, .Pedals.Brake_Rear,
                                   .Temps.Coolant_In, .Temps.Coolant_Out, .Temps.Motor, .Temps.IGBT, .Temps.Gearbox,
-                                  .Performance.RPM, .Performance.Torque, .Performance.IVT_Voltage, .Performance.IVT_Current))
+                                  .Performance.RPM, .Performance.Torque, .Performance.IVT_Voltage, .Performance.IVT_Current,
+                                  .Temps.BrakeLeft, .Temps.BrakeRight, .Wheels.RPM_Front_Left, .Wheels.RPM_Front_Right, Delimiter))
         End With
     End Sub
 
@@ -1163,31 +1170,37 @@ Public Class Main
     End Sub
 
     Private Sub RadioButton_CAN_Decimal_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_CAN_Decimal.CheckedChanged
-        For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
-            ' 0-255
-            If Control.GetType() Is GetType(TextBox) Then
-                Dim Textbox As TextBox = CType(Control, TextBox)
-                If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then Textbox.MaxLength = 3
-            End If
-            ConvertRepresentation(NumberRepresentation.Dec)
-        Next
+        If RadioButton_CAN_Decimal.Checked Then
+            For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
+                ' 0-255
+                If Control.GetType() Is GetType(TextBox) Then
+                    Dim Textbox As TextBox = CType(Control, TextBox)
+                    If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then Textbox.MaxLength = 3
+                End If
+                ConvertRepresentation(NumberRepresentation.Dec)
+            Next
+        End If
     End Sub
 
     Private Sub RadioButton_CAN_Hex_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton_CAN_Hex.CheckedChanged
-        For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
-            ' 00-FF 
-            If Control.GetType() Is GetType(TextBox) Then
-                Dim Textbox As TextBox = CType(Control, TextBox)
-                If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then Textbox.MaxLength = 2
-            End If
-            ConvertRepresentation(NumberRepresentation.Hex)
-        Next
+        If RadioButton_CAN_Hex.Checked Then
+            For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
+                ' 00-FF 
+                If Control.GetType() Is GetType(TextBox) Then
+                    Dim Textbox As TextBox = CType(Control, TextBox)
+                    If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then Textbox.MaxLength = 2
+                End If
+                ConvertRepresentation(NumberRepresentation.Hex)
+            Next
+        End If
     End Sub
 
     ' Format the content of the textboxes live
     Private Sub TextBox_CAN_Byte_TextChanged(sender As TextBox, e As EventArgs) Handles TextBox_CAN_Byte0.TextChanged, TextBox_CAN_Byte1.TextChanged,
             TextBox_CAN_Byte2.TextChanged, TextBox_CAN_Byte3.TextChanged, TextBox_CAN_Byte4.TextChanged,
             TextBox_CAN_Byte5.TextChanged, TextBox_CAN_Byte6.TextChanged, TextBox_CAN_Byte7.TextChanged
+
+        If ConvertingRepresentation Then Exit Sub
 
         ' Only allow allowed characters
         Dim Allowed As String = Nothing
@@ -1206,10 +1219,18 @@ Public Class Main
         Next
         ' 3 digits decimals can represent up to 999 while we need 0-255
         If sender.Text.Length > 0 And Not sender.Text.Contains("-") Then
-            Dim Number As Integer = CInt(sender.Text)
+            Dim Number As Integer = 0
+            Select Case CANRepresentation
+                Case NumberRepresentation.Bin
+                    Number = BinToDec(sender.Text)
+                Case NumberRepresentation.Dec
+                    Number = CByte(sender.Text)
+                Case NumberRepresentation.Hex
+                    Number = HexToDec(sender.Text)
+            End Select
             If Number > 255 Then
                 ' If bigger than 255 remove the last digit
-                sender.Text = sender.Text.Substring(0, 2)
+                sender.Text = sender.Text.Substring(0, sender.Text.Length - 1)
             End If
         Else
             If sender.Text.Length > 0 Then
@@ -1252,12 +1273,17 @@ Public Class Main
         Next
     End Sub
 
+    Private ConvertingRepresentation As Boolean = False
+
     Private Sub ConvertRepresentation(ByVal NewRepresentation As NumberRepresentation)
         If CANRepresentation <> NewRepresentation Then
+            ConvertingRepresentation = True
             For Each Control As Control In TabControl.TabPages("TabPage_CAN").Controls
                 If Control.GetType() Is GetType(TextBox) Then
                     Dim Textbox As TextBox = CType(Control, TextBox)
-                    If Textbox.Name.StartsWith("TextBox_CAN_Byte") And Not Textbox.Text.Contains("-") Then
+                    If Textbox.Name.StartsWith("TextBox_CAN_Byte") Then
+                        If Textbox.Text = "" Then Textbox.Text = "-"
+                        If Textbox.Text.Contains("-") Then Continue For
                         Dim Number As Byte = 0
                         Select Case CANRepresentation
                             Case NumberRepresentation.Bin
@@ -1279,6 +1305,7 @@ Public Class Main
                 End If
             Next
             CANRepresentation = NewRepresentation
+            ConvertingRepresentation = False
         End If
     End Sub
 #End Region
