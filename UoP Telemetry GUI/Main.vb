@@ -6,13 +6,17 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Main
 
+    Private Const BypassConnection As Boolean = True
+
     Private Telemetry As New Car_Telemetry(96)
     Private Const Monitoring As Boolean = True
     Private RandomGenerator As New Random
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        HidePages()
-        AutoConnectSerial()
+        If Not BypassConnection Then
+            HidePages()
+            AutoConnectSerial()
+        End If
         If CheckBox_AutoStartLog.Checked Then StartTelemetryLogging() : StartBMSLogging()
     End Sub
 
@@ -387,10 +391,12 @@ Public Class Main
     Private PacketSync As Boolean = False
 
     Private Sub LoadCAN()
-        Dim CANMessage As New CAN_Message
+        Dim CANMessage As CAN_Message
         Dim Ind As Integer = 1
         CANMessage.ID = ParseUInt16(RXData, Ind)
         CANMessage.Length = ParseByte(RXData, Ind)
+        Dim Tmp As Byte() = {0, 0, 0, 0, 0, 0, 0, 0}
+        CANMessage.Data = Tmp
         For Index As Integer = 0 To CANMessage.Length - 1
             CANMessage.Data(Index) = ParseByte(RXData, Ind)
         Next
@@ -525,7 +531,7 @@ Public Class Main
 #Region "Displaying"
     Private Sub DisplayCAN(ByVal Message As CAN_Message)
         For Each Item As ListViewItem In ListView_CAN.Items
-            If Item.Text = Message.ID Then
+            If Item.Text = Convert.ToString(Message.ID, 16) Then
                 ' Update item
                 Item.SubItems(1).Text = Message.Length
                 Item.SubItems(2).Text = HexDump(Message.Data, Message.Length)
@@ -533,7 +539,7 @@ Public Class Main
             End If
         Next
         Dim Tmp As New ListViewItem()
-        Tmp.Text = Message.ID
+        Tmp.Text = Convert.ToString(Message.ID, 16)
         Dim SubItem As New ListViewItem.ListViewSubItem()
         SubItem.Text = Message.Length
         Tmp.SubItems.Add(SubItem)
@@ -1005,10 +1011,10 @@ Public Class Main
         Next
     End Sub
 
-    Private Sub Button_RandomBMS_Click(sender As Object, e As EventArgs)
+    Private Sub Button_RandomBMS_Click(sender As Object, e As EventArgs) Handles Button_RandomBMS.Click
         For Index As Integer = 0 To 59
-            Telemetry.LeftBox(Index) = RandomGenerator.Next(0, 255)
-            Telemetry.RightBox(Index) = RandomGenerator.Next(0, 255)
+            Telemetry.LeftBox(Index) = RandomGenerator.Next(0, 170) '2.5 - 4.2 Volt
+            Telemetry.RightBox(Index) = RandomGenerator.Next(0, 170)
         Next
         PlotBMS()
     End Sub

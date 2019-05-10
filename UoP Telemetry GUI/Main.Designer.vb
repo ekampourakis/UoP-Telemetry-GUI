@@ -125,12 +125,24 @@ Partial Class Main
         Me.GroupBox_BMS_Settings = New System.Windows.Forms.GroupBox()
         Me.CheckBox_BMS_PlotVoltages = New System.Windows.Forms.CheckBox()
         Me.CheckBox_BMS_PlotTemperatures = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_BMS_Coloring = New System.Windows.Forms.CheckBox()
         Me.Label_BMS_CellRange = New System.Windows.Forms.Label()
+        Me.PictureBox_BMS_HighColor = New System.Windows.Forms.PictureBox()
+        Me.NumericUpDown_BMS_CellMin = New System.Windows.Forms.NumericUpDown()
+        Me.PictureBox_BMS_LowColor = New System.Windows.Forms.PictureBox()
+        Me.NumericUpDown_BMS_CellMax = New System.Windows.Forms.NumericUpDown()
+        Me.NumericUpDown_BMS_VoltageMax = New System.Windows.Forms.NumericUpDown()
         Me.ComboBox_BMS_CellRange = New System.Windows.Forms.ComboBox()
+        Me.NumericUpDown_BMS_VoltageMin = New System.Windows.Forms.NumericUpDown()
         Me.Label_BMS_VoltageRange = New System.Windows.Forms.Label()
         Me.Chart_BMS = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.TabPage_CAN = New System.Windows.Forms.TabPage()
+        Me.CheckBox_CAN_Warn = New System.Windows.Forms.CheckBox()
+        Me.Button_CAN_Send = New System.Windows.Forms.Button()
         Me.Button_CAN_Clear = New System.Windows.Forms.Button()
+        Me.RadioButton_CAN_Hex = New System.Windows.Forms.RadioButton()
+        Me.RadioButton_CAN_Decimal = New System.Windows.Forms.RadioButton()
+        Me.RadioButton_CAN_Binary = New System.Windows.Forms.RadioButton()
         Me.Label_CAN_Byte7 = New System.Windows.Forms.Label()
         Me.Label_CAN_Byte6 = New System.Windows.Forms.Label()
         Me.Label_CAN_Byte2 = New System.Windows.Forms.Label()
@@ -159,7 +171,9 @@ Partial Class Main
         Me.TabPage_Logging = New System.Windows.Forms.TabPage()
         Me.Button_BMSLog_StartStop = New System.Windows.Forms.Button()
         Me.Button_TelemetryLog_StartStop = New System.Windows.Forms.Button()
+        Me.CheckBox_AutoStartLog = New System.Windows.Forms.CheckBox()
         Me.TabPage_Admin = New System.Windows.Forms.TabPage()
+        Me.Button_Break = New System.Windows.Forms.Button()
         Me.Button_RandomBMS = New System.Windows.Forms.Button()
         Me.CheckBox_RandomTelemetry = New System.Windows.Forms.CheckBox()
         Me.CheckBox_Plotting = New System.Windows.Forms.CheckBox()
@@ -180,20 +194,11 @@ Partial Class Main
         Me.Timer_RandomTelemetry = New System.Windows.Forms.Timer(Me.components)
         Me.ColorDialog_BMS = New System.Windows.Forms.ColorDialog()
         Me.Timer_Generic = New System.Windows.Forms.Timer(Me.components)
-        Me.Button_CAN_Send = New System.Windows.Forms.Button()
-        Me.CheckBox_BMS_Coloring = New System.Windows.Forms.CheckBox()
-        Me.PictureBox_BMS_HighColor = New System.Windows.Forms.PictureBox()
-        Me.NumericUpDown_BMS_CellMin = New System.Windows.Forms.NumericUpDown()
-        Me.PictureBox_BMS_LowColor = New System.Windows.Forms.PictureBox()
-        Me.NumericUpDown_BMS_CellMax = New System.Windows.Forms.NumericUpDown()
-        Me.NumericUpDown_BMS_VoltageMax = New System.Windows.Forms.NumericUpDown()
-        Me.NumericUpDown_BMS_VoltageMin = New System.Windows.Forms.NumericUpDown()
-        Me.CheckBox_CAN_Warn = New System.Windows.Forms.CheckBox()
-        Me.RadioButton_CAN_Hex = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_CAN_Decimal = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_CAN_Binary = New System.Windows.Forms.RadioButton()
-        Me.CheckBox_AutoStartLog = New System.Windows.Forms.CheckBox()
-        Me.Button_Break = New System.Windows.Forms.Button()
+        Me.GroupBox_Config_Fusebox = New System.Windows.Forms.GroupBox()
+        Me.GroupBox_Config_ECU = New System.Windows.Forms.GroupBox()
+        Me.GroupBox_Config_BackNode = New System.Windows.Forms.GroupBox()
+        Me.GroupBox_Config_FrontNode = New System.Windows.Forms.GroupBox()
+        Me.GroupBox_Config_BMS = New System.Windows.Forms.GroupBox()
         Me.StatusStrip.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.TabPage_General.SuspendLayout()
@@ -202,18 +207,19 @@ Partial Class Main
         CType(Me.Chart, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage_BMS.SuspendLayout()
         Me.GroupBox_BMS_Settings.SuspendLayout()
-        CType(Me.Chart_BMS, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage_CAN.SuspendLayout()
-        Me.TabPage_Logging.SuspendLayout()
-        Me.TabPage_Admin.SuspendLayout()
-        Me.TabPage_Connection.SuspendLayout()
-        Me.GroupBox_Connection.SuspendLayout()
         CType(Me.PictureBox_BMS_HighColor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown_BMS_CellMin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox_BMS_LowColor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown_BMS_CellMax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown_BMS_VoltageMax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown_BMS_VoltageMin, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Chart_BMS, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage_CAN.SuspendLayout()
+        Me.TabPage_Configuration.SuspendLayout()
+        Me.TabPage_Logging.SuspendLayout()
+        Me.TabPage_Admin.SuspendLayout()
+        Me.TabPage_Connection.SuspendLayout()
+        Me.GroupBox_Connection.SuspendLayout()
         Me.SuspendLayout()
         '
         'StatusStrip
@@ -1192,6 +1198,19 @@ Partial Class Main
         Me.CheckBox_BMS_PlotTemperatures.Text = "Temperatures"
         Me.CheckBox_BMS_PlotTemperatures.UseVisualStyleBackColor = True
         '
+        'CheckBox_BMS_Coloring
+        '
+        Me.CheckBox_BMS_Coloring.AutoSize = True
+        Me.CheckBox_BMS_Coloring.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring
+        Me.CheckBox_BMS_Coloring.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_BMS_Coloring.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.CheckBox_BMS_Coloring.Location = New System.Drawing.Point(368, 12)
+        Me.CheckBox_BMS_Coloring.Name = "CheckBox_BMS_Coloring"
+        Me.CheckBox_BMS_Coloring.Size = New System.Drawing.Size(64, 17)
+        Me.CheckBox_BMS_Coloring.TabIndex = 14
+        Me.CheckBox_BMS_Coloring.Text = "Coloring"
+        Me.CheckBox_BMS_Coloring.UseVisualStyleBackColor = True
+        '
         'Label_BMS_CellRange
         '
         Me.Label_BMS_CellRange.AutoSize = True
@@ -1200,6 +1219,61 @@ Partial Class Main
         Me.Label_BMS_CellRange.Size = New System.Drawing.Size(62, 13)
         Me.Label_BMS_CellRange.TabIndex = 7
         Me.Label_BMS_CellRange.Text = "Cell Range:"
+        '
+        'PictureBox_BMS_HighColor
+        '
+        Me.PictureBox_BMS_HighColor.BackColor = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring_High
+        Me.PictureBox_BMS_HighColor.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring_High", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.PictureBox_BMS_HighColor.Location = New System.Drawing.Point(368, 31)
+        Me.PictureBox_BMS_HighColor.Name = "PictureBox_BMS_HighColor"
+        Me.PictureBox_BMS_HighColor.Size = New System.Drawing.Size(69, 21)
+        Me.PictureBox_BMS_HighColor.TabIndex = 13
+        Me.PictureBox_BMS_HighColor.TabStop = False
+        '
+        'NumericUpDown_BMS_CellMin
+        '
+        Me.NumericUpDown_BMS_CellMin.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_CellRange_Min", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.NumericUpDown_BMS_CellMin.Location = New System.Drawing.Point(9, 32)
+        Me.NumericUpDown_BMS_CellMin.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.NumericUpDown_BMS_CellMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDown_BMS_CellMin.Name = "NumericUpDown_BMS_CellMin"
+        Me.NumericUpDown_BMS_CellMin.Size = New System.Drawing.Size(54, 20)
+        Me.NumericUpDown_BMS_CellMin.TabIndex = 4
+        Me.NumericUpDown_BMS_CellMin.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_CellRange_Min
+        '
+        'PictureBox_BMS_LowColor
+        '
+        Me.PictureBox_BMS_LowColor.BackColor = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring_Low
+        Me.PictureBox_BMS_LowColor.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring_Low", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.PictureBox_BMS_LowColor.Location = New System.Drawing.Point(443, 31)
+        Me.PictureBox_BMS_LowColor.Name = "PictureBox_BMS_LowColor"
+        Me.PictureBox_BMS_LowColor.Size = New System.Drawing.Size(69, 21)
+        Me.PictureBox_BMS_LowColor.TabIndex = 12
+        Me.PictureBox_BMS_LowColor.TabStop = False
+        '
+        'NumericUpDown_BMS_CellMax
+        '
+        Me.NumericUpDown_BMS_CellMax.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_CellRange_Max", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.NumericUpDown_BMS_CellMax.Location = New System.Drawing.Point(69, 32)
+        Me.NumericUpDown_BMS_CellMax.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.NumericUpDown_BMS_CellMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDown_BMS_CellMax.Name = "NumericUpDown_BMS_CellMax"
+        Me.NumericUpDown_BMS_CellMax.Size = New System.Drawing.Size(54, 20)
+        Me.NumericUpDown_BMS_CellMax.TabIndex = 5
+        Me.NumericUpDown_BMS_CellMax.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_CellRange_Max
+        '
+        'NumericUpDown_BMS_VoltageMax
+        '
+        Me.NumericUpDown_BMS_VoltageMax.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_VoltageRange_Max", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.NumericUpDown_BMS_VoltageMax.DecimalPlaces = 2
+        Me.NumericUpDown_BMS_VoltageMax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMax.Location = New System.Drawing.Point(308, 32)
+        Me.NumericUpDown_BMS_VoltageMax.Maximum = New Decimal(New Integer() {42, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMax.Minimum = New Decimal(New Integer() {28, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMax.Name = "NumericUpDown_BMS_VoltageMax"
+        Me.NumericUpDown_BMS_VoltageMax.Size = New System.Drawing.Size(54, 20)
+        Me.NumericUpDown_BMS_VoltageMax.TabIndex = 11
+        Me.NumericUpDown_BMS_VoltageMax.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_VoltageRange_Max
         '
         'ComboBox_BMS_CellRange
         '
@@ -1211,6 +1285,19 @@ Partial Class Main
         Me.ComboBox_BMS_CellRange.Name = "ComboBox_BMS_CellRange"
         Me.ComboBox_BMS_CellRange.Size = New System.Drawing.Size(113, 21)
         Me.ComboBox_BMS_CellRange.TabIndex = 6
+        '
+        'NumericUpDown_BMS_VoltageMin
+        '
+        Me.NumericUpDown_BMS_VoltageMin.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_VoltageRange_Min", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.NumericUpDown_BMS_VoltageMin.DecimalPlaces = 2
+        Me.NumericUpDown_BMS_VoltageMin.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMin.Location = New System.Drawing.Point(248, 32)
+        Me.NumericUpDown_BMS_VoltageMin.Maximum = New Decimal(New Integer() {42, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMin.Minimum = New Decimal(New Integer() {28, 0, 0, 65536})
+        Me.NumericUpDown_BMS_VoltageMin.Name = "NumericUpDown_BMS_VoltageMin"
+        Me.NumericUpDown_BMS_VoltageMin.Size = New System.Drawing.Size(54, 20)
+        Me.NumericUpDown_BMS_VoltageMin.TabIndex = 10
+        Me.NumericUpDown_BMS_VoltageMin.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_VoltageRange_Min
         '
         'Label_BMS_VoltageRange
         '
@@ -1322,6 +1409,29 @@ Partial Class Main
         Me.TabPage_CAN.Text = "CAN"
         Me.TabPage_CAN.UseVisualStyleBackColor = True
         '
+        'CheckBox_CAN_Warn
+        '
+        Me.CheckBox_CAN_Warn.AutoSize = True
+        Me.CheckBox_CAN_Warn.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Warn
+        Me.CheckBox_CAN_Warn.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_CAN_Warn.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Warn", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.CheckBox_CAN_Warn.Location = New System.Drawing.Point(484, 240)
+        Me.CheckBox_CAN_Warn.Name = "CheckBox_CAN_Warn"
+        Me.CheckBox_CAN_Warn.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.CheckBox_CAN_Warn.Size = New System.Drawing.Size(52, 17)
+        Me.CheckBox_CAN_Warn.TabIndex = 57
+        Me.CheckBox_CAN_Warn.Text = "Warn"
+        Me.CheckBox_CAN_Warn.UseVisualStyleBackColor = True
+        '
+        'Button_CAN_Send
+        '
+        Me.Button_CAN_Send.Location = New System.Drawing.Point(453, 257)
+        Me.Button_CAN_Send.Name = "Button_CAN_Send"
+        Me.Button_CAN_Send.Size = New System.Drawing.Size(83, 23)
+        Me.Button_CAN_Send.TabIndex = 56
+        Me.Button_CAN_Send.Text = "Send"
+        Me.Button_CAN_Send.UseVisualStyleBackColor = True
+        '
         'Button_CAN_Clear
         '
         Me.Button_CAN_Clear.Location = New System.Drawing.Point(470, 217)
@@ -1330,6 +1440,43 @@ Partial Class Main
         Me.Button_CAN_Clear.TabIndex = 55
         Me.Button_CAN_Clear.Text = "Clear"
         Me.Button_CAN_Clear.UseVisualStyleBackColor = True
+        '
+        'RadioButton_CAN_Hex
+        '
+        Me.RadioButton_CAN_Hex.AutoSize = True
+        Me.RadioButton_CAN_Hex.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Hex
+        Me.RadioButton_CAN_Hex.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Hex", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.RadioButton_CAN_Hex.Location = New System.Drawing.Point(330, 263)
+        Me.RadioButton_CAN_Hex.Name = "RadioButton_CAN_Hex"
+        Me.RadioButton_CAN_Hex.Size = New System.Drawing.Size(44, 17)
+        Me.RadioButton_CAN_Hex.TabIndex = 54
+        Me.RadioButton_CAN_Hex.Text = "Hex"
+        Me.RadioButton_CAN_Hex.UseVisualStyleBackColor = True
+        '
+        'RadioButton_CAN_Decimal
+        '
+        Me.RadioButton_CAN_Decimal.AutoSize = True
+        Me.RadioButton_CAN_Decimal.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Decimal
+        Me.RadioButton_CAN_Decimal.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Decimal", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.RadioButton_CAN_Decimal.Location = New System.Drawing.Point(330, 240)
+        Me.RadioButton_CAN_Decimal.Name = "RadioButton_CAN_Decimal"
+        Me.RadioButton_CAN_Decimal.Size = New System.Drawing.Size(63, 17)
+        Me.RadioButton_CAN_Decimal.TabIndex = 53
+        Me.RadioButton_CAN_Decimal.TabStop = True
+        Me.RadioButton_CAN_Decimal.Text = "Decimal"
+        Me.RadioButton_CAN_Decimal.UseVisualStyleBackColor = True
+        '
+        'RadioButton_CAN_Binary
+        '
+        Me.RadioButton_CAN_Binary.AutoSize = True
+        Me.RadioButton_CAN_Binary.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Binary
+        Me.RadioButton_CAN_Binary.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Binary", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.RadioButton_CAN_Binary.Location = New System.Drawing.Point(330, 217)
+        Me.RadioButton_CAN_Binary.Name = "RadioButton_CAN_Binary"
+        Me.RadioButton_CAN_Binary.Size = New System.Drawing.Size(54, 17)
+        Me.RadioButton_CAN_Binary.TabIndex = 52
+        Me.RadioButton_CAN_Binary.Text = "Binary"
+        Me.RadioButton_CAN_Binary.UseVisualStyleBackColor = True
         '
         'Label_CAN_Byte7
         '
@@ -1554,6 +1701,11 @@ Partial Class Main
         '
         'TabPage_Configuration
         '
+        Me.TabPage_Configuration.Controls.Add(Me.GroupBox_Config_BMS)
+        Me.TabPage_Configuration.Controls.Add(Me.GroupBox_Config_FrontNode)
+        Me.TabPage_Configuration.Controls.Add(Me.GroupBox_Config_BackNode)
+        Me.TabPage_Configuration.Controls.Add(Me.GroupBox_Config_ECU)
+        Me.TabPage_Configuration.Controls.Add(Me.GroupBox_Config_Fusebox)
         Me.TabPage_Configuration.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Configuration.Name = "TabPage_Configuration"
         Me.TabPage_Configuration.Size = New System.Drawing.Size(1306, 648)
@@ -1592,6 +1744,18 @@ Partial Class Main
         Me.Button_TelemetryLog_StartStop.Text = "Start Telemetry Log"
         Me.Button_TelemetryLog_StartStop.UseVisualStyleBackColor = True
         '
+        'CheckBox_AutoStartLog
+        '
+        Me.CheckBox_AutoStartLog.AutoSize = True
+        Me.CheckBox_AutoStartLog.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.AutoStartLog
+        Me.CheckBox_AutoStartLog.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "AutoStartLog", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.CheckBox_AutoStartLog.Location = New System.Drawing.Point(103, 42)
+        Me.CheckBox_AutoStartLog.Name = "CheckBox_AutoStartLog"
+        Me.CheckBox_AutoStartLog.Size = New System.Drawing.Size(114, 17)
+        Me.CheckBox_AutoStartLog.TabIndex = 41
+        Me.CheckBox_AutoStartLog.Text = "Auto Start Logging"
+        Me.CheckBox_AutoStartLog.UseVisualStyleBackColor = True
+        '
         'TabPage_Admin
         '
         Me.TabPage_Admin.Controls.Add(Me.Button_Break)
@@ -1608,6 +1772,15 @@ Partial Class Main
         Me.TabPage_Admin.TabIndex = 1
         Me.TabPage_Admin.Text = "Admin"
         Me.TabPage_Admin.UseVisualStyleBackColor = True
+        '
+        'Button_Break
+        '
+        Me.Button_Break.Location = New System.Drawing.Point(341, 281)
+        Me.Button_Break.Name = "Button_Break"
+        Me.Button_Break.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Break.TabIndex = 45
+        Me.Button_Break.Text = "Break"
+        Me.Button_Break.UseVisualStyleBackColor = True
         '
         'Button_RandomBMS
         '
@@ -1773,167 +1946,50 @@ Partial Class Main
         Me.ColorDialog_BMS.AnyColor = True
         Me.ColorDialog_BMS.FullOpen = True
         '
-        'Button_CAN_Send
+        'GroupBox_Config_Fusebox
         '
-        Me.Button_CAN_Send.Location = New System.Drawing.Point(453, 257)
-        Me.Button_CAN_Send.Name = "Button_CAN_Send"
-        Me.Button_CAN_Send.Size = New System.Drawing.Size(83, 23)
-        Me.Button_CAN_Send.TabIndex = 56
-        Me.Button_CAN_Send.Text = "Send"
-        Me.Button_CAN_Send.UseVisualStyleBackColor = True
+        Me.GroupBox_Config_Fusebox.Location = New System.Drawing.Point(147, 182)
+        Me.GroupBox_Config_Fusebox.Name = "GroupBox_Config_Fusebox"
+        Me.GroupBox_Config_Fusebox.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_Fusebox.TabIndex = 0
+        Me.GroupBox_Config_Fusebox.TabStop = False
+        Me.GroupBox_Config_Fusebox.Text = "Fusebox"
         '
-        'CheckBox_BMS_Coloring
+        'GroupBox_Config_ECU
         '
-        Me.CheckBox_BMS_Coloring.AutoSize = True
-        Me.CheckBox_BMS_Coloring.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring
-        Me.CheckBox_BMS_Coloring.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox_BMS_Coloring.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CheckBox_BMS_Coloring.Location = New System.Drawing.Point(368, 12)
-        Me.CheckBox_BMS_Coloring.Name = "CheckBox_BMS_Coloring"
-        Me.CheckBox_BMS_Coloring.Size = New System.Drawing.Size(64, 17)
-        Me.CheckBox_BMS_Coloring.TabIndex = 14
-        Me.CheckBox_BMS_Coloring.Text = "Coloring"
-        Me.CheckBox_BMS_Coloring.UseVisualStyleBackColor = True
+        Me.GroupBox_Config_ECU.Location = New System.Drawing.Point(423, 182)
+        Me.GroupBox_Config_ECU.Name = "GroupBox_Config_ECU"
+        Me.GroupBox_Config_ECU.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_ECU.TabIndex = 1
+        Me.GroupBox_Config_ECU.TabStop = False
+        Me.GroupBox_Config_ECU.Text = "ECU"
         '
-        'PictureBox_BMS_HighColor
+        'GroupBox_Config_BackNode
         '
-        Me.PictureBox_BMS_HighColor.BackColor = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring_High
-        Me.PictureBox_BMS_HighColor.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring_High", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.PictureBox_BMS_HighColor.Location = New System.Drawing.Point(368, 31)
-        Me.PictureBox_BMS_HighColor.Name = "PictureBox_BMS_HighColor"
-        Me.PictureBox_BMS_HighColor.Size = New System.Drawing.Size(69, 21)
-        Me.PictureBox_BMS_HighColor.TabIndex = 13
-        Me.PictureBox_BMS_HighColor.TabStop = False
+        Me.GroupBox_Config_BackNode.Location = New System.Drawing.Point(423, 344)
+        Me.GroupBox_Config_BackNode.Name = "GroupBox_Config_BackNode"
+        Me.GroupBox_Config_BackNode.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_BackNode.TabIndex = 2
+        Me.GroupBox_Config_BackNode.TabStop = False
+        Me.GroupBox_Config_BackNode.Text = "Back Node"
         '
-        'NumericUpDown_BMS_CellMin
+        'GroupBox_Config_FrontNode
         '
-        Me.NumericUpDown_BMS_CellMin.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_CellRange_Min", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NumericUpDown_BMS_CellMin.Location = New System.Drawing.Point(9, 32)
-        Me.NumericUpDown_BMS_CellMin.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
-        Me.NumericUpDown_BMS_CellMin.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NumericUpDown_BMS_CellMin.Name = "NumericUpDown_BMS_CellMin"
-        Me.NumericUpDown_BMS_CellMin.Size = New System.Drawing.Size(54, 20)
-        Me.NumericUpDown_BMS_CellMin.TabIndex = 4
-        Me.NumericUpDown_BMS_CellMin.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_CellRange_Min
+        Me.GroupBox_Config_FrontNode.Location = New System.Drawing.Point(147, 344)
+        Me.GroupBox_Config_FrontNode.Name = "GroupBox_Config_FrontNode"
+        Me.GroupBox_Config_FrontNode.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_FrontNode.TabIndex = 3
+        Me.GroupBox_Config_FrontNode.TabStop = False
+        Me.GroupBox_Config_FrontNode.Text = "Front Node"
         '
-        'PictureBox_BMS_LowColor
+        'GroupBox_Config_BMS
         '
-        Me.PictureBox_BMS_LowColor.BackColor = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_Coloring_Low
-        Me.PictureBox_BMS_LowColor.DataBindings.Add(New System.Windows.Forms.Binding("BackColor", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_Coloring_Low", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.PictureBox_BMS_LowColor.Location = New System.Drawing.Point(443, 31)
-        Me.PictureBox_BMS_LowColor.Name = "PictureBox_BMS_LowColor"
-        Me.PictureBox_BMS_LowColor.Size = New System.Drawing.Size(69, 21)
-        Me.PictureBox_BMS_LowColor.TabIndex = 12
-        Me.PictureBox_BMS_LowColor.TabStop = False
-        '
-        'NumericUpDown_BMS_CellMax
-        '
-        Me.NumericUpDown_BMS_CellMax.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_CellRange_Max", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NumericUpDown_BMS_CellMax.Location = New System.Drawing.Point(69, 32)
-        Me.NumericUpDown_BMS_CellMax.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
-        Me.NumericUpDown_BMS_CellMax.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.NumericUpDown_BMS_CellMax.Name = "NumericUpDown_BMS_CellMax"
-        Me.NumericUpDown_BMS_CellMax.Size = New System.Drawing.Size(54, 20)
-        Me.NumericUpDown_BMS_CellMax.TabIndex = 5
-        Me.NumericUpDown_BMS_CellMax.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_CellRange_Max
-        '
-        'NumericUpDown_BMS_VoltageMax
-        '
-        Me.NumericUpDown_BMS_VoltageMax.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_VoltageRange_Max", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NumericUpDown_BMS_VoltageMax.DecimalPlaces = 2
-        Me.NumericUpDown_BMS_VoltageMax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMax.Location = New System.Drawing.Point(308, 32)
-        Me.NumericUpDown_BMS_VoltageMax.Maximum = New Decimal(New Integer() {42, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMax.Minimum = New Decimal(New Integer() {28, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMax.Name = "NumericUpDown_BMS_VoltageMax"
-        Me.NumericUpDown_BMS_VoltageMax.Size = New System.Drawing.Size(54, 20)
-        Me.NumericUpDown_BMS_VoltageMax.TabIndex = 11
-        Me.NumericUpDown_BMS_VoltageMax.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_VoltageRange_Max
-        '
-        'NumericUpDown_BMS_VoltageMin
-        '
-        Me.NumericUpDown_BMS_VoltageMin.DataBindings.Add(New System.Windows.Forms.Binding("Value", Global.UoP_Telemetry_GUI.My.MySettings.Default, "BMS_VoltageRange_Min", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.NumericUpDown_BMS_VoltageMin.DecimalPlaces = 2
-        Me.NumericUpDown_BMS_VoltageMin.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMin.Location = New System.Drawing.Point(248, 32)
-        Me.NumericUpDown_BMS_VoltageMin.Maximum = New Decimal(New Integer() {42, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMin.Minimum = New Decimal(New Integer() {28, 0, 0, 65536})
-        Me.NumericUpDown_BMS_VoltageMin.Name = "NumericUpDown_BMS_VoltageMin"
-        Me.NumericUpDown_BMS_VoltageMin.Size = New System.Drawing.Size(54, 20)
-        Me.NumericUpDown_BMS_VoltageMin.TabIndex = 10
-        Me.NumericUpDown_BMS_VoltageMin.Value = Global.UoP_Telemetry_GUI.My.MySettings.Default.BMS_VoltageRange_Min
-        '
-        'CheckBox_CAN_Warn
-        '
-        Me.CheckBox_CAN_Warn.AutoSize = True
-        Me.CheckBox_CAN_Warn.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Warn
-        Me.CheckBox_CAN_Warn.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox_CAN_Warn.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Warn", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CheckBox_CAN_Warn.Location = New System.Drawing.Point(484, 240)
-        Me.CheckBox_CAN_Warn.Name = "CheckBox_CAN_Warn"
-        Me.CheckBox_CAN_Warn.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.CheckBox_CAN_Warn.Size = New System.Drawing.Size(52, 17)
-        Me.CheckBox_CAN_Warn.TabIndex = 57
-        Me.CheckBox_CAN_Warn.Text = "Warn"
-        Me.CheckBox_CAN_Warn.UseVisualStyleBackColor = True
-        '
-        'RadioButton_CAN_Hex
-        '
-        Me.RadioButton_CAN_Hex.AutoSize = True
-        Me.RadioButton_CAN_Hex.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Hex
-        Me.RadioButton_CAN_Hex.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Hex", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Hex.Location = New System.Drawing.Point(330, 263)
-        Me.RadioButton_CAN_Hex.Name = "RadioButton_CAN_Hex"
-        Me.RadioButton_CAN_Hex.Size = New System.Drawing.Size(44, 17)
-        Me.RadioButton_CAN_Hex.TabIndex = 54
-        Me.RadioButton_CAN_Hex.Text = "Hex"
-        Me.RadioButton_CAN_Hex.UseVisualStyleBackColor = True
-        '
-        'RadioButton_CAN_Decimal
-        '
-        Me.RadioButton_CAN_Decimal.AutoSize = True
-        Me.RadioButton_CAN_Decimal.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Decimal
-        Me.RadioButton_CAN_Decimal.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Decimal", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Decimal.Location = New System.Drawing.Point(330, 240)
-        Me.RadioButton_CAN_Decimal.Name = "RadioButton_CAN_Decimal"
-        Me.RadioButton_CAN_Decimal.Size = New System.Drawing.Size(63, 17)
-        Me.RadioButton_CAN_Decimal.TabIndex = 53
-        Me.RadioButton_CAN_Decimal.TabStop = True
-        Me.RadioButton_CAN_Decimal.Text = "Decimal"
-        Me.RadioButton_CAN_Decimal.UseVisualStyleBackColor = True
-        '
-        'RadioButton_CAN_Binary
-        '
-        Me.RadioButton_CAN_Binary.AutoSize = True
-        Me.RadioButton_CAN_Binary.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Binary
-        Me.RadioButton_CAN_Binary.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Binary", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Binary.Location = New System.Drawing.Point(330, 217)
-        Me.RadioButton_CAN_Binary.Name = "RadioButton_CAN_Binary"
-        Me.RadioButton_CAN_Binary.Size = New System.Drawing.Size(54, 17)
-        Me.RadioButton_CAN_Binary.TabIndex = 52
-        Me.RadioButton_CAN_Binary.Text = "Binary"
-        Me.RadioButton_CAN_Binary.UseVisualStyleBackColor = True
-        '
-        'CheckBox_AutoStartLog
-        '
-        Me.CheckBox_AutoStartLog.AutoSize = True
-        Me.CheckBox_AutoStartLog.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.AutoStartLog
-        Me.CheckBox_AutoStartLog.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "AutoStartLog", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CheckBox_AutoStartLog.Location = New System.Drawing.Point(103, 42)
-        Me.CheckBox_AutoStartLog.Name = "CheckBox_AutoStartLog"
-        Me.CheckBox_AutoStartLog.Size = New System.Drawing.Size(114, 17)
-        Me.CheckBox_AutoStartLog.TabIndex = 41
-        Me.CheckBox_AutoStartLog.Text = "Auto Start Logging"
-        Me.CheckBox_AutoStartLog.UseVisualStyleBackColor = True
-        '
-        'Button_Break
-        '
-        Me.Button_Break.Location = New System.Drawing.Point(341, 281)
-        Me.Button_Break.Name = "Button_Break"
-        Me.Button_Break.Size = New System.Drawing.Size(75, 23)
-        Me.Button_Break.TabIndex = 45
-        Me.Button_Break.Text = "Break"
-        Me.Button_Break.UseVisualStyleBackColor = True
+        Me.GroupBox_Config_BMS.Location = New System.Drawing.Point(699, 344)
+        Me.GroupBox_Config_BMS.Name = "GroupBox_Config_BMS"
+        Me.GroupBox_Config_BMS.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_BMS.TabIndex = 4
+        Me.GroupBox_Config_BMS.TabStop = False
+        Me.GroupBox_Config_BMS.Text = "BMS"
         '
         'Main
         '
@@ -1958,9 +2014,16 @@ Partial Class Main
         Me.TabPage_BMS.ResumeLayout(False)
         Me.GroupBox_BMS_Settings.ResumeLayout(False)
         Me.GroupBox_BMS_Settings.PerformLayout()
+        CType(Me.PictureBox_BMS_HighColor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_BMS_CellMin, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox_BMS_LowColor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_BMS_CellMax, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_BMS_VoltageMax, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_BMS_VoltageMin, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Chart_BMS, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage_CAN.ResumeLayout(False)
         Me.TabPage_CAN.PerformLayout()
+        Me.TabPage_Configuration.ResumeLayout(False)
         Me.TabPage_Logging.ResumeLayout(False)
         Me.TabPage_Logging.PerformLayout()
         Me.TabPage_Admin.ResumeLayout(False)
@@ -1968,12 +2031,6 @@ Partial Class Main
         Me.TabPage_Connection.ResumeLayout(False)
         Me.GroupBox_Connection.ResumeLayout(False)
         Me.GroupBox_Connection.PerformLayout()
-        CType(Me.PictureBox_BMS_HighColor, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown_BMS_CellMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox_BMS_LowColor, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown_BMS_CellMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown_BMS_VoltageMax, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NumericUpDown_BMS_VoltageMin, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -2111,4 +2168,9 @@ Partial Class Main
     Friend WithEvents CheckBox_CAN_Warn As CheckBox
     Friend WithEvents Button_CAN_Send As Button
     Friend WithEvents Button_Break As Button
+    Friend WithEvents GroupBox_Config_BMS As GroupBox
+    Friend WithEvents GroupBox_Config_FrontNode As GroupBox
+    Friend WithEvents GroupBox_Config_BackNode As GroupBox
+    Friend WithEvents GroupBox_Config_ECU As GroupBox
+    Friend WithEvents GroupBox_Config_Fusebox As GroupBox
 End Class
