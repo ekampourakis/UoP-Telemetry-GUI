@@ -6,7 +6,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Main
 
-    Private Const BypassConnection As Boolean = False
+    Private Const BypassConnection As Boolean = True
 
     Private Telemetry As New Car_Telemetry(96)
     Private Const Monitoring As Boolean = True
@@ -208,6 +208,7 @@ Public Class Main
     Private Const ReceiveTimeout As Integer = 100
     Private TXQueue As New List(Of Byte())
     Private PacketsProcessed As Integer = 0
+    Private AllowedIDs As Byte() = {ID_CONNECTION, ID_MESSAGE, ID_SEND_CAN, ID_SEND_TELEMETRY, ID_SEND_BMS, ID_SEND_CAN_ANALYTICS}
     ' Packet IDs
     Private Const ID_CONNECTION As Byte = 0
     Private Const ID_UNKNOWN As Byte = 1
@@ -240,7 +241,7 @@ Public Class Main
                 If RX.Count >= 2 Then
                     len = RX(1)
                     If RX.Count = 3 Then
-                        If RX(2) = WaitingID Or (Monitoring And (RX(2) = ID_SEND_TELEMETRY Or RX(2) = ID_SEND_CAN)) Then
+                        If RX(2) = WaitingID Or (Monitoring And AllowedIDs.Contains(RX(2))) Then
                         Else
                             ' Command ID not correct
                             ReceiveFailed()
@@ -415,8 +416,8 @@ Public Class Main
         For Index As Integer = 0 To CANMessage.Length - 1
             CANMessage.Data(Index) = ParseByte(RXData, Ind)
         Next
-        CANMessage.CycleTime = ParseUInt16(RXData, Ind)
-        CANMessage.Count = ParseUInt32(RXData, Ind)
+        CANMessage.CycleTime = ParseUInt16(RXData, Ind, False)
+        CANMessage.Count = ParseUInt32(RXData, Ind, False)
         DisplayCAN_Analytics(CANMessage)
     End Sub
 
@@ -1497,5 +1498,14 @@ Public Class Main
             End If
         End If
         SendCAN(Message)
+    End Sub
+
+    Private Sub Button_Admin_Process_Click(sender As Object, e As EventArgs) Handles Button_Admin_Process.Click
+        Dim RXStr As String() = TextBox_Admin_RX.Text.Split(" ")
+        RX.Clear()
+        For Each Str As String In RXStr
+            RX.Add(HexToDec(Str))
+            ProcessRX()
+        Next
     End Sub
 End Class
