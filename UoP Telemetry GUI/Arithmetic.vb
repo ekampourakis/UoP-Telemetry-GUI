@@ -97,7 +97,7 @@
         End If
         Dim Res As String = ""
         For Index As Integer = 0 To Len - 1
-            Res &= Hex(Data(Index)) & " "
+            Res &= Hex(Data(Index)).PadLeft(2, "0") & " "
         Next
         Return Res.Substring(0, Res.Length - 1)
     End Function

@@ -6,7 +6,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Main
 
-    Private Const BypassConnection As Boolean = True
+    Private Const BypassConnection As Boolean = False
 
     Private Telemetry As New Car_Telemetry(96)
     Private Const Monitoring As Boolean = True
@@ -215,6 +215,7 @@ Public Class Main
     Private Const ID_SEND_CAN As Byte = 5
     Private Const ID_SEND_TELEMETRY As Byte = 6
     Private Const ID_SEND_BMS As Byte = 7
+    Private Const ID_SEND_CAN_ANALYTICS As Byte = 8
 
 #End Region
 
@@ -404,6 +405,21 @@ Public Class Main
         DisplayCAN(CANMessage)
     End Sub
 
+    Private Sub LoadCAN_Analytics()
+        Dim CANMessage As CAN_Message
+        Dim Ind As Integer = 1
+        CANMessage.ID = ParseUInt16(RXData, Ind)
+        CANMessage.Length = ParseByte(RXData, Ind)
+        Dim Tmp As Byte() = {0, 0, 0, 0, 0, 0, 0, 0}
+        CANMessage.Data = Tmp
+        For Index As Integer = 0 To CANMessage.Length - 1
+            CANMessage.Data(Index) = ParseByte(RXData, Ind)
+        Next
+        CANMessage.CycleTime = ParseUInt16(RXData, Ind)
+        CANMessage.Count = ParseUInt32(RXData, Ind)
+        DisplayCAN_Analytics(CANMessage)
+    End Sub
+
     Private Sub LoadTelemetry()
         Dim Setting As Byte = RXData(1)
         Dim Ind As Integer = 2
@@ -480,6 +496,8 @@ Public Class Main
                     LoadMessage()
                 Case ID_SEND_CAN
                     LoadCAN()
+                Case ID_SEND_CAN_ANALYTICS
+                    LoadCAN_Analytics()
                 Case ID_SEND_TELEMETRY
                     LoadTelemetry()
                     DisplayTelemetry(Telemetry)
@@ -541,12 +559,48 @@ Public Class Main
         Next
         Dim Tmp As New ListViewItem()
         Tmp.Text = Convert.ToString(Message.ID, 16)
+
         Dim SubItem As New ListViewItem.ListViewSubItem()
         SubItem.Text = Message.Length
         Tmp.SubItems.Add(SubItem)
+
         SubItem = New ListViewItem.ListViewSubItem()
         SubItem.Text = HexDump(Message.Data, Message.Length)
         Tmp.SubItems.Add(SubItem)
+
+        ListView_CAN.Items.Add(Tmp)
+    End Sub
+
+    Private Sub DisplayCAN_Analytics(ByVal Message As CAN_Message)
+        For Each Item As ListViewItem In ListView_CAN.Items
+            If Item.Text = Convert.ToString(Message.ID, 16) Then
+                ' Update item
+                Item.SubItems(1).Text = Message.Length
+                Item.SubItems(2).Text = HexDump(Message.Data, Message.Length)
+                Item.SubItems(3).Text = Message.CycleTime
+                Item.SubItems(4).Text = Message.Count
+                Exit Sub
+            End If
+        Next
+        Dim Tmp As New ListViewItem()
+        Tmp.Text = Convert.ToString(Message.ID, 16)
+
+        Dim SubItem As New ListViewItem.ListViewSubItem()
+        SubItem.Text = Message.Length
+        Tmp.SubItems.Add(SubItem)
+
+        SubItem = New ListViewItem.ListViewSubItem()
+        SubItem.Text = HexDump(Message.Data, Message.Length)
+        Tmp.SubItems.Add(SubItem)
+
+        SubItem = New ListViewItem.ListViewSubItem()
+        SubItem.Text = Message.CycleTime
+        Tmp.SubItems.Add(SubItem)
+
+        SubItem = New ListViewItem.ListViewSubItem()
+        SubItem.Text = Message.Count
+        Tmp.SubItems.Add(SubItem)
+
         ListView_CAN.Items.Add(Tmp)
     End Sub
 
@@ -1385,4 +1439,63 @@ Public Class Main
         Dim X As Byte = 0
     End Sub
 
+    Private Sub Button_CAN_BuzzerStart_Click(sender As Object, e As EventArgs) Handles Button_CAN_BuzzerStart.Click
+        Dim Message As New CAN_Message(8)
+        Message.ID = &H760
+        Message.Data = {0, 0, 0, 1, 0, 0, 0, 0}
+        Message.Length = 8
+        If CheckBox_CAN_Warn.Checked Then
+            Dim Result As DialogResult = MessageBox.Show("You are about to send a CAN message to the car. This is extremely dangerous and incorrect use may bring unexpected results. Are you sure you want to transmit the message?", "Warning", MessageBoxButtons.YesNo)
+            If Result = DialogResult.No Then
+                MsgBox("Transmission cancelled", MsgBoxStyle.Exclamation, "Warning")
+                Exit Sub
+            End If
+        End If
+        SendCAN(Message)
+    End Sub
+
+    Private Sub Button_CAN_BuzzerStop_Click(sender As Object, e As EventArgs) Handles Button_CAN_BuzzerStop.Click
+        Dim Message As New CAN_Message(8)
+        Message.ID = &H760
+        Message.Data = {0, 0, 0, 0, 0, 0, 0, 0}
+        Message.Length = 8
+        If CheckBox_CAN_Warn.Checked Then
+            Dim Result As DialogResult = MessageBox.Show("You are about to send a CAN message to the car. This is extremely dangerous and incorrect use may bring unexpected results. Are you sure you want to transmit the message?", "Warning", MessageBoxButtons.YesNo)
+            If Result = DialogResult.No Then
+                MsgBox("Transmission cancelled", MsgBoxStyle.Exclamation, "Warning")
+                Exit Sub
+            End If
+        End If
+        SendCAN(Message)
+    End Sub
+
+    Private Sub Button_CAN_BrakeStart_Click(sender As Object, e As EventArgs) Handles Button_CAN_BrakeStart.Click
+        Dim Message As New CAN_Message(8)
+        Message.ID = &H760
+        Message.Data = {0, 0, 1, 0, 0, 0, 0, 0}
+        Message.Length = 8
+        If CheckBox_CAN_Warn.Checked Then
+            Dim Result As DialogResult = MessageBox.Show("You are about to send a CAN message to the car. This is extremely dangerous and incorrect use may bring unexpected results. Are you sure you want to transmit the message?", "Warning", MessageBoxButtons.YesNo)
+            If Result = DialogResult.No Then
+                MsgBox("Transmission cancelled", MsgBoxStyle.Exclamation, "Warning")
+                Exit Sub
+            End If
+        End If
+        SendCAN(Message)
+    End Sub
+
+    Private Sub Button_BrakeStop_Click(sender As Object, e As EventArgs) Handles Button_BrakeStop.Click
+        Dim Message As New CAN_Message(8)
+        Message.ID = &H760
+        Message.Data = {0, 0, 0, 0, 0, 0, 0, 0}
+        Message.Length = 8
+        If CheckBox_CAN_Warn.Checked Then
+            Dim Result As DialogResult = MessageBox.Show("You are about to send a CAN message to the car. This is extremely dangerous and incorrect use may bring unexpected results. Are you sure you want to transmit the message?", "Warning", MessageBoxButtons.YesNo)
+            If Result = DialogResult.No Then
+                MsgBox("Transmission cancelled", MsgBoxStyle.Exclamation, "Warning")
+                Exit Sub
+            End If
+        End If
+        SendCAN(Message)
+    End Sub
 End Class

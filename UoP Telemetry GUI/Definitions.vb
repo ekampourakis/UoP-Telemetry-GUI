@@ -177,6 +177,8 @@
         Public ID As UInt16
         Public Length As Byte
         Public Data As Byte()
+        Public CycleTime As UInt16
+        Public Count As UInt32
         Public Sub New(ByVal Optional DataSize As Byte = 8)
             ReDim Data(DataSize)
             For Index As Integer = 0 To DataSize
