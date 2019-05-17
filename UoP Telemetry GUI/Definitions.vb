@@ -193,4 +193,14 @@
         Hex
     End Enum
 
+    Public Structure Configuration_Fusebox
+        Public TelemetryEnabled As Boolean
+        Public CANForward As Boolean
+        Public CANForwardInterval As Byte
+        Public SelectiveSampling As Byte
+        Public TelemetryTX As Byte
+        Public Telemetry2TX As Byte
+        Public BAUD As UInt32
+    End Structure
+
 End Class

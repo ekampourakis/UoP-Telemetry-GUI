@@ -6,8 +6,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Main
 
-    Private Const BypassConnection As Boolean = True
-
+    Private Const BypassConnection As Boolean = False
     Private Telemetry As New Car_Telemetry(96)
     Private Const Monitoring As Boolean = True
     Private RandomGenerator As New Random
@@ -199,16 +198,18 @@ Public Class Main
 #Region "Serial Variables"
     Private Connected As Boolean = False
     Private IsWaiting As Boolean = False
-    Private DataReady As Boolean = False
+    Private DataReady As Integer = -1
     Private WaitingID As Byte = 0
     Private LastReceived As DateTime = DateTime.Now
     Private RX As New List(Of Byte)
+    Private RXDataQueue As New List(Of Byte())
     Private RXData As Byte()
     Private Const MaxRX As Integer = 255
     Private Const ReceiveTimeout As Integer = 100
     Private TXQueue As New List(Of Byte())
     Private PacketsProcessed As Integer = 0
-    Private AllowedIDs As Byte() = {ID_CONNECTION, ID_MESSAGE, ID_SEND_CAN, ID_SEND_TELEMETRY, ID_SEND_BMS, ID_SEND_CAN_ANALYTICS}
+    Private AllowedIDs As Byte() = {ID_CONNECTION, ID_UNKNOWN, ID_MESSAGE, ID_SEND_CAN, ID_SEND_TELEMETRY, ID_SEND_BMS,
+        ID_SEND_CAN_ANALYTICS, ID_SET_FUSEBOX_CONFIG, ID_GET_FUSEBOX_CONFIG}
     ' Packet IDs
     Private Const ID_CONNECTION As Byte = 0
     Private Const ID_UNKNOWN As Byte = 1
@@ -217,6 +218,9 @@ Public Class Main
     Private Const ID_SEND_TELEMETRY As Byte = 6
     Private Const ID_SEND_BMS As Byte = 7
     Private Const ID_SEND_CAN_ANALYTICS As Byte = 8
+    Private Const ID_SET_FUSEBOX_CONFIG As Byte = 9
+    Private Const ID_GET_FUSEBOX_CONFIG As Byte = 10
+    Private Const ID_LOG_TRANSFER As Byte = 11
 
 #End Region
 
@@ -257,7 +261,9 @@ Public Class Main
                             Dim CheckSum As CRC.CheckSum = CRC.CRC(Data)
                             If (CheckSum.First = RX(2 + len) And CheckSum.Second = RX(3 + len)) Then
                                 ' Cheksum success
-                                RXData = Data
+                                RXDataQueue.Add(Data)
+                                RX.RemoveRange(0, len + 5)
+                                'RXData = Data
                                 ReceiveSuccess()
                             Else
                                 ' Failed checksum
@@ -273,22 +279,22 @@ Public Class Main
                 End If
             Else
                 ' First byte not correct
-                ReceiveFailed()
+                ReceiveFailed(False)
                 Exit Sub
             End If
         End If
     End Sub
 
-    Private Sub ReceiveFailed()
-        DisplayStatus("Receive failed", Color.Firebrick)
+    Private Sub ReceiveFailed(ByVal Optional Display As Boolean = True)
+        If Display Then DisplayStatus("Receive failed", Color.Firebrick)
         IsWaiting = False
         RX.Clear()
     End Sub
 
     Private Sub ReceiveSuccess()
         IsWaiting = False
-        DataReady = True
-        RX.RemoveRange(0, RXData.Length + 5)
+        DataReady += 1
+        'RX.RemoveRange(0, RXData.Length + 5)
         DisplayStatus("Success", Color.Green)
         If Connected = False Then
             Connected = True
@@ -302,7 +308,8 @@ Public Class Main
                 ReceiveFailed()
             End If
         End If
-        If DataReady Then
+        If DataReady > -1 Then
+            RXData = RXDataQueue(0)
             ProcessData()
         End If
     End Sub
@@ -430,6 +437,7 @@ Public Class Main
         Dim BMS As New Packet_BMS
         Dim Temps As New Packet_Temps
         Dim Pedals As New Packet_Pedals
+        Dim Wheels As New Packet_Wheels
 
         Telemetry.Settings = Setting
 
@@ -472,6 +480,14 @@ Public Class Main
             Ind += Marshal.SizeOf(New Packet_Pedals)
             Telemetry.Pedals = Pedals
         End If
+        If (Setting And MASK_WHEELS) Then
+            Dim WheelsPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Wheels))
+            Marshal.Copy(RXData, Ind, WheelsPointer, Marshal.SizeOf(Wheels))
+            Wheels = CType(Marshal.PtrToStructure(WheelsPointer, GetType(Packet_Wheels)), Packet_Wheels)
+            Marshal.FreeHGlobal(WheelsPointer)
+            Ind += Marshal.SizeOf(New Packet_Wheels)
+            Telemetry.Wheels = Wheels
+        End If
     End Sub
 
     Private Sub LoadBMS()
@@ -483,6 +499,26 @@ Public Class Main
         For Index As Integer = 0 To RightBoxSize
             Telemetry.RightBox(Index) = RXData(Index + LeftBoxSize + 1)
         Next
+    End Sub
+
+    Private Sub LoadFuseboxConfig()
+
+        Dim Conf As Configuration_Fusebox
+        Dim Ind As Integer = 1
+        Conf.TelemetryEnabled = ParseByte(RXData, Ind)
+        Conf.CANForward = ParseByte(RXData, Ind)
+        Conf.CANForwardInterval = ParseByte(RXData, Ind)
+        Conf.SelectiveSampling = ParseByte(RXData, Ind)
+        Conf.TelemetryTX = ParseByte(RXData, Ind)
+        Conf.Telemetry2TX = ParseByte(RXData, Ind)
+
+        CheckBox_Config_Fusebox_TelemetryEnabled.Checked = Conf.TelemetryEnabled
+        CheckBox_Config_Fusebox_CANForward.Checked = Conf.CANForward
+        NumericUpDown_Config_Fusebox_CANInterval.Value = Conf.CANForwardInterval
+        TextBox_Config_Fusebox_SelectiveSampling.Text = Conf.SelectiveSampling
+        NumericUpDown_Config_Fusebox_TelemetryTX.Value = Conf.TelemetryTX
+        NumericUpDown_Config_Fusebox_Telemetry2TX.Value = Conf.Telemetry2TX
+
     End Sub
 
     Private Sub ProcessData()
@@ -508,21 +544,26 @@ Public Class Main
                     LoadBMS()
                     PlotBMS()
                     'LogBMS()
+                Case ID_GET_FUSEBOX_CONFIG
+                    LoadFuseboxConfig()
+                Case ID_LOG_TRANSFER
+                    LogTransfer_HandleRX()
                 Case Else
                     DisplayStatus("Unknown packet ID", Color.Orange, 3000)
             End Select
         Catch ex As Exception
             ProcessSuccess()
-            'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-            Console.WriteLine(ex.Message)
+        'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+        Console.WriteLine(ex.Message)
         End Try
         ProcessSuccess()
     End Sub
 
     Private Sub ProcessSuccess()
-        DataReady = False
         RXData = {}
         PacketsProcessed += 1
+        RXDataQueue.RemoveAt(0)
+        DataReady -= 1
     End Sub
 
 #End Region
@@ -573,16 +614,34 @@ Public Class Main
     End Sub
 
     Private Sub DisplayCAN_Analytics(ByVal Message As CAN_Message)
+        Dim Load As Single = 0.0
+        Dim RunningBits As Integer = 0
+        Const Bandwidth As Integer = 500000
+        Dim Bits As Integer = 0
+        Const Overhead As Byte = 47
+        Const MaxStuffing As Byte = 19
+        Dim Found As Boolean = False
         For Each Item As ListViewItem In ListView_CAN.Items
+
+            ' Calculate bus load in the same loop
+            Dim MessageBits As Integer = (MaxStuffing * CSng(Item.SubItems(1).Text) / 8.0) + 1 + CInt(Item.SubItems(1).Text) * 8
+            Dim Frequency As Single = 1000 / CInt(Item.SubItems(3).Text)
+            RunningBits += (Overhead + MessageBits) * Frequency
+
             If Item.Text = Convert.ToString(Message.ID, 16) Then
                 ' Update item
                 Item.SubItems(1).Text = Message.Length
                 Item.SubItems(2).Text = HexDump(Message.Data, Message.Length)
                 Item.SubItems(3).Text = Message.CycleTime
                 Item.SubItems(4).Text = Message.Count
-                Exit Sub
+                Found = True
             End If
         Next
+
+        If Found Then
+            GoTo CalculateLoad
+        End If
+
         Dim Tmp As New ListViewItem()
         Tmp.Text = Convert.ToString(Message.ID, 16)
 
@@ -603,6 +662,12 @@ Public Class Main
         Tmp.SubItems.Add(SubItem)
 
         ListView_CAN.Items.Add(Tmp)
+CalculateLoad:
+
+        Load = 100 * RunningBits / Bandwidth
+        If Load < 0 Then Load = 0
+        If Load > 100 Then Load = 100
+        ProgressBar_CAN_Load.Value = Load
     End Sub
 
     Private Sub DisplayTelemetry(ByRef Telemetry As Car_Telemetry)
@@ -1508,4 +1573,121 @@ Public Class Main
             ProcessRX()
         Next
     End Sub
+
+    Private Sub Button_Config_Fusebox_Send_Click(sender As Object, e As EventArgs) Handles Button_Config_Fusebox_Send.Click
+        Dim Conf(7) As Byte
+        Conf(0) = ID_SET_FUSEBOX_CONFIG
+        Conf(1) = If(CheckBox_Config_Fusebox_TelemetryEnabled.Checked, 1, 0)
+        Conf(2) = If(CheckBox_Config_Fusebox_CANForward.Checked, 1, 0)
+        Conf(3) = NumericUpDown_Config_Fusebox_CANInterval.Value
+        Conf(4) = CByte(TextBox_Config_Fusebox_SelectiveSampling.Text)
+        Conf(5) = NumericUpDown_Config_Fusebox_TelemetryTX.Value
+        Conf(6) = NumericUpDown_Config_Fusebox_Telemetry2TX.Value
+        Send(Conf)
+    End Sub
+
+    Private Sub Button_Config_Fusebox_Request_Click(sender As Object, e As EventArgs) Handles Button_Config_Fusebox_Request.Click
+        Send({ID_GET_FUSEBOX_CONFIG})
+    End Sub
+
+#Region "Log Transfer"
+
+    Const LOG_ID_REQUEST_FILE_NAMES As Byte = 0
+    Const LOG_ID_SEND_FILE_NAME As Byte = 1
+    Const LOG_ID_INITIATE_FILE_TRANSFER_REQUEST As Byte = 2
+    Const LOG_ID_ACCEPT_FILE_TRANSFER_REQUEST As Byte = 3
+    Const LOG_ID_DECLINE_FILE_TRANSFER_REQUEST As Byte = 4
+    Const LOG_ID_REQUEST_FILE_PACKET As Byte = 5
+    Const LOG_ID_FILE_PACKET As Byte = 6
+    Const LOG_ID_DECLINE_FILE_PACKET As Byte = 7
+    Const LOG_ID_CANCEL_FILE_TRANSFER_REQUEST As Byte = 8
+    Const LOG_ID_CANCELLED_FILE_TRANSFER As Byte = 9
+
+    Dim WaitingFileNames As Boolean = False
+    Const WaitingFilenamesTimeout As Integer = 200
+    Dim WaitingFilenamesTimeoutCounter As Integer = 0
+    Dim Filenames As New List(Of String)
+
+    Private LogTransferTimer As New Timer
+    Private LogTransferTimerDelegate As New EventHandler(AddressOf LogTransfer)
+
+    Private Sub LogTransfer_AddFilename(ByVal Filename As String)
+        Filenames.Add(Filename)
+        ' Reset timeout counter
+        WaitingFilenamesTimeoutCounter = 0
+    End Sub
+
+    Private Sub LogTransfer_RequestFilenames()
+        Send({ID_LOG_TRANSFER, LOG_ID_REQUEST_FILE_NAMES})
+        WaitingFileNames = True
+    End Sub
+
+    Private Function UnicodeBytesToString(ByVal bytes() As Byte) As String
+        Return System.Text.Encoding.UTF8.GetString(bytes)
+    End Function
+
+    Private Sub LogTransfer_HandleRX()
+        Const StartIndex As Byte = 2
+        Dim Length As Byte = RXData.Length - 2
+        Select Case RXData(StartIndex - 1)
+            Case 0
+                ' This shouldn't exist
+                Exit Sub
+            Case 1
+                Dim Str As String = ""
+                For Index As Integer = 2 To RXData.Length - 1
+                    Str &= Chr(RXData(Index))
+                Next
+                LogTransfer_AddFilename(Str)
+        End Select
+    End Sub
+
+    Private Sub LogTransfer()
+
+        If WaitingFileNames Then
+            If WaitingFilenamesTimeoutCounter > WaitingFilenamesTimeout Then
+                ' Timeout
+                WaitingFileNames = False
+                WaitingFilenamesTimeoutCounter = 0
+                ' Remove the timer handlers
+                LogTransferTimer.Stop()
+                RemoveHandler LogTransferTimer.Tick, LogTransferTimerDelegate
+                ' Display the filenames
+                ListBox_Logging_Logs.Items.Clear()
+                If Filenames.Count > 0 Then
+                    For Each Filename As String In Filenames
+                        ListBox_Logging_Logs.Items.Add(Filename)
+                    Next
+                Else
+                    ListBox_Logging_Logs.Items.Add("No filenames found")
+                End If
+            Else
+                WaitingFilenamesTimeoutCounter += 10
+            End If
+        End If
+
+
+    End Sub
+
+
+    Private Sub Button_Logging_Download_Click(sender As Object, e As EventArgs) Handles Button_Logging_Download.Click
+
+    End Sub
+
+    Private Sub Button_Logging_Reload_Click(sender As Object, e As EventArgs) Handles Button_Logging_Reload.Click
+        RemoveHandler LogTransferTimer.Tick, LogTransferTimerDelegate
+        AddHandler LogTransferTimer.Tick, LogTransferTimerDelegate
+        LogTransferTimer.Interval = 10
+        Filenames.Clear()
+        LogTransfer_RequestFilenames()
+        LogTransferTimer.Start()
+    End Sub
+
+    Private Sub Button_Logging_Delete_Click(sender As Object, e As EventArgs) Handles Button_Logging_Delete.Click
+
+    End Sub
+
+
+#End Region
+
 End Class

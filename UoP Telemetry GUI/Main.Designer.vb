@@ -138,6 +138,7 @@ Partial Class Main
         Me.Label_BMS_VoltageRange = New System.Windows.Forms.Label()
         Me.Chart_BMS = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.TabPage_CAN = New System.Windows.Forms.TabPage()
+        Me.ProgressBar_CAN_Load = New System.Windows.Forms.ProgressBar()
         Me.Button_BrakeStop = New System.Windows.Forms.Button()
         Me.Button_CAN_BuzzerStop = New System.Windows.Forms.Button()
         Me.Button_CAN_BrakeStart = New System.Windows.Forms.Button()
@@ -180,12 +181,27 @@ Partial Class Main
         Me.GroupBox_Config_BackNode = New System.Windows.Forms.GroupBox()
         Me.GroupBox_Config_ECU = New System.Windows.Forms.GroupBox()
         Me.GroupBox_Config_Fusebox = New System.Windows.Forms.GroupBox()
+        Me.Button_Config_Fusebox_Request = New System.Windows.Forms.Button()
+        Me.Button_Config_Fusebox_Send = New System.Windows.Forms.Button()
+        Me.TextBox_Config_Fusebox_SelectiveSampling = New System.Windows.Forms.TextBox()
+        Me.NumericUpDown_Config_Fusebox_Telemetry2TX = New System.Windows.Forms.NumericUpDown()
+        Me.NumericUpDown_Config_Fusebox_TelemetryTX = New System.Windows.Forms.NumericUpDown()
+        Me.NumericUpDown_Config_Fusebox_CANInterval = New System.Windows.Forms.NumericUpDown()
+        Me.CheckBox_Config_Fusebox_CANForward = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled = New System.Windows.Forms.CheckBox()
         Me.TabPage_Logging = New System.Windows.Forms.TabPage()
+        Me.Button_Logging_Reload = New System.Windows.Forms.Button()
+        Me.Button_Logging_Delete = New System.Windows.Forms.Button()
+        Me.Button_Logging_Download = New System.Windows.Forms.Button()
+        Me.Label_Logging_Logs = New System.Windows.Forms.Label()
+        Me.ListBox_Logging_Logs = New System.Windows.Forms.ListBox()
         Me.CheckBox_Logging_Delimiter = New System.Windows.Forms.CheckBox()
         Me.Button_BMSLog_StartStop = New System.Windows.Forms.Button()
         Me.Button_TelemetryLog_StartStop = New System.Windows.Forms.Button()
         Me.CheckBox_AutoStartLog = New System.Windows.Forms.CheckBox()
         Me.TabPage_Admin = New System.Windows.Forms.TabPage()
+        Me.Button_Admin_Process = New System.Windows.Forms.Button()
+        Me.TextBox_Admin_RX = New System.Windows.Forms.TextBox()
         Me.Button_Break = New System.Windows.Forms.Button()
         Me.Button_RandomBMS = New System.Windows.Forms.Button()
         Me.CheckBox_RandomTelemetry = New System.Windows.Forms.CheckBox()
@@ -207,8 +223,6 @@ Partial Class Main
         Me.Timer_RandomTelemetry = New System.Windows.Forms.Timer(Me.components)
         Me.ColorDialog_BMS = New System.Windows.Forms.ColorDialog()
         Me.Timer_Generic = New System.Windows.Forms.Timer(Me.components)
-        Me.TextBox_Admin_RX = New System.Windows.Forms.TextBox()
-        Me.Button_Admin_Process = New System.Windows.Forms.Button()
         Me.StatusStrip.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.TabPage_General.SuspendLayout()
@@ -226,6 +240,10 @@ Partial Class Main
         CType(Me.Chart_BMS, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage_CAN.SuspendLayout()
         Me.TabPage_Configuration.SuspendLayout()
+        Me.GroupBox_Config_Fusebox.SuspendLayout()
+        CType(Me.NumericUpDown_Config_Fusebox_Telemetry2TX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown_Config_Fusebox_TelemetryTX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown_Config_Fusebox_CANInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage_Logging.SuspendLayout()
         Me.TabPage_Admin.SuspendLayout()
         Me.TabPage_Connection.SuspendLayout()
@@ -289,7 +307,7 @@ Partial Class Main
         'Timer_Serial
         '
         Me.Timer_Serial.Enabled = True
-        Me.Timer_Serial.Interval = 10
+        Me.Timer_Serial.Interval = 1
         '
         'Timer_SendQueue
         '
@@ -1041,6 +1059,7 @@ Partial Class Main
         Series1.LegendToolTip = "The position of the throttle pedal"
         Series1.Name = "Series_Throttle"
         Series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series2.BorderWidth = 3
         Series2.ChartArea = "ChartArea_Pedals"
         Series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1051,6 +1070,7 @@ Partial Class Main
         Series2.Name = "Series_BrakeFront"
         Series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
         Series2.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series3.BorderWidth = 3
         Series3.ChartArea = "ChartArea_Pedals"
         Series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1061,6 +1081,7 @@ Partial Class Main
         Series3.Name = "Series_BrakeRear"
         Series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
         Series3.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series4.BorderWidth = 3
         Series4.ChartArea = "ChartArea_Temps2"
         Series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1070,6 +1091,7 @@ Partial Class Main
         Series4.LegendToolTip = "The input temperature of the coolant"
         Series4.Name = "Series_CoolantIn"
         Series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series5.BorderWidth = 3
         Series5.ChartArea = "ChartArea_Temps2"
         Series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1079,6 +1101,7 @@ Partial Class Main
         Series5.LegendToolTip = "The output temperature of the coolant"
         Series5.Name = "Series_CoolantOut"
         Series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series5.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series6.BorderWidth = 3
         Series6.ChartArea = "ChartArea_Temps2"
         Series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1089,6 +1112,7 @@ Partial Class Main
         Series6.Name = "Series_BrakeLeft"
         Series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
         Series6.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series6.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series7.BorderWidth = 3
         Series7.ChartArea = "ChartArea_Temps2"
         Series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1099,6 +1123,7 @@ Partial Class Main
         Series7.Name = "Series_BrakeRight"
         Series7.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
         Series7.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series7.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series8.BorderWidth = 3
         Series8.ChartArea = "ChartArea_Temps"
         Series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1107,6 +1132,7 @@ Partial Class Main
         Series8.LegendToolTip = "The temperature of the gearbox"
         Series8.Name = "Series_GearboxTemp"
         Series8.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series8.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series9.BorderWidth = 3
         Series9.ChartArea = "ChartArea_Temps"
         Series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1115,6 +1141,7 @@ Partial Class Main
         Series9.LegendToolTip = "The temperature of the motor"
         Series9.Name = "Series_MotorTemp"
         Series9.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series9.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series10.BorderWidth = 3
         Series10.ChartArea = "ChartArea_Temps"
         Series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1124,6 +1151,7 @@ Partial Class Main
         Series10.Name = "Series_IGBTTemp"
         Series10.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
         Series10.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series10.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.UInt32
         Series11.BorderWidth = 3
         Series11.ChartArea = "ChartArea_RPM"
         Series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1132,6 +1160,7 @@ Partial Class Main
         Series11.LegendToolTip = "The RPM of the front left wheel"
         Series11.Name = "Series_FrontLeftRPM"
         Series11.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series11.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32
         Series12.BorderWidth = 3
         Series12.ChartArea = "ChartArea_RPM"
         Series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1140,6 +1169,7 @@ Partial Class Main
         Series12.LegendToolTip = "The RPM of the front right wheel"
         Series12.Name = "Series_FrontRightRPM"
         Series12.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series12.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32
         Series13.BorderWidth = 3
         Series13.ChartArea = "ChartArea_RPM"
         Series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
@@ -1149,6 +1179,7 @@ Partial Class Main
         Series13.Name = "Series_RPM"
         Series13.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
         Series13.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary
+        Series13.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32
         Me.Chart.Series.Add(Series1)
         Me.Chart.Series.Add(Series2)
         Me.Chart.Series.Add(Series3)
@@ -1396,6 +1427,7 @@ Partial Class Main
         '
         'TabPage_CAN
         '
+        Me.TabPage_CAN.Controls.Add(Me.ProgressBar_CAN_Load)
         Me.TabPage_CAN.Controls.Add(Me.Button_BrakeStop)
         Me.TabPage_CAN.Controls.Add(Me.Button_CAN_BuzzerStop)
         Me.TabPage_CAN.Controls.Add(Me.Button_CAN_BrakeStart)
@@ -1434,6 +1466,13 @@ Partial Class Main
         Me.TabPage_CAN.TabIndex = 3
         Me.TabPage_CAN.Text = "CAN"
         Me.TabPage_CAN.UseVisualStyleBackColor = True
+        '
+        'ProgressBar_CAN_Load
+        '
+        Me.ProgressBar_CAN_Load.Location = New System.Drawing.Point(87, 3)
+        Me.ProgressBar_CAN_Load.Name = "ProgressBar_CAN_Load"
+        Me.ProgressBar_CAN_Load.Size = New System.Drawing.Size(382, 13)
+        Me.ProgressBar_CAN_Load.TabIndex = 63
         '
         'Button_BrakeStop
         '
@@ -1787,7 +1826,7 @@ Partial Class Main
         '
         'GroupBox_Config_BMS
         '
-        Me.GroupBox_Config_BMS.Location = New System.Drawing.Point(699, 344)
+        Me.GroupBox_Config_BMS.Location = New System.Drawing.Point(1127, 196)
         Me.GroupBox_Config_BMS.Name = "GroupBox_Config_BMS"
         Me.GroupBox_Config_BMS.Size = New System.Drawing.Size(200, 100)
         Me.GroupBox_Config_BMS.TabIndex = 4
@@ -1796,7 +1835,7 @@ Partial Class Main
         '
         'GroupBox_Config_FrontNode
         '
-        Me.GroupBox_Config_FrontNode.Location = New System.Drawing.Point(147, 344)
+        Me.GroupBox_Config_FrontNode.Location = New System.Drawing.Point(1127, 34)
         Me.GroupBox_Config_FrontNode.Name = "GroupBox_Config_FrontNode"
         Me.GroupBox_Config_FrontNode.Size = New System.Drawing.Size(200, 100)
         Me.GroupBox_Config_FrontNode.TabIndex = 3
@@ -1805,7 +1844,7 @@ Partial Class Main
         '
         'GroupBox_Config_BackNode
         '
-        Me.GroupBox_Config_BackNode.Location = New System.Drawing.Point(423, 344)
+        Me.GroupBox_Config_BackNode.Location = New System.Drawing.Point(851, 196)
         Me.GroupBox_Config_BackNode.Name = "GroupBox_Config_BackNode"
         Me.GroupBox_Config_BackNode.Size = New System.Drawing.Size(200, 100)
         Me.GroupBox_Config_BackNode.TabIndex = 2
@@ -1814,7 +1853,7 @@ Partial Class Main
         '
         'GroupBox_Config_ECU
         '
-        Me.GroupBox_Config_ECU.Location = New System.Drawing.Point(423, 182)
+        Me.GroupBox_Config_ECU.Location = New System.Drawing.Point(851, 34)
         Me.GroupBox_Config_ECU.Name = "GroupBox_Config_ECU"
         Me.GroupBox_Config_ECU.Size = New System.Drawing.Size(200, 100)
         Me.GroupBox_Config_ECU.TabIndex = 1
@@ -1823,15 +1862,103 @@ Partial Class Main
         '
         'GroupBox_Config_Fusebox
         '
-        Me.GroupBox_Config_Fusebox.Location = New System.Drawing.Point(147, 182)
+        Me.GroupBox_Config_Fusebox.Controls.Add(Me.Button_Config_Fusebox_Request)
+        Me.GroupBox_Config_Fusebox.Controls.Add(Me.Button_Config_Fusebox_Send)
+        Me.GroupBox_Config_Fusebox.Controls.Add(Me.TextBox_Config_Fusebox_SelectiveSampling)
+        Me.GroupBox_Config_Fusebox.Controls.Add(Me.NumericUpDown_Config_Fusebox_Telemetry2TX)
+        Me.GroupBox_Config_Fusebox.Controls.Add(Me.NumericUpDown_Config_Fusebox_TelemetryTX)
+        Me.GroupBox_Config_Fusebox.Controls.Add(Me.NumericUpDown_Config_Fusebox_CANInterval)
+        Me.GroupBox_Config_Fusebox.Controls.Add(Me.CheckBox_Config_Fusebox_CANForward)
+        Me.GroupBox_Config_Fusebox.Controls.Add(Me.CheckBox_Config_Fusebox_TelemetryEnabled)
+        Me.GroupBox_Config_Fusebox.Location = New System.Drawing.Point(180, 129)
         Me.GroupBox_Config_Fusebox.Name = "GroupBox_Config_Fusebox"
-        Me.GroupBox_Config_Fusebox.Size = New System.Drawing.Size(200, 100)
+        Me.GroupBox_Config_Fusebox.Size = New System.Drawing.Size(463, 348)
         Me.GroupBox_Config_Fusebox.TabIndex = 0
         Me.GroupBox_Config_Fusebox.TabStop = False
         Me.GroupBox_Config_Fusebox.Text = "Fusebox"
         '
+        'Button_Config_Fusebox_Request
+        '
+        Me.Button_Config_Fusebox_Request.Location = New System.Drawing.Point(264, 250)
+        Me.Button_Config_Fusebox_Request.Name = "Button_Config_Fusebox_Request"
+        Me.Button_Config_Fusebox_Request.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Config_Fusebox_Request.TabIndex = 8
+        Me.Button_Config_Fusebox_Request.Text = "Request"
+        Me.Button_Config_Fusebox_Request.UseVisualStyleBackColor = True
+        '
+        'Button_Config_Fusebox_Send
+        '
+        Me.Button_Config_Fusebox_Send.Location = New System.Drawing.Point(264, 221)
+        Me.Button_Config_Fusebox_Send.Name = "Button_Config_Fusebox_Send"
+        Me.Button_Config_Fusebox_Send.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Config_Fusebox_Send.TabIndex = 7
+        Me.Button_Config_Fusebox_Send.Text = "Send"
+        Me.Button_Config_Fusebox_Send.UseVisualStyleBackColor = True
+        '
+        'TextBox_Config_Fusebox_SelectiveSampling
+        '
+        Me.TextBox_Config_Fusebox_SelectiveSampling.Location = New System.Drawing.Point(69, 147)
+        Me.TextBox_Config_Fusebox_SelectiveSampling.Name = "TextBox_Config_Fusebox_SelectiveSampling"
+        Me.TextBox_Config_Fusebox_SelectiveSampling.Size = New System.Drawing.Size(133, 20)
+        Me.TextBox_Config_Fusebox_SelectiveSampling.TabIndex = 5
+        Me.TextBox_Config_Fusebox_SelectiveSampling.Text = "127"
+        '
+        'NumericUpDown_Config_Fusebox_Telemetry2TX
+        '
+        Me.NumericUpDown_Config_Fusebox_Telemetry2TX.Location = New System.Drawing.Point(69, 198)
+        Me.NumericUpDown_Config_Fusebox_Telemetry2TX.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
+        Me.NumericUpDown_Config_Fusebox_Telemetry2TX.Name = "NumericUpDown_Config_Fusebox_Telemetry2TX"
+        Me.NumericUpDown_Config_Fusebox_Telemetry2TX.Size = New System.Drawing.Size(120, 20)
+        Me.NumericUpDown_Config_Fusebox_Telemetry2TX.TabIndex = 4
+        Me.NumericUpDown_Config_Fusebox_Telemetry2TX.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'NumericUpDown_Config_Fusebox_TelemetryTX
+        '
+        Me.NumericUpDown_Config_Fusebox_TelemetryTX.Location = New System.Drawing.Point(69, 172)
+        Me.NumericUpDown_Config_Fusebox_TelemetryTX.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
+        Me.NumericUpDown_Config_Fusebox_TelemetryTX.Name = "NumericUpDown_Config_Fusebox_TelemetryTX"
+        Me.NumericUpDown_Config_Fusebox_TelemetryTX.Size = New System.Drawing.Size(120, 20)
+        Me.NumericUpDown_Config_Fusebox_TelemetryTX.TabIndex = 3
+        Me.NumericUpDown_Config_Fusebox_TelemetryTX.Value = New Decimal(New Integer() {20, 0, 0, 0})
+        '
+        'NumericUpDown_Config_Fusebox_CANInterval
+        '
+        Me.NumericUpDown_Config_Fusebox_CANInterval.Location = New System.Drawing.Point(69, 122)
+        Me.NumericUpDown_Config_Fusebox_CANInterval.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
+        Me.NumericUpDown_Config_Fusebox_CANInterval.Name = "NumericUpDown_Config_Fusebox_CANInterval"
+        Me.NumericUpDown_Config_Fusebox_CANInterval.Size = New System.Drawing.Size(120, 20)
+        Me.NumericUpDown_Config_Fusebox_CANInterval.TabIndex = 2
+        Me.NumericUpDown_Config_Fusebox_CANInterval.Value = New Decimal(New Integer() {250, 0, 0, 0})
+        '
+        'CheckBox_Config_Fusebox_CANForward
+        '
+        Me.CheckBox_Config_Fusebox_CANForward.AutoSize = True
+        Me.CheckBox_Config_Fusebox_CANForward.Location = New System.Drawing.Point(69, 99)
+        Me.CheckBox_Config_Fusebox_CANForward.Name = "CheckBox_Config_Fusebox_CANForward"
+        Me.CheckBox_Config_Fusebox_CANForward.Size = New System.Drawing.Size(48, 17)
+        Me.CheckBox_Config_Fusebox_CANForward.TabIndex = 1
+        Me.CheckBox_Config_Fusebox_CANForward.Text = "CAN"
+        Me.CheckBox_Config_Fusebox_CANForward.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Config_Fusebox_TelemetryEnabled
+        '
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled.AutoSize = True
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled.Checked = True
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled.Location = New System.Drawing.Point(69, 76)
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled.Name = "CheckBox_Config_Fusebox_TelemetryEnabled"
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled.Size = New System.Drawing.Size(72, 17)
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled.TabIndex = 0
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled.Text = "Telemetry"
+        Me.CheckBox_Config_Fusebox_TelemetryEnabled.UseVisualStyleBackColor = True
+        '
         'TabPage_Logging
         '
+        Me.TabPage_Logging.Controls.Add(Me.Button_Logging_Reload)
+        Me.TabPage_Logging.Controls.Add(Me.Button_Logging_Delete)
+        Me.TabPage_Logging.Controls.Add(Me.Button_Logging_Download)
+        Me.TabPage_Logging.Controls.Add(Me.Label_Logging_Logs)
+        Me.TabPage_Logging.Controls.Add(Me.ListBox_Logging_Logs)
         Me.TabPage_Logging.Controls.Add(Me.CheckBox_Logging_Delimiter)
         Me.TabPage_Logging.Controls.Add(Me.Button_BMSLog_StartStop)
         Me.TabPage_Logging.Controls.Add(Me.Button_TelemetryLog_StartStop)
@@ -1843,6 +1970,50 @@ Partial Class Main
         Me.TabPage_Logging.TabIndex = 5
         Me.TabPage_Logging.Text = "Logging"
         Me.TabPage_Logging.UseVisualStyleBackColor = True
+        '
+        'Button_Logging_Reload
+        '
+        Me.Button_Logging_Reload.Location = New System.Drawing.Point(901, 364)
+        Me.Button_Logging_Reload.Name = "Button_Logging_Reload"
+        Me.Button_Logging_Reload.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Logging_Reload.TabIndex = 49
+        Me.Button_Logging_Reload.Text = "Reload"
+        Me.Button_Logging_Reload.UseVisualStyleBackColor = True
+        '
+        'Button_Logging_Delete
+        '
+        Me.Button_Logging_Delete.Location = New System.Drawing.Point(901, 335)
+        Me.Button_Logging_Delete.Name = "Button_Logging_Delete"
+        Me.Button_Logging_Delete.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Logging_Delete.TabIndex = 48
+        Me.Button_Logging_Delete.Text = "Delete"
+        Me.Button_Logging_Delete.UseVisualStyleBackColor = True
+        '
+        'Button_Logging_Download
+        '
+        Me.Button_Logging_Download.Location = New System.Drawing.Point(901, 306)
+        Me.Button_Logging_Download.Name = "Button_Logging_Download"
+        Me.Button_Logging_Download.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Logging_Download.TabIndex = 47
+        Me.Button_Logging_Download.Text = "Download"
+        Me.Button_Logging_Download.UseVisualStyleBackColor = True
+        '
+        'Label_Logging_Logs
+        '
+        Me.Label_Logging_Logs.AutoSize = True
+        Me.Label_Logging_Logs.Location = New System.Drawing.Point(381, 132)
+        Me.Label_Logging_Logs.Name = "Label_Logging_Logs"
+        Me.Label_Logging_Logs.Size = New System.Drawing.Size(79, 13)
+        Me.Label_Logging_Logs.TabIndex = 46
+        Me.Label_Logging_Logs.Text = "Available Logs:"
+        '
+        'ListBox_Logging_Logs
+        '
+        Me.ListBox_Logging_Logs.FormattingEnabled = True
+        Me.ListBox_Logging_Logs.Location = New System.Drawing.Point(384, 148)
+        Me.ListBox_Logging_Logs.Name = "ListBox_Logging_Logs"
+        Me.ListBox_Logging_Logs.Size = New System.Drawing.Size(323, 368)
+        Me.ListBox_Logging_Logs.TabIndex = 45
         '
         'CheckBox_Logging_Delimiter
         '
@@ -1904,6 +2075,22 @@ Partial Class Main
         Me.TabPage_Admin.TabIndex = 1
         Me.TabPage_Admin.Text = "Admin"
         Me.TabPage_Admin.UseVisualStyleBackColor = True
+        '
+        'Button_Admin_Process
+        '
+        Me.Button_Admin_Process.Location = New System.Drawing.Point(642, 365)
+        Me.Button_Admin_Process.Name = "Button_Admin_Process"
+        Me.Button_Admin_Process.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Admin_Process.TabIndex = 47
+        Me.Button_Admin_Process.Text = "Process RX"
+        Me.Button_Admin_Process.UseVisualStyleBackColor = True
+        '
+        'TextBox_Admin_RX
+        '
+        Me.TextBox_Admin_RX.Location = New System.Drawing.Point(62, 339)
+        Me.TextBox_Admin_RX.Name = "TextBox_Admin_RX"
+        Me.TextBox_Admin_RX.Size = New System.Drawing.Size(655, 20)
+        Me.TextBox_Admin_RX.TabIndex = 46
         '
         'Button_Break
         '
@@ -2078,22 +2265,6 @@ Partial Class Main
         Me.ColorDialog_BMS.AnyColor = True
         Me.ColorDialog_BMS.FullOpen = True
         '
-        'TextBox_Admin_RX
-        '
-        Me.TextBox_Admin_RX.Location = New System.Drawing.Point(62, 339)
-        Me.TextBox_Admin_RX.Name = "TextBox_Admin_RX"
-        Me.TextBox_Admin_RX.Size = New System.Drawing.Size(655, 20)
-        Me.TextBox_Admin_RX.TabIndex = 46
-        '
-        'Button_Admin_Process
-        '
-        Me.Button_Admin_Process.Location = New System.Drawing.Point(642, 365)
-        Me.Button_Admin_Process.Name = "Button_Admin_Process"
-        Me.Button_Admin_Process.Size = New System.Drawing.Size(75, 23)
-        Me.Button_Admin_Process.TabIndex = 47
-        Me.Button_Admin_Process.Text = "Process RX"
-        Me.Button_Admin_Process.UseVisualStyleBackColor = True
-        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2127,6 +2298,11 @@ Partial Class Main
         Me.TabPage_CAN.ResumeLayout(False)
         Me.TabPage_CAN.PerformLayout()
         Me.TabPage_Configuration.ResumeLayout(False)
+        Me.GroupBox_Config_Fusebox.ResumeLayout(False)
+        Me.GroupBox_Config_Fusebox.PerformLayout()
+        CType(Me.NumericUpDown_Config_Fusebox_Telemetry2TX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_Config_Fusebox_TelemetryTX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown_Config_Fusebox_CANInterval, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage_Logging.ResumeLayout(False)
         Me.TabPage_Logging.PerformLayout()
         Me.TabPage_Admin.ResumeLayout(False)
@@ -2286,4 +2462,18 @@ Partial Class Main
     Friend WithEvents ColumnHeader8 As ColumnHeader
     Friend WithEvents Button_Admin_Process As Button
     Friend WithEvents TextBox_Admin_RX As TextBox
+    Friend WithEvents Button_Config_Fusebox_Send As Button
+    Friend WithEvents TextBox_Config_Fusebox_SelectiveSampling As TextBox
+    Friend WithEvents NumericUpDown_Config_Fusebox_Telemetry2TX As NumericUpDown
+    Friend WithEvents NumericUpDown_Config_Fusebox_TelemetryTX As NumericUpDown
+    Friend WithEvents NumericUpDown_Config_Fusebox_CANInterval As NumericUpDown
+    Friend WithEvents CheckBox_Config_Fusebox_CANForward As CheckBox
+    Friend WithEvents CheckBox_Config_Fusebox_TelemetryEnabled As CheckBox
+    Friend WithEvents Button_Config_Fusebox_Request As Button
+    Friend WithEvents ProgressBar_CAN_Load As ProgressBar
+    Friend WithEvents Button_Logging_Reload As Button
+    Friend WithEvents Button_Logging_Delete As Button
+    Friend WithEvents Button_Logging_Download As Button
+    Friend WithEvents Label_Logging_Logs As Label
+    Friend WithEvents ListBox_Logging_Logs As ListBox
 End Class
