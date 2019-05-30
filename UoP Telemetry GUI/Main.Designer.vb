@@ -164,7 +164,6 @@ Partial Class Main
         Me.TextBox_CAN_Byte0 = New System.Windows.Forms.TextBox()
         Me.TextBox_CAN_MessageID = New System.Windows.Forms.TextBox()
         Me.Label_CAN_MessageID = New System.Windows.Forms.Label()
-        Me.Label_CAN_Outcoming = New System.Windows.Forms.Label()
         Me.Label_CAN_Incoming = New System.Windows.Forms.Label()
         Me.RadioButton_CAN_Hex = New System.Windows.Forms.RadioButton()
         Me.RadioButton_CAN_Decimal = New System.Windows.Forms.RadioButton()
@@ -223,6 +222,7 @@ Partial Class Main
         Me.Timer_RandomTelemetry = New System.Windows.Forms.Timer(Me.components)
         Me.ColorDialog_BMS = New System.Windows.Forms.ColorDialog()
         Me.Timer_Generic = New System.Windows.Forms.Timer(Me.components)
+        Me.GroupBox_CAN_Outcoming = New System.Windows.Forms.GroupBox()
         Me.StatusStrip.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.TabPage_General.SuspendLayout()
@@ -248,6 +248,7 @@ Partial Class Main
         Me.TabPage_Admin.SuspendLayout()
         Me.TabPage_Connection.SuspendLayout()
         Me.GroupBox_Connection.SuspendLayout()
+        Me.GroupBox_CAN_Outcoming.SuspendLayout()
         Me.SuspendLayout()
         '
         'StatusStrip
@@ -1427,37 +1428,9 @@ Partial Class Main
         '
         'TabPage_CAN
         '
+        Me.TabPage_CAN.Controls.Add(Me.GroupBox_CAN_Outcoming)
         Me.TabPage_CAN.Controls.Add(Me.ProgressBar_CAN_Load)
-        Me.TabPage_CAN.Controls.Add(Me.Button_BrakeStop)
-        Me.TabPage_CAN.Controls.Add(Me.Button_CAN_BuzzerStop)
-        Me.TabPage_CAN.Controls.Add(Me.Button_CAN_BrakeStart)
-        Me.TabPage_CAN.Controls.Add(Me.Button_CAN_BuzzerStart)
-        Me.TabPage_CAN.Controls.Add(Me.CheckBox_CAN_Warn)
-        Me.TabPage_CAN.Controls.Add(Me.Button_CAN_Send)
-        Me.TabPage_CAN.Controls.Add(Me.Button_CAN_Clear)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte7)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte6)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte2)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte5)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte4)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte3)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte1)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Byte0)
-        Me.TabPage_CAN.Controls.Add(Me.TextBox_CAN_Byte7)
-        Me.TabPage_CAN.Controls.Add(Me.TextBox_CAN_Byte6)
-        Me.TabPage_CAN.Controls.Add(Me.TextBox_CAN_Byte5)
-        Me.TabPage_CAN.Controls.Add(Me.TextBox_CAN_Byte4)
-        Me.TabPage_CAN.Controls.Add(Me.TextBox_CAN_Byte3)
-        Me.TabPage_CAN.Controls.Add(Me.TextBox_CAN_Byte2)
-        Me.TabPage_CAN.Controls.Add(Me.TextBox_CAN_Byte1)
-        Me.TabPage_CAN.Controls.Add(Me.TextBox_CAN_Byte0)
-        Me.TabPage_CAN.Controls.Add(Me.TextBox_CAN_MessageID)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_MessageID)
-        Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Outcoming)
         Me.TabPage_CAN.Controls.Add(Me.Label_CAN_Incoming)
-        Me.TabPage_CAN.Controls.Add(Me.RadioButton_CAN_Hex)
-        Me.TabPage_CAN.Controls.Add(Me.RadioButton_CAN_Decimal)
-        Me.TabPage_CAN.Controls.Add(Me.RadioButton_CAN_Binary)
         Me.TabPage_CAN.Controls.Add(Me.ListView_CAN)
         Me.TabPage_CAN.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_CAN.Name = "TabPage_CAN"
@@ -1476,7 +1449,7 @@ Partial Class Main
         '
         'Button_BrakeStop
         '
-        Me.Button_BrakeStop.Location = New System.Drawing.Point(975, 234)
+        Me.Button_BrakeStop.Location = New System.Drawing.Point(490, 231)
         Me.Button_BrakeStop.Name = "Button_BrakeStop"
         Me.Button_BrakeStop.Size = New System.Drawing.Size(85, 23)
         Me.Button_BrakeStop.TabIndex = 62
@@ -1485,7 +1458,7 @@ Partial Class Main
         '
         'Button_CAN_BuzzerStop
         '
-        Me.Button_CAN_BuzzerStop.Location = New System.Drawing.Point(975, 126)
+        Me.Button_CAN_BuzzerStop.Location = New System.Drawing.Point(490, 123)
         Me.Button_CAN_BuzzerStop.Name = "Button_CAN_BuzzerStop"
         Me.Button_CAN_BuzzerStop.Size = New System.Drawing.Size(85, 23)
         Me.Button_CAN_BuzzerStop.TabIndex = 61
@@ -1494,7 +1467,7 @@ Partial Class Main
         '
         'Button_CAN_BrakeStart
         '
-        Me.Button_CAN_BrakeStart.Location = New System.Drawing.Point(975, 188)
+        Me.Button_CAN_BrakeStart.Location = New System.Drawing.Point(490, 185)
         Me.Button_CAN_BrakeStart.Name = "Button_CAN_BrakeStart"
         Me.Button_CAN_BrakeStart.Size = New System.Drawing.Size(85, 23)
         Me.Button_CAN_BrakeStart.TabIndex = 60
@@ -1503,7 +1476,7 @@ Partial Class Main
         '
         'Button_CAN_BuzzerStart
         '
-        Me.Button_CAN_BuzzerStart.Location = New System.Drawing.Point(975, 81)
+        Me.Button_CAN_BuzzerStart.Location = New System.Drawing.Point(490, 78)
         Me.Button_CAN_BuzzerStart.Name = "Button_CAN_BuzzerStart"
         Me.Button_CAN_BuzzerStart.Size = New System.Drawing.Size(85, 23)
         Me.Button_CAN_BuzzerStart.TabIndex = 58
@@ -1516,7 +1489,7 @@ Partial Class Main
         Me.CheckBox_CAN_Warn.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Warn
         Me.CheckBox_CAN_Warn.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox_CAN_Warn.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Warn", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.CheckBox_CAN_Warn.Location = New System.Drawing.Point(648, 240)
+        Me.CheckBox_CAN_Warn.Location = New System.Drawing.Point(163, 237)
         Me.CheckBox_CAN_Warn.Name = "CheckBox_CAN_Warn"
         Me.CheckBox_CAN_Warn.RightToLeft = System.Windows.Forms.RightToLeft.Yes
         Me.CheckBox_CAN_Warn.Size = New System.Drawing.Size(52, 17)
@@ -1526,7 +1499,7 @@ Partial Class Main
         '
         'Button_CAN_Send
         '
-        Me.Button_CAN_Send.Location = New System.Drawing.Point(617, 257)
+        Me.Button_CAN_Send.Location = New System.Drawing.Point(132, 254)
         Me.Button_CAN_Send.Name = "Button_CAN_Send"
         Me.Button_CAN_Send.Size = New System.Drawing.Size(93, 23)
         Me.Button_CAN_Send.TabIndex = 56
@@ -1535,7 +1508,7 @@ Partial Class Main
         '
         'Button_CAN_Clear
         '
-        Me.Button_CAN_Clear.Location = New System.Drawing.Point(634, 217)
+        Me.Button_CAN_Clear.Location = New System.Drawing.Point(149, 214)
         Me.Button_CAN_Clear.Name = "Button_CAN_Clear"
         Me.Button_CAN_Clear.Size = New System.Drawing.Size(76, 23)
         Me.Button_CAN_Clear.TabIndex = 55
@@ -1545,7 +1518,7 @@ Partial Class Main
         'Label_CAN_Byte7
         '
         Me.Label_CAN_Byte7.AutoSize = True
-        Me.Label_CAN_Byte7.Location = New System.Drawing.Point(597, 175)
+        Me.Label_CAN_Byte7.Location = New System.Drawing.Point(112, 172)
         Me.Label_CAN_Byte7.Name = "Label_CAN_Byte7"
         Me.Label_CAN_Byte7.Size = New System.Drawing.Size(40, 13)
         Me.Label_CAN_Byte7.TabIndex = 51
@@ -1554,7 +1527,7 @@ Partial Class Main
         'Label_CAN_Byte6
         '
         Me.Label_CAN_Byte6.AutoSize = True
-        Me.Label_CAN_Byte6.Location = New System.Drawing.Point(491, 175)
+        Me.Label_CAN_Byte6.Location = New System.Drawing.Point(6, 172)
         Me.Label_CAN_Byte6.Name = "Label_CAN_Byte6"
         Me.Label_CAN_Byte6.Size = New System.Drawing.Size(40, 13)
         Me.Label_CAN_Byte6.TabIndex = 50
@@ -1563,7 +1536,7 @@ Partial Class Main
         'Label_CAN_Byte2
         '
         Me.Label_CAN_Byte2.AutoSize = True
-        Me.Label_CAN_Byte2.Location = New System.Drawing.Point(491, 97)
+        Me.Label_CAN_Byte2.Location = New System.Drawing.Point(6, 94)
         Me.Label_CAN_Byte2.Name = "Label_CAN_Byte2"
         Me.Label_CAN_Byte2.Size = New System.Drawing.Size(40, 13)
         Me.Label_CAN_Byte2.TabIndex = 49
@@ -1572,7 +1545,7 @@ Partial Class Main
         'Label_CAN_Byte5
         '
         Me.Label_CAN_Byte5.AutoSize = True
-        Me.Label_CAN_Byte5.Location = New System.Drawing.Point(597, 136)
+        Me.Label_CAN_Byte5.Location = New System.Drawing.Point(112, 133)
         Me.Label_CAN_Byte5.Name = "Label_CAN_Byte5"
         Me.Label_CAN_Byte5.Size = New System.Drawing.Size(40, 13)
         Me.Label_CAN_Byte5.TabIndex = 48
@@ -1581,7 +1554,7 @@ Partial Class Main
         'Label_CAN_Byte4
         '
         Me.Label_CAN_Byte4.AutoSize = True
-        Me.Label_CAN_Byte4.Location = New System.Drawing.Point(491, 136)
+        Me.Label_CAN_Byte4.Location = New System.Drawing.Point(6, 133)
         Me.Label_CAN_Byte4.Name = "Label_CAN_Byte4"
         Me.Label_CAN_Byte4.Size = New System.Drawing.Size(40, 13)
         Me.Label_CAN_Byte4.TabIndex = 47
@@ -1590,7 +1563,7 @@ Partial Class Main
         'Label_CAN_Byte3
         '
         Me.Label_CAN_Byte3.AutoSize = True
-        Me.Label_CAN_Byte3.Location = New System.Drawing.Point(597, 97)
+        Me.Label_CAN_Byte3.Location = New System.Drawing.Point(112, 94)
         Me.Label_CAN_Byte3.Name = "Label_CAN_Byte3"
         Me.Label_CAN_Byte3.Size = New System.Drawing.Size(40, 13)
         Me.Label_CAN_Byte3.TabIndex = 46
@@ -1599,7 +1572,7 @@ Partial Class Main
         'Label_CAN_Byte1
         '
         Me.Label_CAN_Byte1.AutoSize = True
-        Me.Label_CAN_Byte1.Location = New System.Drawing.Point(597, 58)
+        Me.Label_CAN_Byte1.Location = New System.Drawing.Point(112, 55)
         Me.Label_CAN_Byte1.Name = "Label_CAN_Byte1"
         Me.Label_CAN_Byte1.Size = New System.Drawing.Size(40, 13)
         Me.Label_CAN_Byte1.TabIndex = 45
@@ -1608,7 +1581,7 @@ Partial Class Main
         'Label_CAN_Byte0
         '
         Me.Label_CAN_Byte0.AutoSize = True
-        Me.Label_CAN_Byte0.Location = New System.Drawing.Point(491, 58)
+        Me.Label_CAN_Byte0.Location = New System.Drawing.Point(6, 55)
         Me.Label_CAN_Byte0.Name = "Label_CAN_Byte0"
         Me.Label_CAN_Byte0.Size = New System.Drawing.Size(40, 13)
         Me.Label_CAN_Byte0.TabIndex = 44
@@ -1616,7 +1589,7 @@ Partial Class Main
         '
         'TextBox_CAN_Byte7
         '
-        Me.TextBox_CAN_Byte7.Location = New System.Drawing.Point(600, 191)
+        Me.TextBox_CAN_Byte7.Location = New System.Drawing.Point(115, 188)
         Me.TextBox_CAN_Byte7.MaxLength = 3
         Me.TextBox_CAN_Byte7.Name = "TextBox_CAN_Byte7"
         Me.TextBox_CAN_Byte7.Size = New System.Drawing.Size(110, 20)
@@ -1626,7 +1599,7 @@ Partial Class Main
         '
         'TextBox_CAN_Byte6
         '
-        Me.TextBox_CAN_Byte6.Location = New System.Drawing.Point(494, 191)
+        Me.TextBox_CAN_Byte6.Location = New System.Drawing.Point(9, 188)
         Me.TextBox_CAN_Byte6.MaxLength = 3
         Me.TextBox_CAN_Byte6.Name = "TextBox_CAN_Byte6"
         Me.TextBox_CAN_Byte6.Size = New System.Drawing.Size(110, 20)
@@ -1636,7 +1609,7 @@ Partial Class Main
         '
         'TextBox_CAN_Byte5
         '
-        Me.TextBox_CAN_Byte5.Location = New System.Drawing.Point(600, 152)
+        Me.TextBox_CAN_Byte5.Location = New System.Drawing.Point(115, 149)
         Me.TextBox_CAN_Byte5.MaxLength = 3
         Me.TextBox_CAN_Byte5.Name = "TextBox_CAN_Byte5"
         Me.TextBox_CAN_Byte5.Size = New System.Drawing.Size(110, 20)
@@ -1646,7 +1619,7 @@ Partial Class Main
         '
         'TextBox_CAN_Byte4
         '
-        Me.TextBox_CAN_Byte4.Location = New System.Drawing.Point(494, 152)
+        Me.TextBox_CAN_Byte4.Location = New System.Drawing.Point(9, 149)
         Me.TextBox_CAN_Byte4.MaxLength = 3
         Me.TextBox_CAN_Byte4.Name = "TextBox_CAN_Byte4"
         Me.TextBox_CAN_Byte4.Size = New System.Drawing.Size(110, 20)
@@ -1656,7 +1629,7 @@ Partial Class Main
         '
         'TextBox_CAN_Byte3
         '
-        Me.TextBox_CAN_Byte3.Location = New System.Drawing.Point(600, 113)
+        Me.TextBox_CAN_Byte3.Location = New System.Drawing.Point(115, 110)
         Me.TextBox_CAN_Byte3.MaxLength = 3
         Me.TextBox_CAN_Byte3.Name = "TextBox_CAN_Byte3"
         Me.TextBox_CAN_Byte3.Size = New System.Drawing.Size(110, 20)
@@ -1666,7 +1639,7 @@ Partial Class Main
         '
         'TextBox_CAN_Byte2
         '
-        Me.TextBox_CAN_Byte2.Location = New System.Drawing.Point(494, 113)
+        Me.TextBox_CAN_Byte2.Location = New System.Drawing.Point(9, 110)
         Me.TextBox_CAN_Byte2.MaxLength = 3
         Me.TextBox_CAN_Byte2.Name = "TextBox_CAN_Byte2"
         Me.TextBox_CAN_Byte2.Size = New System.Drawing.Size(110, 20)
@@ -1676,7 +1649,7 @@ Partial Class Main
         '
         'TextBox_CAN_Byte1
         '
-        Me.TextBox_CAN_Byte1.Location = New System.Drawing.Point(600, 74)
+        Me.TextBox_CAN_Byte1.Location = New System.Drawing.Point(115, 71)
         Me.TextBox_CAN_Byte1.MaxLength = 3
         Me.TextBox_CAN_Byte1.Name = "TextBox_CAN_Byte1"
         Me.TextBox_CAN_Byte1.Size = New System.Drawing.Size(110, 20)
@@ -1686,7 +1659,7 @@ Partial Class Main
         '
         'TextBox_CAN_Byte0
         '
-        Me.TextBox_CAN_Byte0.Location = New System.Drawing.Point(494, 74)
+        Me.TextBox_CAN_Byte0.Location = New System.Drawing.Point(9, 71)
         Me.TextBox_CAN_Byte0.MaxLength = 3
         Me.TextBox_CAN_Byte0.Name = "TextBox_CAN_Byte0"
         Me.TextBox_CAN_Byte0.Size = New System.Drawing.Size(110, 20)
@@ -1696,7 +1669,7 @@ Partial Class Main
         '
         'TextBox_CAN_MessageID
         '
-        Me.TextBox_CAN_MessageID.Location = New System.Drawing.Point(494, 35)
+        Me.TextBox_CAN_MessageID.Location = New System.Drawing.Point(9, 32)
         Me.TextBox_CAN_MessageID.MaxLength = 4
         Me.TextBox_CAN_MessageID.Name = "TextBox_CAN_MessageID"
         Me.TextBox_CAN_MessageID.Size = New System.Drawing.Size(110, 20)
@@ -1706,20 +1679,11 @@ Partial Class Main
         'Label_CAN_MessageID
         '
         Me.Label_CAN_MessageID.AutoSize = True
-        Me.Label_CAN_MessageID.Location = New System.Drawing.Point(491, 19)
+        Me.Label_CAN_MessageID.Location = New System.Drawing.Point(6, 16)
         Me.Label_CAN_MessageID.Name = "Label_CAN_MessageID"
         Me.Label_CAN_MessageID.Size = New System.Drawing.Size(67, 13)
         Me.Label_CAN_MessageID.TabIndex = 34
         Me.Label_CAN_MessageID.Text = "Message ID:"
-        '
-        'Label_CAN_Outcoming
-        '
-        Me.Label_CAN_Outcoming.AutoSize = True
-        Me.Label_CAN_Outcoming.Location = New System.Drawing.Point(491, 3)
-        Me.Label_CAN_Outcoming.Name = "Label_CAN_Outcoming"
-        Me.Label_CAN_Outcoming.Size = New System.Drawing.Size(86, 13)
-        Me.Label_CAN_Outcoming.TabIndex = 33
-        Me.Label_CAN_Outcoming.Text = "Outcoming CAN:"
         '
         'Label_CAN_Incoming
         '
@@ -1735,7 +1699,7 @@ Partial Class Main
         Me.RadioButton_CAN_Hex.AutoSize = True
         Me.RadioButton_CAN_Hex.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Hex
         Me.RadioButton_CAN_Hex.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Hex", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Hex.Location = New System.Drawing.Point(494, 263)
+        Me.RadioButton_CAN_Hex.Location = New System.Drawing.Point(9, 260)
         Me.RadioButton_CAN_Hex.Name = "RadioButton_CAN_Hex"
         Me.RadioButton_CAN_Hex.Size = New System.Drawing.Size(44, 17)
         Me.RadioButton_CAN_Hex.TabIndex = 54
@@ -1747,7 +1711,7 @@ Partial Class Main
         Me.RadioButton_CAN_Decimal.AutoSize = True
         Me.RadioButton_CAN_Decimal.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Decimal
         Me.RadioButton_CAN_Decimal.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Decimal", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Decimal.Location = New System.Drawing.Point(494, 240)
+        Me.RadioButton_CAN_Decimal.Location = New System.Drawing.Point(9, 237)
         Me.RadioButton_CAN_Decimal.Name = "RadioButton_CAN_Decimal"
         Me.RadioButton_CAN_Decimal.Size = New System.Drawing.Size(63, 17)
         Me.RadioButton_CAN_Decimal.TabIndex = 53
@@ -1760,7 +1724,7 @@ Partial Class Main
         Me.RadioButton_CAN_Binary.AutoSize = True
         Me.RadioButton_CAN_Binary.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Binary
         Me.RadioButton_CAN_Binary.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Binary", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Binary.Location = New System.Drawing.Point(494, 217)
+        Me.RadioButton_CAN_Binary.Location = New System.Drawing.Point(9, 214)
         Me.RadioButton_CAN_Binary.Name = "RadioButton_CAN_Binary"
         Me.RadioButton_CAN_Binary.Size = New System.Drawing.Size(54, 17)
         Me.RadioButton_CAN_Binary.TabIndex = 52
@@ -2265,6 +2229,43 @@ Partial Class Main
         Me.ColorDialog_BMS.AnyColor = True
         Me.ColorDialog_BMS.FullOpen = True
         '
+        'GroupBox_CAN_Outcoming
+        '
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_MessageID)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.RadioButton_CAN_Binary)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_BrakeStop)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.RadioButton_CAN_Decimal)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_BuzzerStop)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.RadioButton_CAN_Hex)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_BrakeStart)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_MessageID)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_BuzzerStart)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte0)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.CheckBox_CAN_Warn)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte1)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_Send)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte2)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_Clear)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte3)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte7)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte4)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte6)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte5)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte2)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte6)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte5)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte7)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte4)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte0)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte3)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte1)
+        Me.GroupBox_CAN_Outcoming.Location = New System.Drawing.Point(475, 3)
+        Me.GroupBox_CAN_Outcoming.Name = "GroupBox_CAN_Outcoming"
+        Me.GroupBox_CAN_Outcoming.Size = New System.Drawing.Size(601, 295)
+        Me.GroupBox_CAN_Outcoming.TabIndex = 64
+        Me.GroupBox_CAN_Outcoming.TabStop = False
+        Me.GroupBox_CAN_Outcoming.Text = "Outcoming CAN"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2310,6 +2311,8 @@ Partial Class Main
         Me.TabPage_Connection.ResumeLayout(False)
         Me.GroupBox_Connection.ResumeLayout(False)
         Me.GroupBox_Connection.PerformLayout()
+        Me.GroupBox_CAN_Outcoming.ResumeLayout(False)
+        Me.GroupBox_CAN_Outcoming.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -2442,7 +2445,6 @@ Partial Class Main
     Friend WithEvents TextBox_CAN_Byte0 As TextBox
     Friend WithEvents TextBox_CAN_MessageID As TextBox
     Friend WithEvents Label_CAN_MessageID As Label
-    Friend WithEvents Label_CAN_Outcoming As Label
     Friend WithEvents Button_CAN_Clear As Button
     Friend WithEvents CheckBox_CAN_Warn As CheckBox
     Friend WithEvents Button_CAN_Send As Button
@@ -2476,4 +2478,5 @@ Partial Class Main
     Friend WithEvents Button_Logging_Download As Button
     Friend WithEvents Label_Logging_Logs As Label
     Friend WithEvents ListBox_Logging_Logs As ListBox
+    Friend WithEvents GroupBox_CAN_Outcoming As GroupBox
 End Class
