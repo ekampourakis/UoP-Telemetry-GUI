@@ -6,6 +6,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Main
 
+    Private DeveloperMode As Boolean = False
     Private Const BypassConnection As Boolean = True
     Private Telemetry As New Car_Telemetry(96)
     Private Const Monitoring As Boolean = True
@@ -17,12 +18,17 @@ Public Class Main
             AutoConnectSerial()
         End If
         If CheckBox_AutoStartLog.Checked Then StartTelemetryLogging() : StartBMSLogging()
+        If Not DeveloperMode Then
+            HideDeveloper()
+        End If
+        RegisterHotKey(Me.Handle, 100, MOD_ALT, Keys.C)
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If TelemetryLog IsNot Nothing Then TelemetryLog.Close()
         If BMSLog IsNot Nothing Then BMSLog.Close()
         My.Settings.Save()
+        UnregisterHotKey(Me.Handle, 100)
     End Sub
 
 #Region "GUI"
@@ -142,6 +148,44 @@ Public Class Main
     End Sub
 #End Region
 
+#End Region
+
+#Region "Developer Mode"
+    Public Const MOD_ALT As Integer = &H1           'Alt key
+    Public Const WM_HOTKEY As Integer = &H312       '
+
+    <DllImport("User32.dll")>
+    Public Shared Function RegisterHotKey(ByVal hwnd As IntPtr, ByVal id As Integer, ByVal fsModifiers As Integer, ByVal vk As Integer) As Integer
+    End Function
+
+    <DllImport("User32.dll")>
+    Public Shared Function UnregisterHotKey(ByVal hwnd As IntPtr, ByVal id As Integer) As Integer
+    End Function
+
+    Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
+        If m.Msg = WM_HOTKEY Then
+            Dim id As IntPtr = m.WParam
+            Select Case (id.ToString)
+                Case "100"
+                    If DeveloperMode Then
+                        HideDeveloper()
+                    Else
+                        ShowDeveloper()
+                    End If
+            End Select
+        End If
+        MyBase.WndProc(m)
+    End Sub
+
+    Private Sub ShowDeveloper()
+        GroupBox_CAN_Outcoming.Visible = True
+        DeveloperMode = True
+    End Sub
+
+    Private Sub HideDeveloper()
+        GroupBox_CAN_Outcoming.Visible = False
+        DeveloperMode = False
+    End Sub
 #End Region
 
 #Region "Serial"
@@ -560,6 +604,11 @@ Public Class Main
         'Console.WriteLine("Process error: " & ex.Message)
         'Exit Sub
         'End Try
+        Catch ex As Exception
+            ProcessSuccess()
+            'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+            Console.WriteLine(ex.Message)
+        End Try
         ProcessSuccess()
     End Sub
 
