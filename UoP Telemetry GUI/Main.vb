@@ -6,7 +6,7 @@ Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Main
 
-    Private Const BypassConnection As Boolean = False
+    Private Const BypassConnection As Boolean = True
     Private Telemetry As New Car_Telemetry(96)
     Private Const Monitoring As Boolean = True
     Private RandomGenerator As New Random
@@ -174,7 +174,10 @@ Public Class Main
         For Each sp As String In My.Computer.Ports.SerialPortNames
             If sp = My.Settings.COMPort And sp IsNot "" Then
                 ComboBox_Ports.Text = sp
-                ConnectSerial(sp)
+                While SerialPort.IsOpen() = False
+                    ConnectSerial(sp)
+                End While
+
             End If
         Next
         TabControl.SelectedIndex = 0
@@ -209,7 +212,7 @@ Public Class Main
     Private TXQueue As New List(Of Byte())
     Private PacketsProcessed As Integer = 0
     Private AllowedIDs As Byte() = {ID_CONNECTION, ID_UNKNOWN, ID_MESSAGE, ID_SEND_CAN, ID_SEND_TELEMETRY, ID_SEND_BMS,
-        ID_SEND_CAN_ANALYTICS, ID_SET_FUSEBOX_CONFIG, ID_GET_FUSEBOX_CONFIG}
+        ID_SEND_CAN_ANALYTICS, ID_SET_FUSEBOX_CONFIG, ID_GET_FUSEBOX_CONFIG, ID_LOG_TRANSFER}
     ' Packet IDs
     Private Const ID_CONNECTION As Byte = 0
     Private Const ID_UNKNOWN As Byte = 1
@@ -522,8 +525,8 @@ Public Class Main
     End Sub
 
     Private Sub ProcessData()
-        Try
-            Select Case RXData(0)
+        'Try
+        Select Case RXData(0)
                 Case ID_CONNECTION
                     If WaitingSerialPing Then SerialPingReceived = True
                 Case ID_UNKNOWN
@@ -551,11 +554,12 @@ Public Class Main
                 Case Else
                     DisplayStatus("Unknown packet ID", Color.Orange, 3000)
             End Select
-        Catch ex As Exception
-            ProcessSuccess()
+        'Catch ex As Exception
+        'ProcessSuccess()
         'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-        Console.WriteLine(ex.Message)
-        End Try
+        'Console.WriteLine("Process error: " & ex.Message)
+        'Exit Sub
+        'End Try
         ProcessSuccess()
     End Sub
 
@@ -735,7 +739,7 @@ CalculateLoad:
     End Sub
 
     Private Sub DisplayPerformance(ByVal Packet As Packet_Performance)
-        Label_RPM.Text = Packet.RPM & " RPM"
+        'Label_RPM.Text = Packet.RPM & " RPM"
         ' Torque not used yet
         Label_Current.Text = Packet.IVT_Current & " A"
         Label_Voltage.Text = Packet.IVT_Voltage & " V"
@@ -754,13 +758,13 @@ CalculateLoad:
     End Sub
 
     Private Sub DisplayTemps(ByVal Packet As Packet_Temps)
-        ListView_Temperature.Items(0).SubItems(1).Text = (Packet.IGBT / 2.0F + 20) & " C"
-        ListView_Temperature.Items(1).SubItems(1).Text = (Packet.Motor / 2.0F + 20) & " C"
-        ListView_Temperature.Items(2).SubItems(1).Text = (Packet.Coolant_In / 2.0F + 20) & " C"
-        ListView_Temperature.Items(3).SubItems(1).Text = (Packet.Coolant_Out / 2.0F + 20) & " C"
-        ListView_Temperature.Items(4).SubItems(1).Text = (Packet.Gearbox / 2.0F + 20) & " C"
-        Label_Temps_BrakeLeft.Text = (Packet.BrakeLeft * 2.0F + 20) & " C"
-        Label_Temps_BrakeRight.Text = (Packet.BrakeRight * 2.0F + 20) & " C"
+        'ListView_Temperature.Items(0).SubItems(1).Text = (Packet.IGBT / 2.0F + 20) & " C"
+        'ListView_Temperature.Items(1).SubItems(1).Text = (Packet.Motor / 2.0F + 20) & " C"
+        'ListView_Temperature.Items(2).SubItems(1).Text = (Packet.Coolant_In / 2.0F + 20) & " C"
+        'ListView_Temperature.Items(3).SubItems(1).Text = (Packet.Coolant_Out / 2.0F + 20) & " C"
+        'ListView_Temperature.Items(4).SubItems(1).Text = (Packet.Gearbox / 2.0F + 20) & " C"
+        Label_MotorTemp_FrontLeft.Text = (Packet.BrakeLeft * 2.0F + 20) & " C"
+        Label_MotorTemp_FrontRight.Text = (Packet.BrakeRight * 2.0F + 20) & " C"
     End Sub
 
     Private Sub DisplayPedals(ByVal Packet As Packet_Pedals)
@@ -1608,6 +1612,19 @@ CalculateLoad:
     Dim WaitingFilenamesTimeoutCounter As Integer = 0
     Dim Filenames As New List(Of String)
 
+    Dim TransferActive As Boolean = False
+    Const TransferTimeout As Integer = 500
+    Const TransferRetries As Byte = 10
+    Dim TransferTimeoutCounter As Integer = 0
+    Const TransferMaxPacket As Integer = 250
+    Dim TransferFile As String = ""
+    Dim TransferBytes(1) As Byte
+    Dim TransferPointer As Integer = 0
+    Dim TransferTotalPackets As Integer = 0
+    Dim TransferTries As Byte = 0
+
+    Private TransferMutex As New Threading.Mutex()
+
     Private LogTransferTimer As New Timer
     Private LogTransferTimerDelegate As New EventHandler(AddressOf LogTransfer)
 
@@ -1627,24 +1644,89 @@ CalculateLoad:
     End Function
 
     Private Sub LogTransfer_HandleRX()
+        TransferMutex.WaitOne()
         Const StartIndex As Byte = 2
         Dim Length As Byte = RXData.Length - 2
+        Console.WriteLine(RXData(StartIndex - 1))
         Select Case RXData(StartIndex - 1)
-            Case 0
-                ' This shouldn't exist
-                Exit Sub
-            Case 1
+            Case LOG_ID_REQUEST_FILE_NAMES
+                ' This shouldn't happen
+            Case LOG_ID_SEND_FILE_NAME
                 Dim Str As String = ""
                 For Index As Integer = 2 To RXData.Length - 1
                     Str &= Chr(RXData(Index))
                 Next
                 LogTransfer_AddFilename(Str)
+                Console.WriteLine("|" & Str & "|")
+            Case LOG_ID_INITIATE_FILE_TRANSFER_REQUEST
+                ' This shouldn't happen
+            Case LOG_ID_ACCEPT_FILE_TRANSFER_REQUEST
+                ' Accept File Transfer Request
+                'Console.WriteLine(ParseUInt32(RXData, 2))
+                Dim Filesize As Integer = ParseUInt32(RXData, 2)
+                TransferActive = True
+                TransferTimeoutCounter = 0
+                TransferPointer = 0
+                ReDim TransferBytes(Filesize)
+                TransferTotalPackets = Filesize \ TransferMaxPacket + If(Filesize Mod TransferMaxPacket > 0, 1, 0)
+                RemoveHandler LogTransferTimer.Tick, LogTransferTimerDelegate
+                AddHandler LogTransferTimer.Tick, LogTransferTimerDelegate
+                LogTransferTimer.Interval = 10
+                LogTransferTimer.Start()
+                Console.WriteLine("Accepted")
+            Case LOG_ID_DECLINE_FILE_TRANSFER_REQUEST
+                ' Decline File Transfer Request
+                Console.WriteLine("Declined")
+            Case LOG_ID_REQUEST_FILE_PACKET
+                ' This shouldnt' happen
+            Case LOG_ID_FILE_PACKET
+                ' File Packet
+                Dim PacketNo As UInt16 = ParseUInt16(RXData, 2)
+                Dim ReceivedBytes As Integer = RXData.Length - 4
+                For Index As Integer = 0 To ReceivedBytes - 1
+                    TransferBytes(PacketNo * TransferMaxPacket + Index) = RXData(Index + 4)
+                Next
+                Console.WriteLine("Got packet " & (PacketNo + 1) & "/" & TransferTotalPackets & " with " & ReceivedBytes & " bytes")
+                TransferTimeoutCounter = 0
+                TransferTries = 0
+
+                TransferPointer += ReceivedBytes
+                If TransferPointer >= TransferTotalPackets * TransferMaxPacket Then
+                    ' Save file
+                    Console.WriteLine("Received")
+                    IO.File.WriteAllBytes(TransferFile, TransferBytes)
+                    LogTransfer_AbortTransfer()
+                Else
+                    LogTransfer_RequestNextPacket()
+                End If
+            Case LOG_ID_DECLINE_FILE_PACKET
+                'Console.WriteLine("Timeout")
+            Case LOG_ID_CANCEL_FILE_TRANSFER_REQUEST
+                ' This shouldn't happen in normal cases
+            Case LOG_ID_CANCELLED_FILE_TRANSFER
+                ' Cancelled transfer
+                Console.WriteLine("Cancelled")
         End Select
+        TransferMutex.ReleaseMutex()
+    End Sub
+
+    Private Sub LogTransfer_RequestNextPacket()
+        TransferTimeoutCounter = 0
+        TransferTries = 0
+        Dim PacketNo As Integer = TransferPointer \ TransferMaxPacket
+        Dim PacketNoBytes As Byte() = BitConverter.GetBytes(PacketNo)
+        Send({ID_LOG_TRANSFER, LOG_ID_REQUEST_FILE_PACKET, PacketNoBytes(1), PacketNoBytes(0)})
+    End Sub
+
+    Private Sub LogTransfer_AbortTransfer()
+        TransferActive = False
+        Send({ID_LOG_TRANSFER, LOG_ID_CANCEL_FILE_TRANSFER_REQUEST})
     End Sub
 
     Private Sub LogTransfer()
-
+        TransferMutex.WaitOne()
         If WaitingFileNames Then
+
             If WaitingFilenamesTimeoutCounter > WaitingFilenamesTimeout Then
                 ' Timeout
                 WaitingFileNames = False
@@ -1664,14 +1746,53 @@ CalculateLoad:
             Else
                 WaitingFilenamesTimeoutCounter += 10
             End If
+
+        ElseIf TransferActive Then
+
+            If TransferTimeoutCounter > TransferTimeout Then
+
+                If TransferTries < TransferRetries Then
+
+                    ' Request packet again
+                    LogTransfer_RequestNextPacket()
+                    TransferTries += 1
+                    TransferTimeoutCounter = 0
+
+                Else
+                    ' No more retries
+                    ' Abort
+                    LogTransfer_AbortTransfer()
+                    LogTransferTimer.Stop()
+                    RemoveHandler LogTransferTimer.Tick, LogTransferTimerDelegate
+                End If
+
+            Else
+                TransferTimeoutCounter += 10
+            End If
+
         End If
-
-
+        TransferMutex.ReleaseMutex()
     End Sub
 
 
     Private Sub Button_Logging_Download_Click(sender As Object, e As EventArgs) Handles Button_Logging_Download.Click
-
+        ' Open save file dialog
+        Dim Filename As String = ListBox_Logging_Logs.SelectedItem
+        If Filename <> "" Then
+            Dim SaveDialog As New SaveFileDialog
+            SaveDialog.OverwritePrompt = True
+            SaveDialog.FileName = Filename
+            SaveDialog.ShowDialog()
+            TransferFile = SaveDialog.FileName
+            Dim Buf(Filename.Length + 2) As Byte
+            Buf(0) = ID_LOG_TRANSFER
+            Buf(1) = LOG_ID_INITIATE_FILE_TRANSFER_REQUEST
+            Dim FilenameBuf As Byte() = System.Text.Encoding.ASCII.GetBytes(Filename)
+            For Index As Integer = 0 To FilenameBuf.Count - 1
+                Buf(Index + 2) = FilenameBuf(Index)
+            Next
+            Send(Buf)
+        End If
     End Sub
 
     Private Sub Button_Logging_Reload_Click(sender As Object, e As EventArgs) Handles Button_Logging_Reload.Click
@@ -1679,6 +1800,7 @@ CalculateLoad:
         AddHandler LogTransferTimer.Tick, LogTransferTimerDelegate
         LogTransferTimer.Interval = 10
         Filenames.Clear()
+        ListBox_Logging_Logs.Items.Clear()
         LogTransfer_RequestFilenames()
         LogTransferTimer.Start()
     End Sub
@@ -1686,7 +1808,6 @@ CalculateLoad:
     Private Sub Button_Logging_Delete_Click(sender As Object, e As EventArgs) Handles Button_Logging_Delete.Click
 
     End Sub
-
 
 #End Region
 

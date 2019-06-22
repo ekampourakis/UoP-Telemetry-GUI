@@ -32,12 +32,6 @@ Partial Class Main
         Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"CDS", "0"}, -1)
         Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"PLS", "0"}, -1)
         Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current", "0"}, -1)
-        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant In", "0 C"}, -1)
-        Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Coolant Out", "0 C"}, -1)
-        Dim ListViewItem12 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Gearbox", "0 C"}, -1)
-        Dim ListViewItem13 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"IGBT", "0 C"}, -1)
-        Dim ListViewItem14 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Motor", "0 C"}, -1)
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
@@ -61,6 +55,7 @@ Partial Class Main
         Dim Series13 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Dim ChartArea5 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim Series14 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel_SerialStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolStripStatusLabel_SerialInfo = New System.Windows.Forms.ToolStripStatusLabel()
@@ -75,8 +70,24 @@ Partial Class Main
         Me.Timer_GUIUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.TabControl = New System.Windows.Forms.TabControl()
         Me.TabPage_General = New System.Windows.Forms.TabPage()
-        Me.Label_Temps_BrakeRight = New System.Windows.Forms.Label()
-        Me.Label_Temps_BrakeLeft = New System.Windows.Forms.Label()
+        Me.Label_CoolantTemp_InverterOut = New System.Windows.Forms.Label()
+        Me.Label_CoolantTemp_InverterIn = New System.Windows.Forms.Label()
+        Me.Label_CoolantTemp_MotorOut = New System.Windows.Forms.Label()
+        Me.Label_CoolantTemp_MotorIn = New System.Windows.Forms.Label()
+        Me.Label_Gearbox_RearRight = New System.Windows.Forms.Label()
+        Me.Label_Gearbox_FrontRight = New System.Windows.Forms.Label()
+        Me.Label_Gearbox_FrontLeft = New System.Windows.Forms.Label()
+        Me.Label_Gearbox_RearLeft = New System.Windows.Forms.Label()
+        Me.Label_IGBT_FrontLeft = New System.Windows.Forms.Label()
+        Me.Label_IGBT_FrontRight = New System.Windows.Forms.Label()
+        Me.Label_IGBT_RearRight = New System.Windows.Forms.Label()
+        Me.Label_IGBT_RearLeft = New System.Windows.Forms.Label()
+        Me.Label_BrakeTravel = New System.Windows.Forms.Label()
+        Me.ProgressBar_BrakeTravel = New System.Windows.Forms.ProgressBar()
+        Me.Label_MotorTemp_RearLeft = New System.Windows.Forms.Label()
+        Me.Label_MotorTemp_RearRight = New System.Windows.Forms.Label()
+        Me.Label_MotorTemp_FrontRight = New System.Windows.Forms.Label()
+        Me.Label_MotorTemp_FrontLeft = New System.Windows.Forms.Label()
         Me.ListView_BMS = New System.Windows.Forms.ListView()
         Me.ColumnHeader_BMSPack = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader_BMS_Voltage_Min = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -86,11 +97,7 @@ Partial Class Main
         Me.ListView_VCU = New System.Windows.Forms.ListView()
         Me.ColumnHeader_VCUFlag = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader_VCUValue = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ListView_Temperature = New System.Windows.Forms.ListView()
-        Me.ColumnHeader_TempSensor = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader_TempValue = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Label_Power = New System.Windows.Forms.Label()
-        Me.Label_RPM = New System.Windows.Forms.Label()
         Me.Label_Current = New System.Windows.Forms.Label()
         Me.Label_Voltage = New System.Windows.Forms.Label()
         Me.Label_Throttle = New System.Windows.Forms.Label()
@@ -223,6 +230,7 @@ Partial Class Main
         Me.Timer_RandomTelemetry = New System.Windows.Forms.Timer(Me.components)
         Me.ColorDialog_BMS = New System.Windows.Forms.ColorDialog()
         Me.Timer_Generic = New System.Windows.Forms.Timer(Me.components)
+        Me.Label_PlateTemp = New System.Windows.Forms.Label()
         Me.StatusStrip.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.TabPage_General.SuspendLayout()
@@ -307,7 +315,7 @@ Partial Class Main
         'Timer_Serial
         '
         Me.Timer_Serial.Enabled = True
-        Me.Timer_Serial.Interval = 1
+        Me.Timer_Serial.Interval = 10
         '
         'Timer_SendQueue
         '
@@ -342,13 +350,28 @@ Partial Class Main
         '
         'TabPage_General
         '
-        Me.TabPage_General.Controls.Add(Me.Label_Temps_BrakeRight)
-        Me.TabPage_General.Controls.Add(Me.Label_Temps_BrakeLeft)
+        Me.TabPage_General.Controls.Add(Me.Label_PlateTemp)
+        Me.TabPage_General.Controls.Add(Me.Label_CoolantTemp_InverterOut)
+        Me.TabPage_General.Controls.Add(Me.Label_CoolantTemp_InverterIn)
+        Me.TabPage_General.Controls.Add(Me.Label_CoolantTemp_MotorOut)
+        Me.TabPage_General.Controls.Add(Me.Label_CoolantTemp_MotorIn)
+        Me.TabPage_General.Controls.Add(Me.Label_Gearbox_RearRight)
+        Me.TabPage_General.Controls.Add(Me.Label_Gearbox_FrontRight)
+        Me.TabPage_General.Controls.Add(Me.Label_Gearbox_FrontLeft)
+        Me.TabPage_General.Controls.Add(Me.Label_Gearbox_RearLeft)
+        Me.TabPage_General.Controls.Add(Me.Label_IGBT_FrontLeft)
+        Me.TabPage_General.Controls.Add(Me.Label_IGBT_FrontRight)
+        Me.TabPage_General.Controls.Add(Me.Label_IGBT_RearRight)
+        Me.TabPage_General.Controls.Add(Me.Label_IGBT_RearLeft)
+        Me.TabPage_General.Controls.Add(Me.Label_BrakeTravel)
+        Me.TabPage_General.Controls.Add(Me.ProgressBar_BrakeTravel)
+        Me.TabPage_General.Controls.Add(Me.Label_MotorTemp_RearLeft)
+        Me.TabPage_General.Controls.Add(Me.Label_MotorTemp_RearRight)
+        Me.TabPage_General.Controls.Add(Me.Label_MotorTemp_FrontRight)
+        Me.TabPage_General.Controls.Add(Me.Label_MotorTemp_FrontLeft)
         Me.TabPage_General.Controls.Add(Me.ListView_BMS)
         Me.TabPage_General.Controls.Add(Me.ListView_VCU)
-        Me.TabPage_General.Controls.Add(Me.ListView_Temperature)
         Me.TabPage_General.Controls.Add(Me.Label_Power)
-        Me.TabPage_General.Controls.Add(Me.Label_RPM)
         Me.TabPage_General.Controls.Add(Me.Label_Current)
         Me.TabPage_General.Controls.Add(Me.Label_Voltage)
         Me.TabPage_General.Controls.Add(Me.Label_Throttle)
@@ -370,25 +393,182 @@ Partial Class Main
         Me.TabPage_General.Text = "General"
         Me.TabPage_General.UseVisualStyleBackColor = True
         '
-        'Label_Temps_BrakeRight
+        'Label_CoolantTemp_InverterOut
         '
-        Me.Label_Temps_BrakeRight.AutoSize = True
-        Me.Label_Temps_BrakeRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_Temps_BrakeRight.Location = New System.Drawing.Point(808, 574)
-        Me.Label_Temps_BrakeRight.Name = "Label_Temps_BrakeRight"
-        Me.Label_Temps_BrakeRight.Size = New System.Drawing.Size(38, 24)
-        Me.Label_Temps_BrakeRight.TabIndex = 20
-        Me.Label_Temps_BrakeRight.Text = "0 C"
+        Me.Label_CoolantTemp_InverterOut.AutoSize = True
+        Me.Label_CoolantTemp_InverterOut.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_CoolantTemp_InverterOut.Location = New System.Drawing.Point(42, 360)
+        Me.Label_CoolantTemp_InverterOut.Name = "Label_CoolantTemp_InverterOut"
+        Me.Label_CoolantTemp_InverterOut.Size = New System.Drawing.Size(38, 24)
+        Me.Label_CoolantTemp_InverterOut.TabIndex = 36
+        Me.Label_CoolantTemp_InverterOut.Text = "0 C"
         '
-        'Label_Temps_BrakeLeft
+        'Label_CoolantTemp_InverterIn
         '
-        Me.Label_Temps_BrakeLeft.AutoSize = True
-        Me.Label_Temps_BrakeLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_Temps_BrakeLeft.Location = New System.Drawing.Point(808, 51)
-        Me.Label_Temps_BrakeLeft.Name = "Label_Temps_BrakeLeft"
-        Me.Label_Temps_BrakeLeft.Size = New System.Drawing.Size(38, 24)
-        Me.Label_Temps_BrakeLeft.TabIndex = 19
-        Me.Label_Temps_BrakeLeft.Text = "0 C"
+        Me.Label_CoolantTemp_InverterIn.AutoSize = True
+        Me.Label_CoolantTemp_InverterIn.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_CoolantTemp_InverterIn.Location = New System.Drawing.Point(42, 484)
+        Me.Label_CoolantTemp_InverterIn.Name = "Label_CoolantTemp_InverterIn"
+        Me.Label_CoolantTemp_InverterIn.Size = New System.Drawing.Size(38, 24)
+        Me.Label_CoolantTemp_InverterIn.TabIndex = 35
+        Me.Label_CoolantTemp_InverterIn.Text = "0 C"
+        '
+        'Label_CoolantTemp_MotorOut
+        '
+        Me.Label_CoolantTemp_MotorOut.AutoSize = True
+        Me.Label_CoolantTemp_MotorOut.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_CoolantTemp_MotorOut.Location = New System.Drawing.Point(42, 114)
+        Me.Label_CoolantTemp_MotorOut.Name = "Label_CoolantTemp_MotorOut"
+        Me.Label_CoolantTemp_MotorOut.Size = New System.Drawing.Size(38, 24)
+        Me.Label_CoolantTemp_MotorOut.TabIndex = 34
+        Me.Label_CoolantTemp_MotorOut.Text = "0 C"
+        '
+        'Label_CoolantTemp_MotorIn
+        '
+        Me.Label_CoolantTemp_MotorIn.AutoSize = True
+        Me.Label_CoolantTemp_MotorIn.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_CoolantTemp_MotorIn.Location = New System.Drawing.Point(42, 239)
+        Me.Label_CoolantTemp_MotorIn.Name = "Label_CoolantTemp_MotorIn"
+        Me.Label_CoolantTemp_MotorIn.Size = New System.Drawing.Size(38, 24)
+        Me.Label_CoolantTemp_MotorIn.TabIndex = 33
+        Me.Label_CoolantTemp_MotorIn.Text = "0 C"
+        '
+        'Label_Gearbox_RearRight
+        '
+        Me.Label_Gearbox_RearRight.AutoSize = True
+        Me.Label_Gearbox_RearRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_Gearbox_RearRight.Location = New System.Drawing.Point(243, 556)
+        Me.Label_Gearbox_RearRight.Name = "Label_Gearbox_RearRight"
+        Me.Label_Gearbox_RearRight.Size = New System.Drawing.Size(38, 24)
+        Me.Label_Gearbox_RearRight.TabIndex = 32
+        Me.Label_Gearbox_RearRight.Text = "0 C"
+        '
+        'Label_Gearbox_FrontRight
+        '
+        Me.Label_Gearbox_FrontRight.AutoSize = True
+        Me.Label_Gearbox_FrontRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_Gearbox_FrontRight.Location = New System.Drawing.Point(881, 556)
+        Me.Label_Gearbox_FrontRight.Name = "Label_Gearbox_FrontRight"
+        Me.Label_Gearbox_FrontRight.Size = New System.Drawing.Size(38, 24)
+        Me.Label_Gearbox_FrontRight.TabIndex = 31
+        Me.Label_Gearbox_FrontRight.Text = "0 C"
+        '
+        'Label_Gearbox_FrontLeft
+        '
+        Me.Label_Gearbox_FrontLeft.AutoSize = True
+        Me.Label_Gearbox_FrontLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_Gearbox_FrontLeft.Location = New System.Drawing.Point(881, 66)
+        Me.Label_Gearbox_FrontLeft.Name = "Label_Gearbox_FrontLeft"
+        Me.Label_Gearbox_FrontLeft.Size = New System.Drawing.Size(38, 24)
+        Me.Label_Gearbox_FrontLeft.TabIndex = 30
+        Me.Label_Gearbox_FrontLeft.Text = "0 C"
+        '
+        'Label_Gearbox_RearLeft
+        '
+        Me.Label_Gearbox_RearLeft.AutoSize = True
+        Me.Label_Gearbox_RearLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_Gearbox_RearLeft.Location = New System.Drawing.Point(243, 66)
+        Me.Label_Gearbox_RearLeft.Name = "Label_Gearbox_RearLeft"
+        Me.Label_Gearbox_RearLeft.Size = New System.Drawing.Size(38, 24)
+        Me.Label_Gearbox_RearLeft.TabIndex = 29
+        Me.Label_Gearbox_RearLeft.Text = "0 C"
+        '
+        'Label_IGBT_FrontLeft
+        '
+        Me.Label_IGBT_FrontLeft.AutoSize = True
+        Me.Label_IGBT_FrontLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_IGBT_FrontLeft.Location = New System.Drawing.Point(881, 42)
+        Me.Label_IGBT_FrontLeft.Name = "Label_IGBT_FrontLeft"
+        Me.Label_IGBT_FrontLeft.Size = New System.Drawing.Size(38, 24)
+        Me.Label_IGBT_FrontLeft.TabIndex = 28
+        Me.Label_IGBT_FrontLeft.Text = "0 C"
+        '
+        'Label_IGBT_FrontRight
+        '
+        Me.Label_IGBT_FrontRight.AutoSize = True
+        Me.Label_IGBT_FrontRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_IGBT_FrontRight.Location = New System.Drawing.Point(881, 532)
+        Me.Label_IGBT_FrontRight.Name = "Label_IGBT_FrontRight"
+        Me.Label_IGBT_FrontRight.Size = New System.Drawing.Size(38, 24)
+        Me.Label_IGBT_FrontRight.TabIndex = 27
+        Me.Label_IGBT_FrontRight.Text = "0 C"
+        '
+        'Label_IGBT_RearRight
+        '
+        Me.Label_IGBT_RearRight.AutoSize = True
+        Me.Label_IGBT_RearRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_IGBT_RearRight.Location = New System.Drawing.Point(243, 532)
+        Me.Label_IGBT_RearRight.Name = "Label_IGBT_RearRight"
+        Me.Label_IGBT_RearRight.Size = New System.Drawing.Size(38, 24)
+        Me.Label_IGBT_RearRight.TabIndex = 26
+        Me.Label_IGBT_RearRight.Text = "0 C"
+        '
+        'Label_IGBT_RearLeft
+        '
+        Me.Label_IGBT_RearLeft.AutoSize = True
+        Me.Label_IGBT_RearLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_IGBT_RearLeft.Location = New System.Drawing.Point(243, 42)
+        Me.Label_IGBT_RearLeft.Name = "Label_IGBT_RearLeft"
+        Me.Label_IGBT_RearLeft.Size = New System.Drawing.Size(38, 24)
+        Me.Label_IGBT_RearLeft.TabIndex = 25
+        Me.Label_IGBT_RearLeft.Text = "0 C"
+        '
+        'Label_BrakeTravel
+        '
+        Me.Label_BrakeTravel.AutoSize = True
+        Me.Label_BrakeTravel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_BrakeTravel.Location = New System.Drawing.Point(1074, 326)
+        Me.Label_BrakeTravel.Name = "Label_BrakeTravel"
+        Me.Label_BrakeTravel.Size = New System.Drawing.Size(54, 20)
+        Me.Label_BrakeTravel.TabIndex = 24
+        Me.Label_BrakeTravel.Text = "000 %"
+        '
+        'ProgressBar_BrakeTravel
+        '
+        Me.ProgressBar_BrakeTravel.Location = New System.Drawing.Point(935, 326)
+        Me.ProgressBar_BrakeTravel.Name = "ProgressBar_BrakeTravel"
+        Me.ProgressBar_BrakeTravel.Size = New System.Drawing.Size(129, 20)
+        Me.ProgressBar_BrakeTravel.TabIndex = 23
+        '
+        'Label_MotorTemp_RearLeft
+        '
+        Me.Label_MotorTemp_RearLeft.AutoSize = True
+        Me.Label_MotorTemp_RearLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_MotorTemp_RearLeft.Location = New System.Drawing.Point(133, 66)
+        Me.Label_MotorTemp_RearLeft.Name = "Label_MotorTemp_RearLeft"
+        Me.Label_MotorTemp_RearLeft.Size = New System.Drawing.Size(38, 24)
+        Me.Label_MotorTemp_RearLeft.TabIndex = 22
+        Me.Label_MotorTemp_RearLeft.Text = "0 C"
+        '
+        'Label_MotorTemp_RearRight
+        '
+        Me.Label_MotorTemp_RearRight.AutoSize = True
+        Me.Label_MotorTemp_RearRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_MotorTemp_RearRight.Location = New System.Drawing.Point(133, 556)
+        Me.Label_MotorTemp_RearRight.Name = "Label_MotorTemp_RearRight"
+        Me.Label_MotorTemp_RearRight.Size = New System.Drawing.Size(38, 24)
+        Me.Label_MotorTemp_RearRight.TabIndex = 21
+        Me.Label_MotorTemp_RearRight.Text = "0 C"
+        '
+        'Label_MotorTemp_FrontRight
+        '
+        Me.Label_MotorTemp_FrontRight.AutoSize = True
+        Me.Label_MotorTemp_FrontRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_MotorTemp_FrontRight.Location = New System.Drawing.Point(771, 556)
+        Me.Label_MotorTemp_FrontRight.Name = "Label_MotorTemp_FrontRight"
+        Me.Label_MotorTemp_FrontRight.Size = New System.Drawing.Size(38, 24)
+        Me.Label_MotorTemp_FrontRight.TabIndex = 20
+        Me.Label_MotorTemp_FrontRight.Text = "0 C"
+        '
+        'Label_MotorTemp_FrontLeft
+        '
+        Me.Label_MotorTemp_FrontLeft.AutoSize = True
+        Me.Label_MotorTemp_FrontLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_MotorTemp_FrontLeft.Location = New System.Drawing.Point(771, 66)
+        Me.Label_MotorTemp_FrontLeft.Name = "Label_MotorTemp_FrontLeft"
+        Me.Label_MotorTemp_FrontLeft.Size = New System.Drawing.Size(38, 24)
+        Me.Label_MotorTemp_FrontLeft.TabIndex = 19
+        Me.Label_MotorTemp_FrontLeft.Text = "0 C"
         '
         'ListView_BMS
         '
@@ -398,7 +578,7 @@ Partial Class Main
         Me.ListView_BMS.GridLines = True
         Me.ListView_BMS.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.ListView_BMS.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2})
-        Me.ListView_BMS.Location = New System.Drawing.Point(321, 506)
+        Me.ListView_BMS.Location = New System.Drawing.Point(345, 523)
         Me.ListView_BMS.MaximumSize = New System.Drawing.Size(383, 75)
         Me.ListView_BMS.MinimumSize = New System.Drawing.Size(383, 75)
         Me.ListView_BMS.Name = "ListView_BMS"
@@ -440,7 +620,7 @@ Partial Class Main
         Me.ListView_VCU.GridLines = True
         Me.ListView_VCU.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.ListView_VCU.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9})
-        Me.ListView_VCU.Location = New System.Drawing.Point(406, 239)
+        Me.ListView_VCU.Location = New System.Drawing.Point(421, 238)
         Me.ListView_VCU.Name = "ListView_VCU"
         Me.ListView_VCU.Scrollable = False
         Me.ListView_VCU.Size = New System.Drawing.Size(113, 146)
@@ -457,64 +637,21 @@ Partial Class Main
         '
         Me.ColumnHeader_VCUValue.Text = "Value"
         '
-        'ListView_Temperature
-        '
-        Me.ListView_Temperature.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader_TempSensor, Me.ColumnHeader_TempValue})
-        Me.ListView_Temperature.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ListView_Temperature.FullRowSelect = True
-        Me.ListView_Temperature.GridLines = True
-        Me.ListView_Temperature.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        ListViewItem10.StateImageIndex = 0
-        ListViewItem11.StateImageIndex = 0
-        ListViewItem12.StateImageIndex = 0
-        ListViewItem13.StateImageIndex = 0
-        ListViewItem14.StateImageIndex = 0
-        Me.ListView_Temperature.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem10, ListViewItem11, ListViewItem12, ListViewItem13, ListViewItem14})
-        Me.ListView_Temperature.Location = New System.Drawing.Point(399, 13)
-        Me.ListView_Temperature.MaximumSize = New System.Drawing.Size(204, 147)
-        Me.ListView_Temperature.MinimumSize = New System.Drawing.Size(204, 147)
-        Me.ListView_Temperature.Name = "ListView_Temperature"
-        Me.ListView_Temperature.Scrollable = False
-        Me.ListView_Temperature.Size = New System.Drawing.Size(204, 147)
-        Me.ListView_Temperature.TabIndex = 16
-        Me.ListView_Temperature.UseCompatibleStateImageBehavior = False
-        Me.ListView_Temperature.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader_TempSensor
-        '
-        Me.ColumnHeader_TempSensor.Text = "Sensor"
-        Me.ColumnHeader_TempSensor.Width = 96
-        '
-        'ColumnHeader_TempValue
-        '
-        Me.ColumnHeader_TempValue.Text = "Temperature"
-        Me.ColumnHeader_TempValue.Width = 105
-        '
         'Label_Power
         '
         Me.Label_Power.AutoSize = True
         Me.Label_Power.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_Power.Location = New System.Drawing.Point(715, 278)
+        Me.Label_Power.Location = New System.Drawing.Point(577, 275)
         Me.Label_Power.Name = "Label_Power"
         Me.Label_Power.Size = New System.Drawing.Size(43, 24)
         Me.Label_Power.TabIndex = 15
         Me.Label_Power.Text = "0 W"
         '
-        'Label_RPM
-        '
-        Me.Label_RPM.AutoSize = True
-        Me.Label_RPM.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_RPM.Location = New System.Drawing.Point(715, 242)
-        Me.Label_RPM.Name = "Label_RPM"
-        Me.Label_RPM.Size = New System.Drawing.Size(66, 24)
-        Me.Label_RPM.TabIndex = 14
-        Me.Label_RPM.Text = "0 RPM"
-        '
         'Label_Current
         '
         Me.Label_Current.AutoSize = True
         Me.Label_Current.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_Current.Location = New System.Drawing.Point(715, 360)
+        Me.Label_Current.Location = New System.Drawing.Point(577, 323)
         Me.Label_Current.Name = "Label_Current"
         Me.Label_Current.Size = New System.Drawing.Size(38, 24)
         Me.Label_Current.TabIndex = 13
@@ -524,7 +661,7 @@ Partial Class Main
         '
         Me.Label_Voltage.AutoSize = True
         Me.Label_Voltage.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_Voltage.Location = New System.Drawing.Point(715, 324)
+        Me.Label_Voltage.Location = New System.Drawing.Point(577, 299)
         Me.Label_Voltage.Name = "Label_Voltage"
         Me.Label_Voltage.Size = New System.Drawing.Size(38, 24)
         Me.Label_Voltage.TabIndex = 12
@@ -534,7 +671,7 @@ Partial Class Main
         '
         Me.Label_Throttle.AutoSize = True
         Me.Label_Throttle.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_Throttle.Location = New System.Drawing.Point(1064, 338)
+        Me.Label_Throttle.Location = New System.Drawing.Point(1074, 352)
         Me.Label_Throttle.Name = "Label_Throttle"
         Me.Label_Throttle.Size = New System.Drawing.Size(54, 20)
         Me.Label_Throttle.TabIndex = 11
@@ -542,16 +679,16 @@ Partial Class Main
         '
         'ProgressBar_Throttle
         '
-        Me.ProgressBar_Throttle.Location = New System.Drawing.Point(922, 338)
+        Me.ProgressBar_Throttle.Location = New System.Drawing.Point(935, 352)
         Me.ProgressBar_Throttle.Name = "ProgressBar_Throttle"
-        Me.ProgressBar_Throttle.Size = New System.Drawing.Size(132, 20)
+        Me.ProgressBar_Throttle.Size = New System.Drawing.Size(129, 20)
         Me.ProgressBar_Throttle.TabIndex = 10
         '
         'Label_BrakeFront
         '
         Me.Label_BrakeFront.AutoSize = True
         Me.Label_BrakeFront.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_BrakeFront.Location = New System.Drawing.Point(1064, 281)
+        Me.Label_BrakeFront.Location = New System.Drawing.Point(1074, 282)
         Me.Label_BrakeFront.Name = "Label_BrakeFront"
         Me.Label_BrakeFront.Size = New System.Drawing.Size(65, 20)
         Me.Label_BrakeFront.TabIndex = 9
@@ -559,17 +696,17 @@ Partial Class Main
         '
         'ProgressBar_BrakeFront
         '
-        Me.ProgressBar_BrakeFront.Location = New System.Drawing.Point(922, 281)
+        Me.ProgressBar_BrakeFront.Location = New System.Drawing.Point(935, 283)
         Me.ProgressBar_BrakeFront.Maximum = 200
         Me.ProgressBar_BrakeFront.Name = "ProgressBar_BrakeFront"
-        Me.ProgressBar_BrakeFront.Size = New System.Drawing.Size(132, 20)
+        Me.ProgressBar_BrakeFront.Size = New System.Drawing.Size(129, 20)
         Me.ProgressBar_BrakeFront.TabIndex = 8
         '
         'Label_BrakeRear
         '
         Me.Label_BrakeRear.AutoSize = True
         Me.Label_BrakeRear.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_BrakeRear.Location = New System.Drawing.Point(1064, 255)
+        Me.Label_BrakeRear.Location = New System.Drawing.Point(1074, 257)
         Me.Label_BrakeRear.Name = "Label_BrakeRear"
         Me.Label_BrakeRear.Size = New System.Drawing.Size(65, 20)
         Me.Label_BrakeRear.TabIndex = 7
@@ -577,17 +714,17 @@ Partial Class Main
         '
         'ProgressBar_BrakeRear
         '
-        Me.ProgressBar_BrakeRear.Location = New System.Drawing.Point(921, 255)
+        Me.ProgressBar_BrakeRear.Location = New System.Drawing.Point(935, 257)
         Me.ProgressBar_BrakeRear.Maximum = 200
         Me.ProgressBar_BrakeRear.Name = "ProgressBar_BrakeRear"
-        Me.ProgressBar_BrakeRear.Size = New System.Drawing.Size(132, 20)
+        Me.ProgressBar_BrakeRear.Size = New System.Drawing.Size(129, 20)
         Me.ProgressBar_BrakeRear.TabIndex = 5
         '
         'Label_RPM_FrontRight
         '
         Me.Label_RPM_FrontRight.AutoSize = True
         Me.Label_RPM_FrontRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_RPM_FrontRight.Location = New System.Drawing.Point(808, 550)
+        Me.Label_RPM_FrontRight.Location = New System.Drawing.Point(771, 532)
         Me.Label_RPM_FrontRight.Name = "Label_RPM_FrontRight"
         Me.Label_RPM_FrontRight.Size = New System.Drawing.Size(66, 24)
         Me.Label_RPM_FrontRight.TabIndex = 4
@@ -597,7 +734,7 @@ Partial Class Main
         '
         Me.Label_RPM_RearRight.AutoSize = True
         Me.Label_RPM_RearRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_RPM_RearRight.Location = New System.Drawing.Point(130, 561)
+        Me.Label_RPM_RearRight.Location = New System.Drawing.Point(133, 532)
         Me.Label_RPM_RearRight.Name = "Label_RPM_RearRight"
         Me.Label_RPM_RearRight.Size = New System.Drawing.Size(66, 24)
         Me.Label_RPM_RearRight.TabIndex = 3
@@ -607,7 +744,7 @@ Partial Class Main
         '
         Me.Label_RPM_FrontLeft.AutoSize = True
         Me.Label_RPM_FrontLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_RPM_FrontLeft.Location = New System.Drawing.Point(808, 27)
+        Me.Label_RPM_FrontLeft.Location = New System.Drawing.Point(771, 42)
         Me.Label_RPM_FrontLeft.Name = "Label_RPM_FrontLeft"
         Me.Label_RPM_FrontLeft.Size = New System.Drawing.Size(66, 24)
         Me.Label_RPM_FrontLeft.TabIndex = 2
@@ -617,7 +754,7 @@ Partial Class Main
         '
         Me.Label_RPM_RearLeft.AutoSize = True
         Me.Label_RPM_RearLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_RPM_RearLeft.Location = New System.Drawing.Point(130, 41)
+        Me.Label_RPM_RearLeft.Location = New System.Drawing.Point(133, 42)
         Me.Label_RPM_RearLeft.Name = "Label_RPM_RearLeft"
         Me.Label_RPM_RearLeft.Size = New System.Drawing.Size(66, 24)
         Me.Label_RPM_RearLeft.TabIndex = 1
@@ -625,7 +762,7 @@ Partial Class Main
         '
         'PictureBox_Car
         '
-        Me.PictureBox_Car.Image = CType(resources.GetObject("PictureBox_Car.Image"), System.Drawing.Image)
+        Me.PictureBox_Car.Image = Global.UoP_Telemetry_GUI.My.Resources.Resources.UoP7e
         Me.PictureBox_Car.Location = New System.Drawing.Point(6, 6)
         Me.PictureBox_Car.Name = "PictureBox_Car"
         Me.PictureBox_Car.Size = New System.Drawing.Size(1220, 615)
@@ -2265,6 +2402,16 @@ Partial Class Main
         Me.ColorDialog_BMS.AnyColor = True
         Me.ColorDialog_BMS.FullOpen = True
         '
+        'Label_PlateTemp
+        '
+        Me.Label_PlateTemp.AutoSize = True
+        Me.Label_PlateTemp.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_PlateTemp.Location = New System.Drawing.Point(243, 299)
+        Me.Label_PlateTemp.Name = "Label_PlateTemp"
+        Me.Label_PlateTemp.Size = New System.Drawing.Size(38, 24)
+        Me.Label_PlateTemp.TabIndex = 37
+        Me.Label_PlateTemp.Text = "0 C"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2328,11 +2475,7 @@ Partial Class Main
     Friend WithEvents TabPage_General As TabPage
     Friend WithEvents TabPage_Admin As TabPage
     Friend WithEvents PictureBox_Car As PictureBox
-    Friend WithEvents ListView_Temperature As ListView
-    Friend WithEvents ColumnHeader_TempSensor As ColumnHeader
-    Friend WithEvents ColumnHeader_TempValue As ColumnHeader
     Friend WithEvents Label_Power As Label
-    Friend WithEvents Label_RPM As Label
     Friend WithEvents Label_Current As Label
     Friend WithEvents Label_Voltage As Label
     Friend WithEvents Label_Throttle As Label
@@ -2377,8 +2520,8 @@ Partial Class Main
     Friend WithEvents CheckBox_Plotting As CheckBox
     Friend WithEvents Label6 As Label
     Friend WithEvents CheckBox_RandomTelemetry As CheckBox
-    Friend WithEvents Label_Temps_BrakeRight As Label
-    Friend WithEvents Label_Temps_BrakeLeft As Label
+    Friend WithEvents Label_MotorTemp_FrontRight As Label
+    Friend WithEvents Label_MotorTemp_FrontLeft As Label
     Friend WithEvents TabPage_Logging As TabPage
     Friend WithEvents ListView_CAN As ListView
     Friend WithEvents ColumnHeader1 As ColumnHeader
@@ -2476,4 +2619,21 @@ Partial Class Main
     Friend WithEvents Button_Logging_Download As Button
     Friend WithEvents Label_Logging_Logs As Label
     Friend WithEvents ListBox_Logging_Logs As ListBox
+    Friend WithEvents Label_BrakeTravel As Label
+    Friend WithEvents ProgressBar_BrakeTravel As ProgressBar
+    Friend WithEvents Label_MotorTemp_RearLeft As Label
+    Friend WithEvents Label_MotorTemp_RearRight As Label
+    Friend WithEvents Label_IGBT_FrontLeft As Label
+    Friend WithEvents Label_IGBT_FrontRight As Label
+    Friend WithEvents Label_IGBT_RearRight As Label
+    Friend WithEvents Label_IGBT_RearLeft As Label
+    Friend WithEvents Label_Gearbox_RearRight As Label
+    Friend WithEvents Label_Gearbox_FrontRight As Label
+    Friend WithEvents Label_Gearbox_FrontLeft As Label
+    Friend WithEvents Label_Gearbox_RearLeft As Label
+    Friend WithEvents Label_CoolantTemp_InverterOut As Label
+    Friend WithEvents Label_CoolantTemp_InverterIn As Label
+    Friend WithEvents Label_CoolantTemp_MotorOut As Label
+    Friend WithEvents Label_CoolantTemp_MotorIn As Label
+    Friend WithEvents Label_PlateTemp As Label
 End Class

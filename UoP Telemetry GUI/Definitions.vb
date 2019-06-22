@@ -1,39 +1,73 @@
 ﻿Public Class Definitions
 
-    Public Structure Car_Raw
-        Public RPM As UInt16
-        Public Torque As Int16
-        Public RPM_Front_Left As UInt16
-        Public RPM_Front_Right As UInt16
-        Public RPM_Rear_Left As UInt16
-        Public RPM_Rear_Right As UInt16
-        Public Temp_IGBT As UInt16
-        Public Temp_Motor As UInt16
-        Public Throttle_12 As UInt16
-        Public Throttle_5 As UInt16
-        Public Brake_Front As UInt16
-        Public Brake_Rear As UInt16
-        Public Current_IVT As Int32
-        Public Voltage_IVT As UInt32
-        Public VCU_ETD As Byte
-        Public VCU_BMSA As Byte
-        Public VCU_MCMS As Byte
-        Public VCU_CPS As Byte
-        Public VCU_EMA As UInt16
-        Public VCU_PLS As UInt16
-        Public Temp_Coolant_In As UInt16
-        Public Temp_Gearbox As UInt16
-        Public Temp_Coolant_Out As UInt16
-        Public Voltage_BMS_Min_Left As UInt16
-        Public Voltage_BMS_Min_Right As UInt16
-        Public Voltage_BMS_Max_Left As UInt16
-        Public Voltage_BMS_Max_Right As UInt16
-        Public Temp_BMS_Min_Left As UInt16
-        Public Temp_BMS_Max_Left As UInt16
-        Public Temp_BMS_Min_Right As UInt16
-        Public Temp_BMS_Max_Right As UInt16
-        Public Current_Low_Battery As UInt16
+    Public Structure GPS
+        Private Speed As Single
+        Private Latitude, Longitude As Single
+        Private Accel_X, Accel_Y, Accel_Z As Single
+        Private Gyro_X, Gyro_Y, Gyro_Z As Single
     End Structure
+
+    Public Structure Car_Raw
+        'Private DateTime As PCAN_DateTime
+        Private Throttle_12 As UInt16
+        Private Throttle_5 As UInt16
+        Private Brake_Travel As UInt16
+        Private Brake_Front As UInt16
+        Private Brake_Rear As UInt16
+        Private Suspension_Front_Right As UInt16
+        Private Suspension_Front_Left As UInt16
+        Private Suspension_Rear_Right As UInt16
+        Private Suspension_Rear_Left As UInt16
+        Private Transmission_Front_Right As UInt16
+        Private Transmission_Front_Left As UInt16
+        Private Transmission_Rear_Right As UInt16
+        Private Transmission_Rear_Left As UInt16
+        Private Coolant_In_1 As UInt16
+        Private Coolant_Out_1 As UInt16
+        Private Coolant_In_2 As UInt16
+        Private Coolant_Out_2 As UInt16
+        Private Steering_Angle As UInt16
+        Private Strain_Front_Right As UInt16
+        Private Strain_Front_Left As UInt16
+        Private Strain_Rear_Right As UInt16
+        Private Strain_Rear_Left As UInt16
+        Private GPS_1 As GPS
+        Private GPS_2 As GPS
+        Private RPM_Front_Right As UInt16
+        Private RPM_Front_Left As UInt16
+        Private RPM_Rear_Right As UInt16
+        Private RPM_Rear_Left As UInt16
+        Private Motor_Front_Right As UInt16
+        Private Motor_Front_Left As UInt16
+        Private Motor_Rear_Right As UInt16
+        Private Motor_Rear_Left As UInt16
+        Private IGBT_Front_Right As UInt16
+        Private IGBT_Front_Left As UInt16
+        Private IGBT_Rear_Right As UInt16
+        Private IGBT_Rear_Left As UInt16
+        Private Plate_Front_Right As UInt16
+        Private Plate_Front_Left As UInt16
+        Private Plate_Rear_Right As UInt16
+        Private Plate_Rear_Left As UInt16
+        Private Demanded_Front_Right As UInt16
+        Private Demanded_Front_Left As UInt16
+        Private Demanded_Rear_Right As UInt16
+        Private Demanded_Rear_Left As UInt16
+        Private Actual_Front_Right As UInt16
+        Private Actual_Front_Left As UInt16
+        Private Actual_Rear_Right As UInt16
+        Private Actual_Rear_Left As UInt16
+        Private InverterVoltage As UInt16
+        Private ErrorCode_1, ErrorCode_2, ErrorCode_3, ErrorCode_4 As Byte
+        Private IVT_Voltage, IVT_Current As Single
+        Private Stack_Voltage As Single
+        Private Voltage_BMS_Min As UInt16
+        Private Voltage_BMS_Max As UInt16
+        Private Temp_BMS_Min As UInt16
+        Private Temp_BMS_Max As UInt16
+        Private SOC As Byte
+    End Structure
+
 
     Public Structure Car_Processed
         Public RPM As UInt16
