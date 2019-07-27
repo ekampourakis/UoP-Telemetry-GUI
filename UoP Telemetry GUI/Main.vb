@@ -1,6 +1,8 @@
 ﻿Imports UoP_Telemetry_GUI.Arithmetic
 Imports UoP_Telemetry_GUI.Definitions
 
+Imports UNOLibs.Net
+
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms.DataVisualization.Charting
 
@@ -22,6 +24,7 @@ Public Class Main
             HideDeveloper()
         End If
         RegisterHotKey(Me.Handle, 100, MOD_ALT, Keys.C)
+        Label_Sockets_Info.Text = "Local IP: " & GetIPv4Address()
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -179,11 +182,13 @@ Public Class Main
 
     Private Sub ShowDeveloper()
         GroupBox_CAN_Outcoming.Visible = True
+        TabControl.TabPages(4).Visible = True
         DeveloperMode = True
     End Sub
 
     Private Sub HideDeveloper()
         GroupBox_CAN_Outcoming.Visible = False
+        TabControl.TabPages(4).Visible = False
         DeveloperMode = False
     End Sub
 #End Region
@@ -309,6 +314,14 @@ Public Class Main
                             If (CheckSum.First = RX(2 + len) And CheckSum.Second = RX(3 + len)) Then
                                 ' Cheksum success
                                 RXDataQueue.Add(Data)
+                                If CheckBox_Sockets_Forward.Checked Then
+                                    For Each IP In ClientsList
+                                        Try
+                                            Client.SendMessage(IP, ServerPort, BytesToString(Data))
+                                        Catch ex As Exception
+                                        End Try
+                                    Next
+                                End If
                                 RX.RemoveRange(0, len + 5)
                                 'RXData = Data
                                 ReceiveSuccess()
@@ -569,8 +582,8 @@ Public Class Main
     End Sub
 
     Private Sub ProcessData()
-        'Try
-        Select Case RXData(0)
+        Try
+            Select Case RXData(0)
                 Case ID_CONNECTION
                     If WaitingSerialPing Then SerialPingReceived = True
                 Case ID_UNKNOWN
@@ -598,16 +611,16 @@ Public Class Main
                 Case Else
                     DisplayStatus("Unknown packet ID", Color.Orange, 3000)
             End Select
-        'Catch ex As Exception
-        'ProcessSuccess()
-        'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-        'Console.WriteLine("Process error: " & ex.Message)
-        'Exit Sub
-        'End Try
+            'Catch ex As Exception
+            'ProcessSuccess()
+            'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+            'Console.WriteLine("Process error: " & ex.Message)
+            'Exit Sub
+            'End Try
         Catch ex As Exception
             ProcessSuccess()
-            'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-            Console.WriteLine(ex.Message)
+        'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+        Console.WriteLine(ex.Message)
         End Try
         ProcessSuccess()
     End Sub
@@ -1854,10 +1867,63 @@ CalculateLoad:
         LogTransferTimer.Start()
     End Sub
 
-    Private Sub Button_Logging_Delete_Click(sender As Object, e As EventArgs) Handles Button_Logging_Delete.Click
+#End Region
 
+#Region "Sockets"
+
+    Private WithEvents Server As New ServerClass(ServerPort, True)
+    Private Client As New ClientClass
+    Private ClientsList As New List(Of String)
+    Private Const ServerPort = 567
+
+    Private Sub OnIncomingMessage(Args As ServerClass.InMessEvArgs) Handles Server.IncomingMessage
+        Try
+            RXDataQueue.Add(StringToBytes(Args.message))
+            ReceiveSuccess()
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub Button_Sockets_Connect_Click(sender As Object, e As EventArgs) Handles Button_Sockets_Connect.Click
+        ClientsList.Add(TextBox_Sockets_ClientIP.Text)
+        ListBox_Sockets_Clients.Items.Add(TextBox_Sockets_ClientIP.Text)
+    End Sub
+
+    Private Sub Button_Sockets_Clear_Click(sender As Object, e As EventArgs) Handles Button_Sockets_Clear.Click
+        ClientsList.Clear()
+        ListBox_Sockets_Clients.Items.Clear()
     End Sub
 
 #End Region
+
+    Private Function BytesToString(ByVal Input As Byte()) As String
+        Dim Result As New System.Text.StringBuilder(Input.Length * 2)
+        Dim Part As String
+        For Each b As Byte In Input
+            Part = Conversion.Hex(b)
+            If Part.Length = 1 Then Part = "0" & Part
+            Result.Append(Part)
+        Next
+        Return Result.ToString()
+    End Function
+
+    Private Function StringToBytes(ByVal Input As String) As Byte()
+        Dim Result(Input.Length / 2) As Byte
+        For Index As Integer = 0 To Input.Length - 1 Step 2
+            Result(Index / 2) = Convert.ToByte(Input.Chars(Index) & Input.Chars(Index + 1))
+        Next
+        Return Result
+    End Function
+
+    Private Function GetIPv4Address() As String
+        GetIPv4Address = String.Empty
+        Dim strHostName As String = System.Net.Dns.GetHostName()
+        Dim iphe As System.Net.IPHostEntry = System.Net.Dns.GetHostEntry(strHostName)
+        For Each ipheal As System.Net.IPAddress In iphe.AddressList
+            If ipheal.AddressFamily = System.Net.Sockets.AddressFamily.InterNetwork Then
+                GetIPv4Address = ipheal.ToString()
+            End If
+        Next
+    End Function
 
 End Class

@@ -70,6 +70,15 @@ Partial Class Main
         Me.Timer_GUIUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.TabControl = New System.Windows.Forms.TabControl()
         Me.TabPage_General = New System.Windows.Forms.TabPage()
+        Me.Label_SuspensionStrain_RearRight = New System.Windows.Forms.Label()
+        Me.Label_SuspensionTravel_RearRight = New System.Windows.Forms.Label()
+        Me.Label_SuspensionStrain_RearLeft = New System.Windows.Forms.Label()
+        Me.Label_SuspensionTravel_RearLeft = New System.Windows.Forms.Label()
+        Me.Label_SuspensionStrain_FrontRight = New System.Windows.Forms.Label()
+        Me.Label_SuspensionTravel_FrontRight = New System.Windows.Forms.Label()
+        Me.Label_SuspensionStrain_FrontLeft = New System.Windows.Forms.Label()
+        Me.Label_SuspensionTravel_FrontLeft = New System.Windows.Forms.Label()
+        Me.Label_PlateTemp = New System.Windows.Forms.Label()
         Me.Label_CoolantTemp_InverterOut = New System.Windows.Forms.Label()
         Me.Label_CoolantTemp_InverterIn = New System.Windows.Forms.Label()
         Me.Label_CoolantTemp_MotorOut = New System.Windows.Forms.Label()
@@ -145,36 +154,37 @@ Partial Class Main
         Me.Label_BMS_VoltageRange = New System.Windows.Forms.Label()
         Me.Chart_BMS = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.TabPage_CAN = New System.Windows.Forms.TabPage()
-        Me.ProgressBar_CAN_Load = New System.Windows.Forms.ProgressBar()
+        Me.GroupBox_CAN_Outcoming = New System.Windows.Forms.GroupBox()
+        Me.Label_CAN_MessageID = New System.Windows.Forms.Label()
+        Me.RadioButton_CAN_Binary = New System.Windows.Forms.RadioButton()
         Me.Button_BrakeStop = New System.Windows.Forms.Button()
+        Me.RadioButton_CAN_Decimal = New System.Windows.Forms.RadioButton()
         Me.Button_CAN_BuzzerStop = New System.Windows.Forms.Button()
+        Me.RadioButton_CAN_Hex = New System.Windows.Forms.RadioButton()
         Me.Button_CAN_BrakeStart = New System.Windows.Forms.Button()
+        Me.TextBox_CAN_MessageID = New System.Windows.Forms.TextBox()
         Me.Button_CAN_BuzzerStart = New System.Windows.Forms.Button()
+        Me.TextBox_CAN_Byte0 = New System.Windows.Forms.TextBox()
         Me.CheckBox_CAN_Warn = New System.Windows.Forms.CheckBox()
+        Me.TextBox_CAN_Byte1 = New System.Windows.Forms.TextBox()
         Me.Button_CAN_Send = New System.Windows.Forms.Button()
+        Me.TextBox_CAN_Byte2 = New System.Windows.Forms.TextBox()
         Me.Button_CAN_Clear = New System.Windows.Forms.Button()
+        Me.TextBox_CAN_Byte3 = New System.Windows.Forms.TextBox()
         Me.Label_CAN_Byte7 = New System.Windows.Forms.Label()
+        Me.TextBox_CAN_Byte4 = New System.Windows.Forms.TextBox()
         Me.Label_CAN_Byte6 = New System.Windows.Forms.Label()
+        Me.TextBox_CAN_Byte5 = New System.Windows.Forms.TextBox()
         Me.Label_CAN_Byte2 = New System.Windows.Forms.Label()
+        Me.TextBox_CAN_Byte6 = New System.Windows.Forms.TextBox()
         Me.Label_CAN_Byte5 = New System.Windows.Forms.Label()
+        Me.TextBox_CAN_Byte7 = New System.Windows.Forms.TextBox()
         Me.Label_CAN_Byte4 = New System.Windows.Forms.Label()
+        Me.Label_CAN_Byte0 = New System.Windows.Forms.Label()
         Me.Label_CAN_Byte3 = New System.Windows.Forms.Label()
         Me.Label_CAN_Byte1 = New System.Windows.Forms.Label()
-        Me.Label_CAN_Byte0 = New System.Windows.Forms.Label()
-        Me.TextBox_CAN_Byte7 = New System.Windows.Forms.TextBox()
-        Me.TextBox_CAN_Byte6 = New System.Windows.Forms.TextBox()
-        Me.TextBox_CAN_Byte5 = New System.Windows.Forms.TextBox()
-        Me.TextBox_CAN_Byte4 = New System.Windows.Forms.TextBox()
-        Me.TextBox_CAN_Byte3 = New System.Windows.Forms.TextBox()
-        Me.TextBox_CAN_Byte2 = New System.Windows.Forms.TextBox()
-        Me.TextBox_CAN_Byte1 = New System.Windows.Forms.TextBox()
-        Me.TextBox_CAN_Byte0 = New System.Windows.Forms.TextBox()
-        Me.TextBox_CAN_MessageID = New System.Windows.Forms.TextBox()
-        Me.Label_CAN_MessageID = New System.Windows.Forms.Label()
+        Me.ProgressBar_CAN_Load = New System.Windows.Forms.ProgressBar()
         Me.Label_CAN_Incoming = New System.Windows.Forms.Label()
-        Me.RadioButton_CAN_Hex = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_CAN_Decimal = New System.Windows.Forms.RadioButton()
-        Me.RadioButton_CAN_Binary = New System.Windows.Forms.RadioButton()
         Me.ListView_CAN = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -220,6 +230,12 @@ Partial Class Main
         Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Label_LostPackets = New System.Windows.Forms.Label()
         Me.TabPage_Connection = New System.Windows.Forms.TabPage()
+        Me.GroupBox_Sockets = New System.Windows.Forms.GroupBox()
+        Me.Label_Sockets_Info = New System.Windows.Forms.Label()
+        Me.CheckBox_Sockets_Forward = New System.Windows.Forms.CheckBox()
+        Me.ListBox_Sockets_Clients = New System.Windows.Forms.ListBox()
+        Me.Button_Sockets_Connect = New System.Windows.Forms.Button()
+        Me.TextBox_Sockets_ClientIP = New System.Windows.Forms.TextBox()
         Me.GroupBox_Connection = New System.Windows.Forms.GroupBox()
         Me.Label_SerialPing = New System.Windows.Forms.Label()
         Me.Button_Ping = New System.Windows.Forms.Button()
@@ -229,8 +245,8 @@ Partial Class Main
         Me.Timer_RandomTelemetry = New System.Windows.Forms.Timer(Me.components)
         Me.ColorDialog_BMS = New System.Windows.Forms.ColorDialog()
         Me.Timer_Generic = New System.Windows.Forms.Timer(Me.components)
-        Me.Label_PlateTemp = New System.Windows.Forms.Label()
-        Me.GroupBox_CAN_Outcoming = New System.Windows.Forms.GroupBox()
+        Me.Button_Sockets_Clear = New System.Windows.Forms.Button()
+        Me.Label_Sockets_Clients = New System.Windows.Forms.Label()
         Me.StatusStrip.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.TabPage_General.SuspendLayout()
@@ -247,6 +263,7 @@ Partial Class Main
         CType(Me.NumericUpDown_BMS_VoltageMin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Chart_BMS, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage_CAN.SuspendLayout()
+        Me.GroupBox_CAN_Outcoming.SuspendLayout()
         Me.TabPage_Configuration.SuspendLayout()
         Me.GroupBox_Config_Fusebox.SuspendLayout()
         CType(Me.NumericUpDown_Config_Fusebox_Telemetry2TX, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -255,8 +272,8 @@ Partial Class Main
         Me.TabPage_Logging.SuspendLayout()
         Me.TabPage_Admin.SuspendLayout()
         Me.TabPage_Connection.SuspendLayout()
+        Me.GroupBox_Sockets.SuspendLayout()
         Me.GroupBox_Connection.SuspendLayout()
-        Me.GroupBox_CAN_Outcoming.SuspendLayout()
         Me.SuspendLayout()
         '
         'StatusStrip
@@ -351,6 +368,14 @@ Partial Class Main
         '
         'TabPage_General
         '
+        Me.TabPage_General.Controls.Add(Me.Label_SuspensionStrain_RearRight)
+        Me.TabPage_General.Controls.Add(Me.Label_SuspensionTravel_RearRight)
+        Me.TabPage_General.Controls.Add(Me.Label_SuspensionStrain_RearLeft)
+        Me.TabPage_General.Controls.Add(Me.Label_SuspensionTravel_RearLeft)
+        Me.TabPage_General.Controls.Add(Me.Label_SuspensionStrain_FrontRight)
+        Me.TabPage_General.Controls.Add(Me.Label_SuspensionTravel_FrontRight)
+        Me.TabPage_General.Controls.Add(Me.Label_SuspensionStrain_FrontLeft)
+        Me.TabPage_General.Controls.Add(Me.Label_SuspensionTravel_FrontLeft)
         Me.TabPage_General.Controls.Add(Me.Label_PlateTemp)
         Me.TabPage_General.Controls.Add(Me.Label_CoolantTemp_InverterOut)
         Me.TabPage_General.Controls.Add(Me.Label_CoolantTemp_InverterIn)
@@ -393,6 +418,96 @@ Partial Class Main
         Me.TabPage_General.TabIndex = 0
         Me.TabPage_General.Text = "General"
         Me.TabPage_General.UseVisualStyleBackColor = True
+        '
+        'Label_SuspensionStrain_RearRight
+        '
+        Me.Label_SuspensionStrain_RearRight.AutoSize = True
+        Me.Label_SuspensionStrain_RearRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_SuspensionStrain_RearRight.Location = New System.Drawing.Point(308, 484)
+        Me.Label_SuspensionStrain_RearRight.Name = "Label_SuspensionStrain_RearRight"
+        Me.Label_SuspensionStrain_RearRight.Size = New System.Drawing.Size(45, 24)
+        Me.Label_SuspensionStrain_RearRight.TabIndex = 45
+        Me.Label_SuspensionStrain_RearRight.Text = "0 kg"
+        '
+        'Label_SuspensionTravel_RearRight
+        '
+        Me.Label_SuspensionTravel_RearRight.AutoSize = True
+        Me.Label_SuspensionTravel_RearRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_SuspensionTravel_RearRight.Location = New System.Drawing.Point(308, 460)
+        Me.Label_SuspensionTravel_RearRight.Name = "Label_SuspensionTravel_RearRight"
+        Me.Label_SuspensionTravel_RearRight.Size = New System.Drawing.Size(51, 24)
+        Me.Label_SuspensionTravel_RearRight.TabIndex = 44
+        Me.Label_SuspensionTravel_RearRight.Text = "0 cm"
+        '
+        'Label_SuspensionStrain_RearLeft
+        '
+        Me.Label_SuspensionStrain_RearLeft.AutoSize = True
+        Me.Label_SuspensionStrain_RearLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_SuspensionStrain_RearLeft.Location = New System.Drawing.Point(308, 134)
+        Me.Label_SuspensionStrain_RearLeft.Name = "Label_SuspensionStrain_RearLeft"
+        Me.Label_SuspensionStrain_RearLeft.Size = New System.Drawing.Size(45, 24)
+        Me.Label_SuspensionStrain_RearLeft.TabIndex = 43
+        Me.Label_SuspensionStrain_RearLeft.Text = "0 kg"
+        '
+        'Label_SuspensionTravel_RearLeft
+        '
+        Me.Label_SuspensionTravel_RearLeft.AutoSize = True
+        Me.Label_SuspensionTravel_RearLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_SuspensionTravel_RearLeft.Location = New System.Drawing.Point(308, 110)
+        Me.Label_SuspensionTravel_RearLeft.Name = "Label_SuspensionTravel_RearLeft"
+        Me.Label_SuspensionTravel_RearLeft.Size = New System.Drawing.Size(51, 24)
+        Me.Label_SuspensionTravel_RearLeft.TabIndex = 42
+        Me.Label_SuspensionTravel_RearLeft.Text = "0 cm"
+        '
+        'Label_SuspensionStrain_FrontRight
+        '
+        Me.Label_SuspensionStrain_FrontRight.AutoSize = True
+        Me.Label_SuspensionStrain_FrontRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_SuspensionStrain_FrontRight.Location = New System.Drawing.Point(906, 460)
+        Me.Label_SuspensionStrain_FrontRight.Name = "Label_SuspensionStrain_FrontRight"
+        Me.Label_SuspensionStrain_FrontRight.Size = New System.Drawing.Size(45, 24)
+        Me.Label_SuspensionStrain_FrontRight.TabIndex = 41
+        Me.Label_SuspensionStrain_FrontRight.Text = "0 kg"
+        '
+        'Label_SuspensionTravel_FrontRight
+        '
+        Me.Label_SuspensionTravel_FrontRight.AutoSize = True
+        Me.Label_SuspensionTravel_FrontRight.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_SuspensionTravel_FrontRight.Location = New System.Drawing.Point(906, 436)
+        Me.Label_SuspensionTravel_FrontRight.Name = "Label_SuspensionTravel_FrontRight"
+        Me.Label_SuspensionTravel_FrontRight.Size = New System.Drawing.Size(51, 24)
+        Me.Label_SuspensionTravel_FrontRight.TabIndex = 40
+        Me.Label_SuspensionTravel_FrontRight.Text = "0 cm"
+        '
+        'Label_SuspensionStrain_FrontLeft
+        '
+        Me.Label_SuspensionStrain_FrontLeft.AutoSize = True
+        Me.Label_SuspensionStrain_FrontLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_SuspensionStrain_FrontLeft.Location = New System.Drawing.Point(906, 172)
+        Me.Label_SuspensionStrain_FrontLeft.Name = "Label_SuspensionStrain_FrontLeft"
+        Me.Label_SuspensionStrain_FrontLeft.Size = New System.Drawing.Size(45, 24)
+        Me.Label_SuspensionStrain_FrontLeft.TabIndex = 39
+        Me.Label_SuspensionStrain_FrontLeft.Text = "0 kg"
+        '
+        'Label_SuspensionTravel_FrontLeft
+        '
+        Me.Label_SuspensionTravel_FrontLeft.AutoSize = True
+        Me.Label_SuspensionTravel_FrontLeft.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_SuspensionTravel_FrontLeft.Location = New System.Drawing.Point(906, 148)
+        Me.Label_SuspensionTravel_FrontLeft.Name = "Label_SuspensionTravel_FrontLeft"
+        Me.Label_SuspensionTravel_FrontLeft.Size = New System.Drawing.Size(51, 24)
+        Me.Label_SuspensionTravel_FrontLeft.TabIndex = 38
+        Me.Label_SuspensionTravel_FrontLeft.Text = "0 cm"
+        '
+        'Label_PlateTemp
+        '
+        Me.Label_PlateTemp.AutoSize = True
+        Me.Label_PlateTemp.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label_PlateTemp.Location = New System.Drawing.Point(243, 299)
+        Me.Label_PlateTemp.Name = "Label_PlateTemp"
+        Me.Label_PlateTemp.Size = New System.Drawing.Size(38, 24)
+        Me.Label_PlateTemp.TabIndex = 37
+        Me.Label_PlateTemp.Text = "0 C"
         '
         'Label_CoolantTemp_InverterOut
         '
@@ -1577,12 +1692,63 @@ Partial Class Main
         Me.TabPage_CAN.Text = "CAN"
         Me.TabPage_CAN.UseVisualStyleBackColor = True
         '
-        'ProgressBar_CAN_Load
+        'GroupBox_CAN_Outcoming
         '
-        Me.ProgressBar_CAN_Load.Location = New System.Drawing.Point(87, 3)
-        Me.ProgressBar_CAN_Load.Name = "ProgressBar_CAN_Load"
-        Me.ProgressBar_CAN_Load.Size = New System.Drawing.Size(382, 13)
-        Me.ProgressBar_CAN_Load.TabIndex = 63
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_MessageID)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.RadioButton_CAN_Binary)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_BrakeStop)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.RadioButton_CAN_Decimal)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_BuzzerStop)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.RadioButton_CAN_Hex)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_BrakeStart)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_MessageID)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_BuzzerStart)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte0)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.CheckBox_CAN_Warn)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte1)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_Send)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte2)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_Clear)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte3)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte7)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte4)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte6)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte5)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte2)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte6)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte5)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte7)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte4)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte0)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte3)
+        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte1)
+        Me.GroupBox_CAN_Outcoming.Location = New System.Drawing.Point(475, 3)
+        Me.GroupBox_CAN_Outcoming.Name = "GroupBox_CAN_Outcoming"
+        Me.GroupBox_CAN_Outcoming.Size = New System.Drawing.Size(601, 295)
+        Me.GroupBox_CAN_Outcoming.TabIndex = 64
+        Me.GroupBox_CAN_Outcoming.TabStop = False
+        Me.GroupBox_CAN_Outcoming.Text = "Outcoming CAN"
+        '
+        'Label_CAN_MessageID
+        '
+        Me.Label_CAN_MessageID.AutoSize = True
+        Me.Label_CAN_MessageID.Location = New System.Drawing.Point(6, 16)
+        Me.Label_CAN_MessageID.Name = "Label_CAN_MessageID"
+        Me.Label_CAN_MessageID.Size = New System.Drawing.Size(67, 13)
+        Me.Label_CAN_MessageID.TabIndex = 34
+        Me.Label_CAN_MessageID.Text = "Message ID:"
+        '
+        'RadioButton_CAN_Binary
+        '
+        Me.RadioButton_CAN_Binary.AutoSize = True
+        Me.RadioButton_CAN_Binary.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Binary
+        Me.RadioButton_CAN_Binary.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Binary", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.RadioButton_CAN_Binary.Location = New System.Drawing.Point(9, 214)
+        Me.RadioButton_CAN_Binary.Name = "RadioButton_CAN_Binary"
+        Me.RadioButton_CAN_Binary.Size = New System.Drawing.Size(54, 17)
+        Me.RadioButton_CAN_Binary.TabIndex = 52
+        Me.RadioButton_CAN_Binary.Text = "Binary"
+        Me.RadioButton_CAN_Binary.UseVisualStyleBackColor = True
         '
         'Button_BrakeStop
         '
@@ -1593,6 +1759,19 @@ Partial Class Main
         Me.Button_BrakeStop.Text = "Brake Off"
         Me.Button_BrakeStop.UseVisualStyleBackColor = True
         '
+        'RadioButton_CAN_Decimal
+        '
+        Me.RadioButton_CAN_Decimal.AutoSize = True
+        Me.RadioButton_CAN_Decimal.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Decimal
+        Me.RadioButton_CAN_Decimal.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Decimal", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.RadioButton_CAN_Decimal.Location = New System.Drawing.Point(9, 237)
+        Me.RadioButton_CAN_Decimal.Name = "RadioButton_CAN_Decimal"
+        Me.RadioButton_CAN_Decimal.Size = New System.Drawing.Size(63, 17)
+        Me.RadioButton_CAN_Decimal.TabIndex = 53
+        Me.RadioButton_CAN_Decimal.TabStop = True
+        Me.RadioButton_CAN_Decimal.Text = "Decimal"
+        Me.RadioButton_CAN_Decimal.UseVisualStyleBackColor = True
+        '
         'Button_CAN_BuzzerStop
         '
         Me.Button_CAN_BuzzerStop.Location = New System.Drawing.Point(490, 123)
@@ -1601,6 +1780,18 @@ Partial Class Main
         Me.Button_CAN_BuzzerStop.TabIndex = 61
         Me.Button_CAN_BuzzerStop.Text = "Buzzer Off"
         Me.Button_CAN_BuzzerStop.UseVisualStyleBackColor = True
+        '
+        'RadioButton_CAN_Hex
+        '
+        Me.RadioButton_CAN_Hex.AutoSize = True
+        Me.RadioButton_CAN_Hex.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Hex
+        Me.RadioButton_CAN_Hex.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Hex", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
+        Me.RadioButton_CAN_Hex.Location = New System.Drawing.Point(9, 260)
+        Me.RadioButton_CAN_Hex.Name = "RadioButton_CAN_Hex"
+        Me.RadioButton_CAN_Hex.Size = New System.Drawing.Size(44, 17)
+        Me.RadioButton_CAN_Hex.TabIndex = 54
+        Me.RadioButton_CAN_Hex.Text = "Hex"
+        Me.RadioButton_CAN_Hex.UseVisualStyleBackColor = True
         '
         'Button_CAN_BrakeStart
         '
@@ -1611,6 +1802,15 @@ Partial Class Main
         Me.Button_CAN_BrakeStart.Text = "Brake On"
         Me.Button_CAN_BrakeStart.UseVisualStyleBackColor = True
         '
+        'TextBox_CAN_MessageID
+        '
+        Me.TextBox_CAN_MessageID.Location = New System.Drawing.Point(9, 32)
+        Me.TextBox_CAN_MessageID.MaxLength = 4
+        Me.TextBox_CAN_MessageID.Name = "TextBox_CAN_MessageID"
+        Me.TextBox_CAN_MessageID.Size = New System.Drawing.Size(110, 20)
+        Me.TextBox_CAN_MessageID.TabIndex = 35
+        Me.TextBox_CAN_MessageID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'Button_CAN_BuzzerStart
         '
         Me.Button_CAN_BuzzerStart.Location = New System.Drawing.Point(490, 78)
@@ -1619,6 +1819,16 @@ Partial Class Main
         Me.Button_CAN_BuzzerStart.TabIndex = 58
         Me.Button_CAN_BuzzerStart.Text = "Buzzer On"
         Me.Button_CAN_BuzzerStart.UseVisualStyleBackColor = True
+        '
+        'TextBox_CAN_Byte0
+        '
+        Me.TextBox_CAN_Byte0.Location = New System.Drawing.Point(9, 71)
+        Me.TextBox_CAN_Byte0.MaxLength = 3
+        Me.TextBox_CAN_Byte0.Name = "TextBox_CAN_Byte0"
+        Me.TextBox_CAN_Byte0.Size = New System.Drawing.Size(110, 20)
+        Me.TextBox_CAN_Byte0.TabIndex = 36
+        Me.TextBox_CAN_Byte0.Text = "-"
+        Me.TextBox_CAN_Byte0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'CheckBox_CAN_Warn
         '
@@ -1634,6 +1844,16 @@ Partial Class Main
         Me.CheckBox_CAN_Warn.Text = "Warn"
         Me.CheckBox_CAN_Warn.UseVisualStyleBackColor = True
         '
+        'TextBox_CAN_Byte1
+        '
+        Me.TextBox_CAN_Byte1.Location = New System.Drawing.Point(125, 71)
+        Me.TextBox_CAN_Byte1.MaxLength = 3
+        Me.TextBox_CAN_Byte1.Name = "TextBox_CAN_Byte1"
+        Me.TextBox_CAN_Byte1.Size = New System.Drawing.Size(110, 20)
+        Me.TextBox_CAN_Byte1.TabIndex = 37
+        Me.TextBox_CAN_Byte1.Text = "-"
+        Me.TextBox_CAN_Byte1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'Button_CAN_Send
         '
         Me.Button_CAN_Send.Location = New System.Drawing.Point(132, 254)
@@ -1642,137 +1862,6 @@ Partial Class Main
         Me.Button_CAN_Send.TabIndex = 56
         Me.Button_CAN_Send.Text = "Send"
         Me.Button_CAN_Send.UseVisualStyleBackColor = True
-        '
-        'Button_CAN_Clear
-        '
-        Me.Button_CAN_Clear.Location = New System.Drawing.Point(149, 214)
-        Me.Button_CAN_Clear.Name = "Button_CAN_Clear"
-        Me.Button_CAN_Clear.Size = New System.Drawing.Size(76, 23)
-        Me.Button_CAN_Clear.TabIndex = 55
-        Me.Button_CAN_Clear.Text = "Clear"
-        Me.Button_CAN_Clear.UseVisualStyleBackColor = True
-        '
-        'Label_CAN_Byte7
-        '
-        Me.Label_CAN_Byte7.AutoSize = True
-        Me.Label_CAN_Byte7.Location = New System.Drawing.Point(112, 172)
-        Me.Label_CAN_Byte7.Name = "Label_CAN_Byte7"
-        Me.Label_CAN_Byte7.Size = New System.Drawing.Size(40, 13)
-        Me.Label_CAN_Byte7.TabIndex = 51
-        Me.Label_CAN_Byte7.Text = "Byte 7:"
-        '
-        'Label_CAN_Byte6
-        '
-        Me.Label_CAN_Byte6.AutoSize = True
-        Me.Label_CAN_Byte6.Location = New System.Drawing.Point(6, 172)
-        Me.Label_CAN_Byte6.Name = "Label_CAN_Byte6"
-        Me.Label_CAN_Byte6.Size = New System.Drawing.Size(40, 13)
-        Me.Label_CAN_Byte6.TabIndex = 50
-        Me.Label_CAN_Byte6.Text = "Byte 6:"
-        '
-        'Label_CAN_Byte2
-        '
-        Me.Label_CAN_Byte2.AutoSize = True
-        Me.Label_CAN_Byte2.Location = New System.Drawing.Point(6, 94)
-        Me.Label_CAN_Byte2.Name = "Label_CAN_Byte2"
-        Me.Label_CAN_Byte2.Size = New System.Drawing.Size(40, 13)
-        Me.Label_CAN_Byte2.TabIndex = 49
-        Me.Label_CAN_Byte2.Text = "Byte 2:"
-        '
-        'Label_CAN_Byte5
-        '
-        Me.Label_CAN_Byte5.AutoSize = True
-        Me.Label_CAN_Byte5.Location = New System.Drawing.Point(112, 133)
-        Me.Label_CAN_Byte5.Name = "Label_CAN_Byte5"
-        Me.Label_CAN_Byte5.Size = New System.Drawing.Size(40, 13)
-        Me.Label_CAN_Byte5.TabIndex = 48
-        Me.Label_CAN_Byte5.Text = "Byte 5:"
-        '
-        'Label_CAN_Byte4
-        '
-        Me.Label_CAN_Byte4.AutoSize = True
-        Me.Label_CAN_Byte4.Location = New System.Drawing.Point(6, 133)
-        Me.Label_CAN_Byte4.Name = "Label_CAN_Byte4"
-        Me.Label_CAN_Byte4.Size = New System.Drawing.Size(40, 13)
-        Me.Label_CAN_Byte4.TabIndex = 47
-        Me.Label_CAN_Byte4.Text = "Byte 4:"
-        '
-        'Label_CAN_Byte3
-        '
-        Me.Label_CAN_Byte3.AutoSize = True
-        Me.Label_CAN_Byte3.Location = New System.Drawing.Point(112, 94)
-        Me.Label_CAN_Byte3.Name = "Label_CAN_Byte3"
-        Me.Label_CAN_Byte3.Size = New System.Drawing.Size(40, 13)
-        Me.Label_CAN_Byte3.TabIndex = 46
-        Me.Label_CAN_Byte3.Text = "Byte 3:"
-        '
-        'Label_CAN_Byte1
-        '
-        Me.Label_CAN_Byte1.AutoSize = True
-        Me.Label_CAN_Byte1.Location = New System.Drawing.Point(112, 55)
-        Me.Label_CAN_Byte1.Name = "Label_CAN_Byte1"
-        Me.Label_CAN_Byte1.Size = New System.Drawing.Size(40, 13)
-        Me.Label_CAN_Byte1.TabIndex = 45
-        Me.Label_CAN_Byte1.Text = "Byte 1:"
-        '
-        'Label_CAN_Byte0
-        '
-        Me.Label_CAN_Byte0.AutoSize = True
-        Me.Label_CAN_Byte0.Location = New System.Drawing.Point(6, 55)
-        Me.Label_CAN_Byte0.Name = "Label_CAN_Byte0"
-        Me.Label_CAN_Byte0.Size = New System.Drawing.Size(40, 13)
-        Me.Label_CAN_Byte0.TabIndex = 44
-        Me.Label_CAN_Byte0.Text = "Byte 0:"
-        '
-        'TextBox_CAN_Byte7
-        '
-        Me.TextBox_CAN_Byte7.Location = New System.Drawing.Point(115, 188)
-        Me.TextBox_CAN_Byte7.MaxLength = 3
-        Me.TextBox_CAN_Byte7.Name = "TextBox_CAN_Byte7"
-        Me.TextBox_CAN_Byte7.Size = New System.Drawing.Size(110, 20)
-        Me.TextBox_CAN_Byte7.TabIndex = 43
-        Me.TextBox_CAN_Byte7.Text = "-"
-        Me.TextBox_CAN_Byte7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox_CAN_Byte6
-        '
-        Me.TextBox_CAN_Byte6.Location = New System.Drawing.Point(9, 188)
-        Me.TextBox_CAN_Byte6.MaxLength = 3
-        Me.TextBox_CAN_Byte6.Name = "TextBox_CAN_Byte6"
-        Me.TextBox_CAN_Byte6.Size = New System.Drawing.Size(110, 20)
-        Me.TextBox_CAN_Byte6.TabIndex = 42
-        Me.TextBox_CAN_Byte6.Text = "-"
-        Me.TextBox_CAN_Byte6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox_CAN_Byte5
-        '
-        Me.TextBox_CAN_Byte5.Location = New System.Drawing.Point(115, 149)
-        Me.TextBox_CAN_Byte5.MaxLength = 3
-        Me.TextBox_CAN_Byte5.Name = "TextBox_CAN_Byte5"
-        Me.TextBox_CAN_Byte5.Size = New System.Drawing.Size(110, 20)
-        Me.TextBox_CAN_Byte5.TabIndex = 41
-        Me.TextBox_CAN_Byte5.Text = "-"
-        Me.TextBox_CAN_Byte5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox_CAN_Byte4
-        '
-        Me.TextBox_CAN_Byte4.Location = New System.Drawing.Point(9, 149)
-        Me.TextBox_CAN_Byte4.MaxLength = 3
-        Me.TextBox_CAN_Byte4.Name = "TextBox_CAN_Byte4"
-        Me.TextBox_CAN_Byte4.Size = New System.Drawing.Size(110, 20)
-        Me.TextBox_CAN_Byte4.TabIndex = 40
-        Me.TextBox_CAN_Byte4.Text = "-"
-        Me.TextBox_CAN_Byte4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox_CAN_Byte3
-        '
-        Me.TextBox_CAN_Byte3.Location = New System.Drawing.Point(115, 110)
-        Me.TextBox_CAN_Byte3.MaxLength = 3
-        Me.TextBox_CAN_Byte3.Name = "TextBox_CAN_Byte3"
-        Me.TextBox_CAN_Byte3.Size = New System.Drawing.Size(110, 20)
-        Me.TextBox_CAN_Byte3.TabIndex = 39
-        Me.TextBox_CAN_Byte3.Text = "-"
-        Me.TextBox_CAN_Byte3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'TextBox_CAN_Byte2
         '
@@ -1784,43 +1873,143 @@ Partial Class Main
         Me.TextBox_CAN_Byte2.Text = "-"
         Me.TextBox_CAN_Byte2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'TextBox_CAN_Byte1
+        'Button_CAN_Clear
         '
-        Me.TextBox_CAN_Byte1.Location = New System.Drawing.Point(115, 71)
-        Me.TextBox_CAN_Byte1.MaxLength = 3
-        Me.TextBox_CAN_Byte1.Name = "TextBox_CAN_Byte1"
-        Me.TextBox_CAN_Byte1.Size = New System.Drawing.Size(110, 20)
-        Me.TextBox_CAN_Byte1.TabIndex = 37
-        Me.TextBox_CAN_Byte1.Text = "-"
-        Me.TextBox_CAN_Byte1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Button_CAN_Clear.Location = New System.Drawing.Point(149, 214)
+        Me.Button_CAN_Clear.Name = "Button_CAN_Clear"
+        Me.Button_CAN_Clear.Size = New System.Drawing.Size(76, 23)
+        Me.Button_CAN_Clear.TabIndex = 55
+        Me.Button_CAN_Clear.Text = "Clear"
+        Me.Button_CAN_Clear.UseVisualStyleBackColor = True
         '
-        'TextBox_CAN_Byte0
+        'TextBox_CAN_Byte3
         '
-        Me.TextBox_CAN_Byte0.Location = New System.Drawing.Point(9, 71)
-        Me.TextBox_CAN_Byte0.MaxLength = 3
-        Me.TextBox_CAN_Byte0.Name = "TextBox_CAN_Byte0"
-        Me.TextBox_CAN_Byte0.Size = New System.Drawing.Size(110, 20)
-        Me.TextBox_CAN_Byte0.TabIndex = 36
-        Me.TextBox_CAN_Byte0.Text = "-"
-        Me.TextBox_CAN_Byte0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TextBox_CAN_Byte3.Location = New System.Drawing.Point(125, 110)
+        Me.TextBox_CAN_Byte3.MaxLength = 3
+        Me.TextBox_CAN_Byte3.Name = "TextBox_CAN_Byte3"
+        Me.TextBox_CAN_Byte3.Size = New System.Drawing.Size(110, 20)
+        Me.TextBox_CAN_Byte3.TabIndex = 39
+        Me.TextBox_CAN_Byte3.Text = "-"
+        Me.TextBox_CAN_Byte3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'TextBox_CAN_MessageID
+        'Label_CAN_Byte7
         '
-        Me.TextBox_CAN_MessageID.Location = New System.Drawing.Point(9, 32)
-        Me.TextBox_CAN_MessageID.MaxLength = 4
-        Me.TextBox_CAN_MessageID.Name = "TextBox_CAN_MessageID"
-        Me.TextBox_CAN_MessageID.Size = New System.Drawing.Size(110, 20)
-        Me.TextBox_CAN_MessageID.TabIndex = 35
-        Me.TextBox_CAN_MessageID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Label_CAN_Byte7.AutoSize = True
+        Me.Label_CAN_Byte7.Location = New System.Drawing.Point(122, 172)
+        Me.Label_CAN_Byte7.Name = "Label_CAN_Byte7"
+        Me.Label_CAN_Byte7.Size = New System.Drawing.Size(40, 13)
+        Me.Label_CAN_Byte7.TabIndex = 51
+        Me.Label_CAN_Byte7.Text = "Byte 7:"
         '
-        'Label_CAN_MessageID
+        'TextBox_CAN_Byte4
         '
-        Me.Label_CAN_MessageID.AutoSize = True
-        Me.Label_CAN_MessageID.Location = New System.Drawing.Point(6, 16)
-        Me.Label_CAN_MessageID.Name = "Label_CAN_MessageID"
-        Me.Label_CAN_MessageID.Size = New System.Drawing.Size(67, 13)
-        Me.Label_CAN_MessageID.TabIndex = 34
-        Me.Label_CAN_MessageID.Text = "Message ID:"
+        Me.TextBox_CAN_Byte4.Location = New System.Drawing.Point(9, 149)
+        Me.TextBox_CAN_Byte4.MaxLength = 3
+        Me.TextBox_CAN_Byte4.Name = "TextBox_CAN_Byte4"
+        Me.TextBox_CAN_Byte4.Size = New System.Drawing.Size(110, 20)
+        Me.TextBox_CAN_Byte4.TabIndex = 40
+        Me.TextBox_CAN_Byte4.Text = "-"
+        Me.TextBox_CAN_Byte4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label_CAN_Byte6
+        '
+        Me.Label_CAN_Byte6.AutoSize = True
+        Me.Label_CAN_Byte6.Location = New System.Drawing.Point(6, 172)
+        Me.Label_CAN_Byte6.Name = "Label_CAN_Byte6"
+        Me.Label_CAN_Byte6.Size = New System.Drawing.Size(40, 13)
+        Me.Label_CAN_Byte6.TabIndex = 50
+        Me.Label_CAN_Byte6.Text = "Byte 6:"
+        '
+        'TextBox_CAN_Byte5
+        '
+        Me.TextBox_CAN_Byte5.Location = New System.Drawing.Point(125, 149)
+        Me.TextBox_CAN_Byte5.MaxLength = 3
+        Me.TextBox_CAN_Byte5.Name = "TextBox_CAN_Byte5"
+        Me.TextBox_CAN_Byte5.Size = New System.Drawing.Size(110, 20)
+        Me.TextBox_CAN_Byte5.TabIndex = 41
+        Me.TextBox_CAN_Byte5.Text = "-"
+        Me.TextBox_CAN_Byte5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label_CAN_Byte2
+        '
+        Me.Label_CAN_Byte2.AutoSize = True
+        Me.Label_CAN_Byte2.Location = New System.Drawing.Point(6, 94)
+        Me.Label_CAN_Byte2.Name = "Label_CAN_Byte2"
+        Me.Label_CAN_Byte2.Size = New System.Drawing.Size(40, 13)
+        Me.Label_CAN_Byte2.TabIndex = 49
+        Me.Label_CAN_Byte2.Text = "Byte 2:"
+        '
+        'TextBox_CAN_Byte6
+        '
+        Me.TextBox_CAN_Byte6.Location = New System.Drawing.Point(9, 188)
+        Me.TextBox_CAN_Byte6.MaxLength = 3
+        Me.TextBox_CAN_Byte6.Name = "TextBox_CAN_Byte6"
+        Me.TextBox_CAN_Byte6.Size = New System.Drawing.Size(110, 20)
+        Me.TextBox_CAN_Byte6.TabIndex = 42
+        Me.TextBox_CAN_Byte6.Text = "-"
+        Me.TextBox_CAN_Byte6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label_CAN_Byte5
+        '
+        Me.Label_CAN_Byte5.AutoSize = True
+        Me.Label_CAN_Byte5.Location = New System.Drawing.Point(122, 133)
+        Me.Label_CAN_Byte5.Name = "Label_CAN_Byte5"
+        Me.Label_CAN_Byte5.Size = New System.Drawing.Size(40, 13)
+        Me.Label_CAN_Byte5.TabIndex = 48
+        Me.Label_CAN_Byte5.Text = "Byte 5:"
+        '
+        'TextBox_CAN_Byte7
+        '
+        Me.TextBox_CAN_Byte7.Location = New System.Drawing.Point(125, 187)
+        Me.TextBox_CAN_Byte7.MaxLength = 3
+        Me.TextBox_CAN_Byte7.Name = "TextBox_CAN_Byte7"
+        Me.TextBox_CAN_Byte7.Size = New System.Drawing.Size(110, 20)
+        Me.TextBox_CAN_Byte7.TabIndex = 43
+        Me.TextBox_CAN_Byte7.Text = "-"
+        Me.TextBox_CAN_Byte7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label_CAN_Byte4
+        '
+        Me.Label_CAN_Byte4.AutoSize = True
+        Me.Label_CAN_Byte4.Location = New System.Drawing.Point(6, 133)
+        Me.Label_CAN_Byte4.Name = "Label_CAN_Byte4"
+        Me.Label_CAN_Byte4.Size = New System.Drawing.Size(40, 13)
+        Me.Label_CAN_Byte4.TabIndex = 47
+        Me.Label_CAN_Byte4.Text = "Byte 4:"
+        '
+        'Label_CAN_Byte0
+        '
+        Me.Label_CAN_Byte0.AutoSize = True
+        Me.Label_CAN_Byte0.Location = New System.Drawing.Point(6, 55)
+        Me.Label_CAN_Byte0.Name = "Label_CAN_Byte0"
+        Me.Label_CAN_Byte0.Size = New System.Drawing.Size(40, 13)
+        Me.Label_CAN_Byte0.TabIndex = 44
+        Me.Label_CAN_Byte0.Text = "Byte 0:"
+        '
+        'Label_CAN_Byte3
+        '
+        Me.Label_CAN_Byte3.AutoSize = True
+        Me.Label_CAN_Byte3.Location = New System.Drawing.Point(122, 94)
+        Me.Label_CAN_Byte3.Name = "Label_CAN_Byte3"
+        Me.Label_CAN_Byte3.Size = New System.Drawing.Size(40, 13)
+        Me.Label_CAN_Byte3.TabIndex = 46
+        Me.Label_CAN_Byte3.Text = "Byte 3:"
+        '
+        'Label_CAN_Byte1
+        '
+        Me.Label_CAN_Byte1.AutoSize = True
+        Me.Label_CAN_Byte1.Location = New System.Drawing.Point(122, 55)
+        Me.Label_CAN_Byte1.Name = "Label_CAN_Byte1"
+        Me.Label_CAN_Byte1.Size = New System.Drawing.Size(40, 13)
+        Me.Label_CAN_Byte1.TabIndex = 45
+        Me.Label_CAN_Byte1.Text = "Byte 1:"
+        '
+        'ProgressBar_CAN_Load
+        '
+        Me.ProgressBar_CAN_Load.Location = New System.Drawing.Point(87, 3)
+        Me.ProgressBar_CAN_Load.Name = "ProgressBar_CAN_Load"
+        Me.ProgressBar_CAN_Load.Size = New System.Drawing.Size(382, 13)
+        Me.ProgressBar_CAN_Load.TabIndex = 63
         '
         'Label_CAN_Incoming
         '
@@ -1830,43 +2019,6 @@ Partial Class Main
         Me.Label_CAN_Incoming.Size = New System.Drawing.Size(78, 13)
         Me.Label_CAN_Incoming.TabIndex = 32
         Me.Label_CAN_Incoming.Text = "Incoming CAN:"
-        '
-        'RadioButton_CAN_Hex
-        '
-        Me.RadioButton_CAN_Hex.AutoSize = True
-        Me.RadioButton_CAN_Hex.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Hex
-        Me.RadioButton_CAN_Hex.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Hex", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Hex.Location = New System.Drawing.Point(9, 260)
-        Me.RadioButton_CAN_Hex.Name = "RadioButton_CAN_Hex"
-        Me.RadioButton_CAN_Hex.Size = New System.Drawing.Size(44, 17)
-        Me.RadioButton_CAN_Hex.TabIndex = 54
-        Me.RadioButton_CAN_Hex.Text = "Hex"
-        Me.RadioButton_CAN_Hex.UseVisualStyleBackColor = True
-        '
-        'RadioButton_CAN_Decimal
-        '
-        Me.RadioButton_CAN_Decimal.AutoSize = True
-        Me.RadioButton_CAN_Decimal.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Decimal
-        Me.RadioButton_CAN_Decimal.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Decimal", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Decimal.Location = New System.Drawing.Point(9, 237)
-        Me.RadioButton_CAN_Decimal.Name = "RadioButton_CAN_Decimal"
-        Me.RadioButton_CAN_Decimal.Size = New System.Drawing.Size(63, 17)
-        Me.RadioButton_CAN_Decimal.TabIndex = 53
-        Me.RadioButton_CAN_Decimal.TabStop = True
-        Me.RadioButton_CAN_Decimal.Text = "Decimal"
-        Me.RadioButton_CAN_Decimal.UseVisualStyleBackColor = True
-        '
-        'RadioButton_CAN_Binary
-        '
-        Me.RadioButton_CAN_Binary.AutoSize = True
-        Me.RadioButton_CAN_Binary.Checked = Global.UoP_Telemetry_GUI.My.MySettings.Default.CAN_Binary
-        Me.RadioButton_CAN_Binary.DataBindings.Add(New System.Windows.Forms.Binding("Checked", Global.UoP_Telemetry_GUI.My.MySettings.Default, "CAN_Binary", True, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged))
-        Me.RadioButton_CAN_Binary.Location = New System.Drawing.Point(9, 214)
-        Me.RadioButton_CAN_Binary.Name = "RadioButton_CAN_Binary"
-        Me.RadioButton_CAN_Binary.Size = New System.Drawing.Size(54, 17)
-        Me.RadioButton_CAN_Binary.TabIndex = 52
-        Me.RadioButton_CAN_Binary.Text = "Binary"
-        Me.RadioButton_CAN_Binary.UseVisualStyleBackColor = True
         '
         'ListView_CAN
         '
@@ -2292,6 +2444,7 @@ Partial Class Main
         '
         'TabPage_Connection
         '
+        Me.TabPage_Connection.Controls.Add(Me.GroupBox_Sockets)
         Me.TabPage_Connection.Controls.Add(Me.GroupBox_Connection)
         Me.TabPage_Connection.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Connection.Name = "TabPage_Connection"
@@ -2299,6 +2452,65 @@ Partial Class Main
         Me.TabPage_Connection.TabIndex = 7
         Me.TabPage_Connection.Text = "Connection"
         Me.TabPage_Connection.UseVisualStyleBackColor = True
+        '
+        'GroupBox_Sockets
+        '
+        Me.GroupBox_Sockets.Controls.Add(Me.Label_Sockets_Clients)
+        Me.GroupBox_Sockets.Controls.Add(Me.Button_Sockets_Clear)
+        Me.GroupBox_Sockets.Controls.Add(Me.Label_Sockets_Info)
+        Me.GroupBox_Sockets.Controls.Add(Me.CheckBox_Sockets_Forward)
+        Me.GroupBox_Sockets.Controls.Add(Me.ListBox_Sockets_Clients)
+        Me.GroupBox_Sockets.Controls.Add(Me.Button_Sockets_Connect)
+        Me.GroupBox_Sockets.Controls.Add(Me.TextBox_Sockets_ClientIP)
+        Me.GroupBox_Sockets.Location = New System.Drawing.Point(8, 91)
+        Me.GroupBox_Sockets.Name = "GroupBox_Sockets"
+        Me.GroupBox_Sockets.Size = New System.Drawing.Size(312, 146)
+        Me.GroupBox_Sockets.TabIndex = 13
+        Me.GroupBox_Sockets.TabStop = False
+        Me.GroupBox_Sockets.Text = "Sockets"
+        '
+        'Label_Sockets_Info
+        '
+        Me.Label_Sockets_Info.AutoSize = True
+        Me.Label_Sockets_Info.Location = New System.Drawing.Point(156, 16)
+        Me.Label_Sockets_Info.Name = "Label_Sockets_Info"
+        Me.Label_Sockets_Info.Size = New System.Drawing.Size(49, 13)
+        Me.Label_Sockets_Info.TabIndex = 14
+        Me.Label_Sockets_Info.Text = "Local IP:"
+        '
+        'CheckBox_Sockets_Forward
+        '
+        Me.CheckBox_Sockets_Forward.AutoSize = True
+        Me.CheckBox_Sockets_Forward.Location = New System.Drawing.Point(242, 123)
+        Me.CheckBox_Sockets_Forward.Name = "CheckBox_Sockets_Forward"
+        Me.CheckBox_Sockets_Forward.Size = New System.Drawing.Size(64, 17)
+        Me.CheckBox_Sockets_Forward.TabIndex = 13
+        Me.CheckBox_Sockets_Forward.Text = "Forward"
+        Me.CheckBox_Sockets_Forward.UseVisualStyleBackColor = True
+        '
+        'ListBox_Sockets_Clients
+        '
+        Me.ListBox_Sockets_Clients.FormattingEnabled = True
+        Me.ListBox_Sockets_Clients.Location = New System.Drawing.Point(6, 32)
+        Me.ListBox_Sockets_Clients.Name = "ListBox_Sockets_Clients"
+        Me.ListBox_Sockets_Clients.Size = New System.Drawing.Size(147, 108)
+        Me.ListBox_Sockets_Clients.TabIndex = 12
+        '
+        'Button_Sockets_Connect
+        '
+        Me.Button_Sockets_Connect.Location = New System.Drawing.Point(231, 58)
+        Me.Button_Sockets_Connect.Name = "Button_Sockets_Connect"
+        Me.Button_Sockets_Connect.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Sockets_Connect.TabIndex = 10
+        Me.Button_Sockets_Connect.Text = "Connect"
+        Me.Button_Sockets_Connect.UseVisualStyleBackColor = True
+        '
+        'TextBox_Sockets_ClientIP
+        '
+        Me.TextBox_Sockets_ClientIP.Location = New System.Drawing.Point(159, 32)
+        Me.TextBox_Sockets_ClientIP.Name = "TextBox_Sockets_ClientIP"
+        Me.TextBox_Sockets_ClientIP.Size = New System.Drawing.Size(147, 20)
+        Me.TextBox_Sockets_ClientIP.TabIndex = 11
         '
         'GroupBox_Connection
         '
@@ -2366,51 +2578,23 @@ Partial Class Main
         Me.ColorDialog_BMS.AnyColor = True
         Me.ColorDialog_BMS.FullOpen = True
         '
-        'Label_PlateTemp
+        'Button_Sockets_Clear
         '
-        Me.Label_PlateTemp.AutoSize = True
-        Me.Label_PlateTemp.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label_PlateTemp.Location = New System.Drawing.Point(243, 299)
-        Me.Label_PlateTemp.Name = "Label_PlateTemp"
-        Me.Label_PlateTemp.Size = New System.Drawing.Size(38, 24)
-        Me.Label_PlateTemp.TabIndex = 37
-        Me.Label_PlateTemp.Text = "0 C"
-        'GroupBox_CAN_Outcoming
+        Me.Button_Sockets_Clear.Location = New System.Drawing.Point(231, 87)
+        Me.Button_Sockets_Clear.Name = "Button_Sockets_Clear"
+        Me.Button_Sockets_Clear.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Sockets_Clear.TabIndex = 15
+        Me.Button_Sockets_Clear.Text = "Clear"
+        Me.Button_Sockets_Clear.UseVisualStyleBackColor = True
         '
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_MessageID)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.RadioButton_CAN_Binary)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_BrakeStop)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.RadioButton_CAN_Decimal)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_BuzzerStop)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.RadioButton_CAN_Hex)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_BrakeStart)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_MessageID)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_BuzzerStart)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte0)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.CheckBox_CAN_Warn)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte1)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_Send)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte2)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Button_CAN_Clear)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte3)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte7)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte4)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte6)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte5)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte2)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte6)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte5)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.TextBox_CAN_Byte7)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte4)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte0)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte3)
-        Me.GroupBox_CAN_Outcoming.Controls.Add(Me.Label_CAN_Byte1)
-        Me.GroupBox_CAN_Outcoming.Location = New System.Drawing.Point(475, 3)
-        Me.GroupBox_CAN_Outcoming.Name = "GroupBox_CAN_Outcoming"
-        Me.GroupBox_CAN_Outcoming.Size = New System.Drawing.Size(601, 295)
-        Me.GroupBox_CAN_Outcoming.TabIndex = 64
-        Me.GroupBox_CAN_Outcoming.TabStop = False
-        Me.GroupBox_CAN_Outcoming.Text = "Outcoming CAN"
+        'Label_Sockets_Clients
+        '
+        Me.Label_Sockets_Clients.AutoSize = True
+        Me.Label_Sockets_Clients.Location = New System.Drawing.Point(6, 16)
+        Me.Label_Sockets_Clients.Name = "Label_Sockets_Clients"
+        Me.Label_Sockets_Clients.Size = New System.Drawing.Size(41, 13)
+        Me.Label_Sockets_Clients.TabIndex = 16
+        Me.Label_Sockets_Clients.Text = "Clients:"
         '
         'Main
         '
@@ -2422,7 +2606,7 @@ Partial Class Main
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(1256, 714)
         Me.Name = "Main"
-        Me.Text = " UoP6e Telemetry"
+        Me.Text = " UoP7e Telemetry"
         Me.StatusStrip.ResumeLayout(False)
         Me.StatusStrip.PerformLayout()
         Me.TabControl.ResumeLayout(False)
@@ -2444,6 +2628,8 @@ Partial Class Main
         CType(Me.Chart_BMS, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage_CAN.ResumeLayout(False)
         Me.TabPage_CAN.PerformLayout()
+        Me.GroupBox_CAN_Outcoming.ResumeLayout(False)
+        Me.GroupBox_CAN_Outcoming.PerformLayout()
         Me.TabPage_Configuration.ResumeLayout(False)
         Me.GroupBox_Config_Fusebox.ResumeLayout(False)
         Me.GroupBox_Config_Fusebox.PerformLayout()
@@ -2455,10 +2641,10 @@ Partial Class Main
         Me.TabPage_Admin.ResumeLayout(False)
         Me.TabPage_Admin.PerformLayout()
         Me.TabPage_Connection.ResumeLayout(False)
+        Me.GroupBox_Sockets.ResumeLayout(False)
+        Me.GroupBox_Sockets.PerformLayout()
         Me.GroupBox_Connection.ResumeLayout(False)
         Me.GroupBox_Connection.PerformLayout()
-        Me.GroupBox_CAN_Outcoming.ResumeLayout(False)
-        Me.GroupBox_CAN_Outcoming.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -2638,4 +2824,20 @@ Partial Class Main
     Friend WithEvents Label_CoolantTemp_MotorIn As Label
     Friend WithEvents Label_PlateTemp As Label
     Friend WithEvents GroupBox_CAN_Outcoming As GroupBox
+    Friend WithEvents Label_SuspensionStrain_RearRight As Label
+    Friend WithEvents Label_SuspensionTravel_RearRight As Label
+    Friend WithEvents Label_SuspensionStrain_RearLeft As Label
+    Friend WithEvents Label_SuspensionTravel_RearLeft As Label
+    Friend WithEvents Label_SuspensionStrain_FrontRight As Label
+    Friend WithEvents Label_SuspensionTravel_FrontRight As Label
+    Friend WithEvents Label_SuspensionStrain_FrontLeft As Label
+    Friend WithEvents Label_SuspensionTravel_FrontLeft As Label
+    Friend WithEvents GroupBox_Sockets As GroupBox
+    Friend WithEvents Button_Sockets_Connect As Button
+    Friend WithEvents TextBox_Sockets_ClientIP As TextBox
+    Friend WithEvents ListBox_Sockets_Clients As ListBox
+    Friend WithEvents CheckBox_Sockets_Forward As CheckBox
+    Friend WithEvents Label_Sockets_Info As Label
+    Friend WithEvents Button_Sockets_Clear As Button
+    Friend WithEvents Label_Sockets_Clients As Label
 End Class
