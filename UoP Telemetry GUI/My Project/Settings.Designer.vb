@@ -68,7 +68,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("120")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("144")>  _
         Public Property BMS_CellRange_Max() As Decimal
             Get
                 Return CType(Me("BMS_CellRange_Max"),Decimal)

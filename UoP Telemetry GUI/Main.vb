@@ -5,14 +5,60 @@ Imports UNOLibs.Net
 
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms.DataVisualization.Charting
+Imports System.Reflection
 
 Public Class Main
 
     Private DeveloperMode As Boolean = False
     Private Const BypassConnection As Boolean = True
-    Private Telemetry As New Car_Telemetry(96)
+    Private Car As New Car_Mixed
     Private Const Monitoring As Boolean = True
     Private RandomGenerator As New Random
+
+
+
+    Private Sub CreateSeries()
+        Chart.Series.Clear()
+        CheckedListBox_ChartSeries.Items.Clear()
+        Dim S As String() = My.Resources.ChartSeries.Split(vbNewLine)
+
+        For Each Str As String In S
+            Str = Str.Replace(vbCr, "").Replace(vbLf, "")
+            If Str.StartsWith("#") Then
+                Continue For
+            End If
+            Dim L As String() = Str.Split("|")
+            Dim Ser As New Series()
+            Ser.Name = "Series_" & L(0)
+            Ser.ChartArea = "ChartArea_" & L(1)
+            Ser.Legend = "Legend_" & L(2)
+            Ser.LegendText = L(3) & " Min: #MIN{D0}%, Max: #MAX{D0}%"
+            Ser.Color = ColorTranslator.FromHtml(L(4))
+
+            Ser.ChartType = SeriesChartType.FastLine
+            Ser.XValueType = ChartValueType.Time
+            Ser.BorderWidth = 3
+
+            If L(5) = "Single" Then
+                Ser.YValueType = ChartValueType.Single
+            ElseIf L(5) = "UInt32" Then
+                Ser.YValueType = ChartValueType.UInt32
+            ElseIf L(5) = "Int32" Then
+                Ser.YValueType = ChartValueType.Int32
+            End If
+
+            If L(6) = "Primary" Then
+                Ser.YAxisType = AxisType.Primary
+            Else
+                Ser.YAxisType = AxisType.Secondary
+            End If
+
+            Chart.Series.Add(Ser)
+            CheckedListBox_ChartSeries.Items.Add(Ser.Name)
+            CheckedListBox_ChartSeries.SetItemChecked(CheckedListBox_ChartSeries.Items.Count - 1, True)
+        Next
+
+    End Sub
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If Not BypassConnection Then
@@ -25,6 +71,7 @@ Public Class Main
         End If
         RegisterHotKey(Me.Handle, 100, MOD_ALT, Keys.C)
         Label_Sockets_Info.Text = "Local IP: " & GetIPv4Address()
+        CreateSeries()
     End Sub
 
     Private Sub Main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
@@ -489,75 +536,35 @@ Public Class Main
     End Sub
 
     Private Sub LoadTelemetry()
-        Dim Setting As Byte = RXData(1)
-        Dim Ind As Integer = 2
+        Dim Ind As Integer = 1
 
         Dim Timestamp As New Packet_Timestamp
-        Dim Performance As New Packet_Performance
-        Dim BMS As New Packet_BMS
-        Dim Temps As New Packet_Temps
-        Dim Pedals As New Packet_Pedals
-        Dim Wheels As New Packet_Wheels
-
-        Telemetry.Settings = Setting
+        Dim Sensors As New Car_Raw
 
         Dim TimestampPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Timestamp))
         Marshal.Copy(RXData, Ind, TimestampPointer, Marshal.SizeOf(Timestamp))
         Timestamp = CType(Marshal.PtrToStructure(TimestampPointer, GetType(Packet_Timestamp)), Packet_Timestamp)
         Marshal.FreeHGlobal(TimestampPointer)
         Ind += Marshal.SizeOf(New Packet_Timestamp)
-        Telemetry.Timestamp = Timestamp
+        Car.Timestamp = Timestamp
 
-        If (Setting And MASK_PERF) Then
-            Dim PerformancePointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Performance))
-            Marshal.Copy(RXData, Ind, PerformancePointer, Marshal.SizeOf(Performance))
-            Performance = CType(Marshal.PtrToStructure(PerformancePointer, GetType(Packet_Performance)), Packet_Performance)
-            Marshal.FreeHGlobal(PerformancePointer)
-            Ind += Marshal.SizeOf(New Packet_Performance)
-            Telemetry.Performance = Performance
-        End If
-        If (Setting And MASK_BMS) Then
-            Dim BMSPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(BMS))
-            Marshal.Copy(RXData, Ind, BMSPointer, Marshal.SizeOf(BMS))
-            BMS = CType(Marshal.PtrToStructure(BMSPointer, GetType(Packet_BMS)), Packet_BMS)
-            Marshal.FreeHGlobal(BMSPointer)
-            Ind += Marshal.SizeOf(New Packet_BMS)
-            Telemetry.BMS = BMS
-        End If
-        If (Setting And MASK_TEMPS) Then
-            Dim TempsPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Temps))
-            Marshal.Copy(RXData, Ind, TempsPointer, Marshal.SizeOf(Temps))
-            Temps = CType(Marshal.PtrToStructure(TempsPointer, GetType(Packet_Temps)), Packet_Temps)
-            Marshal.FreeHGlobal(TempsPointer)
-            Ind += Marshal.SizeOf(New Packet_Temps)
-            Telemetry.Temps = Temps
-        End If
-        If (Setting And MASK_PEDALS) Then
-            Dim PedalsPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Pedals))
-            Marshal.Copy(RXData, Ind, PedalsPointer, Marshal.SizeOf(Pedals))
-            Pedals = CType(Marshal.PtrToStructure(PedalsPointer, GetType(Packet_Pedals)), Packet_Pedals)
-            Marshal.FreeHGlobal(PedalsPointer)
-            Ind += Marshal.SizeOf(New Packet_Pedals)
-            Telemetry.Pedals = Pedals
-        End If
-        If (Setting And MASK_WHEELS) Then
-            Dim WheelsPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Wheels))
-            Marshal.Copy(RXData, Ind, WheelsPointer, Marshal.SizeOf(Wheels))
-            Wheels = CType(Marshal.PtrToStructure(WheelsPointer, GetType(Packet_Wheels)), Packet_Wheels)
-            Marshal.FreeHGlobal(WheelsPointer)
-            Ind += Marshal.SizeOf(New Packet_Wheels)
-            Telemetry.Wheels = Wheels
-        End If
+        Dim SensorsPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Sensors))
+        Marshal.Copy(RXData, Ind, SensorsPointer, Marshal.SizeOf(Sensors))
+        Sensors = CType(Marshal.PtrToStructure(SensorsPointer, GetType(Car_Raw)), Car_Raw)
+        Marshal.FreeHGlobal(SensorsPointer)
+        Ind += Marshal.SizeOf(New Car_Raw)
+        Car.Sensors = Sensors
+
     End Sub
 
     Private Sub LoadBMS()
-        Dim LeftBoxSize As Integer = RXData(1)
-        For Index As Integer = 0 To LeftBoxSize
-            Telemetry.LeftBox(Index) = RXData(Index + 1)
+        Dim VoltagesSize As Integer = RXData(1)
+        For Index As Integer = 0 To VoltagesSize - 1
+            Car.BMS.Voltages(Index) = RXData(Index + 1)
         Next
-        Dim RightBoxSize As Integer = RXData(1 + LeftBoxSize)
-        For Index As Integer = 0 To RightBoxSize
-            Telemetry.RightBox(Index) = RXData(Index + LeftBoxSize + 1)
+        Dim TemperaturesSize As Integer = RXData(1 + VoltagesSize)
+        For Index As Integer = 0 To TemperaturesSize - 1
+            Car.BMS.Temperatures(Index) = RXData(Index + VoltagesSize + 1)
         Next
     End Sub
 
@@ -597,8 +604,8 @@ Public Class Main
                     LoadCAN_Analytics()
                 Case ID_SEND_TELEMETRY
                     LoadTelemetry()
-                    DisplayTelemetry(Telemetry)
-                    PlotTelemetry(Telemetry)
+                    DisplayTelemetry()
+                    PlotTelemetry()
                     LogTelemetry()
                 Case ID_SEND_BMS
                     LoadBMS()
@@ -619,8 +626,8 @@ Public Class Main
             'End Try
         Catch ex As Exception
             ProcessSuccess()
-        'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-        Console.WriteLine(ex.Message)
+            'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+            Console.WriteLine(ex.Message)
         End Try
         ProcessSuccess()
     End Sub
@@ -736,15 +743,15 @@ CalculateLoad:
         ProgressBar_CAN_Load.Value = Load
     End Sub
 
-    Private Sub DisplayTelemetry(ByRef Telemetry As Car_Telemetry)
+    Private Sub DisplayTelemetry()
         ListView_Telemetry.Items.Clear()
-        PrintStructure(ListView_Telemetry, Telemetry.Timestamp)
-        With Telemetry.Timestamp
+        PrintStructure(ListView_Telemetry, Car.Timestamp)
+        With Car.Timestamp
             Dim Tmp As Integer = ParseUInt32({0, .TimestampMSB, .TimestampMMSB, .TimestampLSB}, 0)
             Label_Interval.Text = "Interval: " & Tmp - LastTelemetry & "ms"
             LastTelemetry = Tmp
         End With
-        With Telemetry.Timestamp
+        With Car.Timestamp
             Dim Tmp As Integer = ParseUInt32({0, .IndexMSB, .IndexMMSB, .IndexLSB}, 0)
             If Not PacketSync Then
                 LastIndex = Tmp - 1
@@ -754,34 +761,78 @@ CalculateLoad:
             Label_LostPackets.Text = "Lost Packets: " & LostPackets
             LastIndex = Tmp
         End With
-        If Telemetry.Settings And MASK_PERF Then
-            PrintStructure(ListView_Telemetry, Telemetry.Performance)
-            DisplayPerformance(Telemetry.Performance)
-        End If
-        If Telemetry.Settings And MASK_BMS Then
-            PrintStructure(ListView_Telemetry, Telemetry.BMS)
-            DisplayBMS(Telemetry.BMS)
-        End If
-        If Telemetry.Settings And MASK_TEMPS Then
-            PrintStructure(ListView_Telemetry, Telemetry.Temps)
-            DisplayTemps(Telemetry.Temps)
-        End If
-        If Telemetry.Settings And MASK_PEDALS Then
-            PrintStructure(ListView_Telemetry, Telemetry.Pedals)
-            DisplayPedals(Telemetry.Pedals)
-        End If
-        If Telemetry.Settings And MASK_WHEELS Then
-            PrintStructure(ListView_Telemetry, Telemetry.Wheels)
-            DisplayWheels(Telemetry.Wheels)
-        End If
-        If Telemetry.Settings And MASK_VCU Then
-            PrintStructure(ListView_Telemetry, Telemetry.VCU)
-            DisplayVCU(Telemetry.VCU)
-        End If
-        If Telemetry.Settings And MASK_IMU Then
-            PrintStructure(ListView_Telemetry, Telemetry.IMU)
-            DisplayIMU(Telemetry.IMU)
-        End If
+        PrintStructure(ListView_Telemetry, Car.Sensors)
+
+        ProgressBar_Throttle.Value = Car.Sensors.Throttle_12
+        ProgressBar_BrakeTravel.Value = Car.Sensors.Brake_Travel
+        ProgressBar_BrakeFront.Value = Car.Sensors.Brake_Front
+        ProgressBar_BrakeRear.Value = Car.Sensors.Brake_Rear
+
+        Label_SuspensionTravel_FrontLeft.Text = Car.Sensors.Suspension_Front_Left & " cm"
+        Label_SuspensionTravel_FrontRight.Text = Car.Sensors.Suspension_Front_Right & " cm"
+        Label_SuspensionTravel_RearLeft.Text = Car.Sensors.Suspension_Rear_Left & " cm"
+        Label_SuspensionTravel_RearRight.Text = Car.Sensors.Suspension_Rear_Right & " cm"
+
+        Label_Gearbox_FrontLeft.Text = Car.Sensors.Transmission_Front_Left & " °C"
+        Label_Gearbox_FrontRight.Text = Car.Sensors.Transmission_Front_Right & " °C"
+        Label_Gearbox_RearLeft.Text = Car.Sensors.Transmission_Rear_Left & " °C"
+        Label_Gearbox_RearRight.Text = Car.Sensors.Transmission_Rear_Right & " °C"
+
+        Label_CoolantTemp_InverterIn.Text = Car.Sensors.Coolant_In_1 & " °C"
+        Label_CoolantTemp_InverterOut.Text = Car.Sensors.Coolant_Out_1 & " °C"
+        Label_CoolantTemp_MotorIn.Text = Car.Sensors.Coolant_In_2 & " °C"
+        Label_CoolantTemp_MotorOut.Text = Car.Sensors.Coolant_Out_2 & " °C"
+
+        Label_SteeringAngle.Text = Car.Sensors.Steering_Angle & " °"
+
+        Label_SuspensionStrain_FrontLeft.Text = Car.Sensors.Strain_Front_Left & " kg"
+        Label_SuspensionStrain_FrontRight.Text = Car.Sensors.Strain_Front_Right & " kg"
+        Label_SuspensionStrain_RearLeft.Text = Car.Sensors.Strain_Rear_Left & " kg"
+        Label_SuspensionStrain_RearRight.Text = Car.Sensors.Strain_Rear_Right & " kg"
+
+        Label_RPM_FrontLeft.Text = Car.Sensors.RPM_Front_Left & " RPM"
+        Label_RPM_FrontRight.Text = Car.Sensors.RPM_Front_Right & " RPM"
+        Label_RPM_RearLeft.Text = Car.Sensors.RPM_Rear_Left & " RPM"
+        Label_RPM_RearRight.Text = Car.Sensors.RPM_Rear_Right & " RPM"
+
+        Label_MotorTemp_FrontLeft.Text = Car.Sensors.Motor_Front_Left & " °C"
+        Label_MotorTemp_FrontRight.Text = Car.Sensors.Motor_Front_Right & " °C"
+        Label_MotorTemp_RearLeft.Text = Car.Sensors.Motor_Rear_Left & " °C"
+        Label_MotorTemp_RearRight.Text = Car.Sensors.Motor_Rear_Right & " °C"
+
+        Label_IGBT_FrontLeft.Text = Car.Sensors.IGBT_Front_Left & " °C"
+        Label_IGBT_FrontRight.Text = Car.Sensors.IGBT_Front_Right & " °C"
+        Label_IGBT_RearLeft.Text = Car.Sensors.IGBT_Rear_Left & " °C"
+        Label_IGBT_RearRight.Text = Car.Sensors.IGBT_Rear_Right & " °C"
+
+        Label_IGBT_FrontLeft.Text = Car.Sensors.IGBT_Front_Left & " °C"
+        Label_IGBT_FrontRight.Text = Car.Sensors.IGBT_Front_Right & " °C"
+        Label_IGBT_RearLeft.Text = Car.Sensors.IGBT_Rear_Left & " °C"
+        Label_IGBT_RearRight.Text = Car.Sensors.IGBT_Rear_Right & " °C"
+
+        Label_PlateTemp.Text = Car.Sensors.Plate_Front_Left & " °C"
+
+        Label_Demanded_FrontLeft.Text = Car.Sensors.Demanded_Front_Left & " Nm"
+        Label_Demanded_FrontRight.Text = Car.Sensors.Demanded_Front_Right & " Nm"
+        Label_Demanded_RearLeft.Text = Car.Sensors.Demanded_Rear_Left & " Nm"
+        Label_Demanded_RearRight.Text = Car.Sensors.Demanded_Rear_Right & " Nm"
+
+        Label_Actual_FrontLeft.Text = Car.Sensors.Actual_Front_Left & " Nm"
+        Label_Actual_FrontRight.Text = Car.Sensors.Actual_Front_Right & " Nm"
+        Label_Actual_RearLeft.Text = Car.Sensors.Actual_Rear_Left & " Nm"
+        Label_Actual_RearRight.Text = Car.Sensors.Actual_Rear_Right & " Nm"
+
+        Label_Voltage.Text = Car.Sensors.IVT_Voltage & " V"
+        Label_Current.Text = Car.Sensors.IVT_Current & " A"
+        Label_Power.Text = Car.Sensors.IVT_Current * Car.Sensors.IVT_Voltage
+
+        ListView_BMS.Items(0).SubItems(1).Text = Car.Sensors.Voltage_BMS_Min / 10000.0F & " V"
+        ListView_BMS.Items(0).SubItems(2).Text = Car.Sensors.Voltage_BMS_Max / 10000.0F & " V"
+        ' Not sure for unit
+        ListView_BMS.Items(0).SubItems(3).Text = Car.Sensors.Temp_BMS_Min / 2.0F & " C"
+        ListView_BMS.Items(0).SubItems(4).Text = Car.Sensors.Temp_BMS_Max / 2.0F & " C"
+
+
 
     End Sub
 
@@ -800,64 +851,6 @@ CalculateLoad:
         Next
     End Sub
 
-    Private Sub DisplayPerformance(ByVal Packet As Packet_Performance)
-        'Label_RPM.Text = Packet.RPM & " RPM"
-        ' Torque not used yet
-        Label_Current.Text = Packet.IVT_Current & " A"
-        Label_Voltage.Text = Packet.IVT_Voltage & " V"
-        Label_Power.Text = Packet.IVT_Voltage * Packet.IVT_Current & " W"
-    End Sub
-
-    Private Sub DisplayBMS(ByVal Packet As Packet_BMS)
-        ListView_BMS.Items(0).SubItems(1).Text = (Packet.Voltage_Min_Left / 100.0F + 1.7) & " V"
-        ListView_BMS.Items(0).SubItems(2).Text = (Packet.Voltage_Max_Left / 100.0F + 1.7) & " V"
-        ListView_BMS.Items(0).SubItems(3).Text = Packet.Temp_Min_Left / 2.0F & " C"
-        ListView_BMS.Items(0).SubItems(4).Text = Packet.Temp_Max_Left / 2.0F & " C"
-        ListView_BMS.Items(1).SubItems(1).Text = (Packet.Voltage_Min_Right / 100.0F + 1.7) & " V"
-        ListView_BMS.Items(1).SubItems(2).Text = (Packet.Voltage_Max_Right / 100.0F + 1.7) & " V"
-        ListView_BMS.Items(1).SubItems(3).Text = Packet.Temp_Min_Right / 2.0F & " C"
-        ListView_BMS.Items(1).SubItems(4).Text = Packet.Temp_Max_Right / 2.0F & " C"
-    End Sub
-
-    Private Sub DisplayTemps(ByVal Packet As Packet_Temps)
-        'ListView_Temperature.Items(0).SubItems(1).Text = (Packet.IGBT / 2.0F + 20) & " C"
-        'ListView_Temperature.Items(1).SubItems(1).Text = (Packet.Motor / 2.0F + 20) & " C"
-        'ListView_Temperature.Items(2).SubItems(1).Text = (Packet.Coolant_In / 2.0F + 20) & " C"
-        'ListView_Temperature.Items(3).SubItems(1).Text = (Packet.Coolant_Out / 2.0F + 20) & " C"
-        'ListView_Temperature.Items(4).SubItems(1).Text = (Packet.Gearbox / 2.0F + 20) & " C"
-        Label_MotorTemp_FrontLeft.Text = (Packet.BrakeLeft * 2.0F + 20) & " C"
-        Label_MotorTemp_FrontRight.Text = (Packet.BrakeRight * 2.0F + 20) & " C"
-    End Sub
-
-    Private Sub DisplayPedals(ByVal Packet As Packet_Pedals)
-        ProgressBar_Throttle.Value = Constrain(Packet.Throttle_12 / 2, 0, 100)
-        Label_Throttle.Text = Math.Floor(Packet.Throttle_12 / 2.0F) & " %"
-        ProgressBar_BrakeFront.Value = Constrain(Packet.Brake_Front, 0, 200)
-        Label_BrakeFront.Text = Packet.Brake_Front & " Bar"
-        ProgressBar_BrakeRear.Value = Constrain(Packet.Brake_Rear, 0, 200)
-        Label_BrakeRear.Text = Packet.Brake_Rear & " Bar"
-    End Sub
-
-    Private Sub DisplayWheels(ByVal Packet As Packet_Wheels)
-        Label_RPM_FrontLeft.Text = Packet.RPM_Front_Left & " RPM"
-        Label_RPM_FrontRight.Text = Packet.RPM_Front_Right & " RPM"
-        Label_RPM_RearLeft.Text = Packet.RPM_Rear_Left & " RPM"
-        Label_RPM_RearRight.Text = Packet.RPM_Rear_Right & " RPM"
-    End Sub
-
-    Private Sub DisplayVCU(ByVal Packet As Packet_VCU)
-        ListView_VCU.Items(0).SubItems(1).Text = Packet.ETD
-        ListView_VCU.Items(1).SubItems(1).Text = Packet.BMSA
-        ListView_VCU.Items(2).SubItems(1).Text = Packet.MCMS
-        ListView_VCU.Items(3).SubItems(1).Text = Packet.EMA
-        ListView_VCU.Items(4).SubItems(1).Text = Packet.CDS
-        ListView_VCU.Items(5).SubItems(1).Text = Packet.PLS
-        ListView_VCU.Items(6).SubItems(1).Text = Packet.Current_Low_Battery
-    End Sub
-
-    Private Sub DisplayIMU(ByVal Packet As Packet_IMU)
-        ' Not utilized yet
-    End Sub
 #End Region
 
 #Region "Telemetry Plotting"
@@ -984,44 +977,44 @@ CalculateLoad:
         AutoScaleY()
     End Sub
 
-    ' Enable/disable showing of series
-    Private Sub CheckSeries() Handles CheckBox_PlotThrottle.CheckedChanged, CheckBox_PlotMotorTemp.CheckedChanged,
-        CheckBox_PlotIGBTTemp.CheckedChanged, CheckBox_PlotGearboxTemp.CheckedChanged, CheckBox_PlotCoolantOut.CheckedChanged, CheckBox_PlotCoolantIn.CheckedChanged,
-        CheckBox_PlotBrakeRear.CheckedChanged, CheckBox_PlotBrakeFront.CheckedChanged, CheckBox_PlotBrakeLeft.CheckedChanged, CheckBox_PlotBrakeRight.CheckedChanged,
-        CheckBox_PlotFrontLeftRPM.CheckedChanged, CheckBox_PlotFrontRightRPM.CheckedChanged, CheckBox_PlotRPM.CheckedChanged
-        ' Make sure they were initialized
-        If Chart.Series.Count > 0 Then
-            Chart.Series("Series_Throttle").Enabled = CheckBox_PlotThrottle.Checked
-            Chart.Series("Series_BrakeFront").Enabled = CheckBox_PlotBrakeFront.Checked
-            Chart.Series("Series_BrakeRear").Enabled = CheckBox_PlotBrakeRear.Checked
-            Chart.Series("Series_CoolantIn").Enabled = CheckBox_PlotCoolantIn.Checked
-            Chart.Series("Series_CoolantOut").Enabled = CheckBox_PlotCoolantOut.Checked
-            Chart.Series("Series_MotorTemp").Enabled = CheckBox_PlotMotorTemp.Checked
-            Chart.Series("Series_IGBTTemp").Enabled = CheckBox_PlotIGBTTemp.Checked
-            Chart.Series("Series_GearboxTemp").Enabled = CheckBox_PlotGearboxTemp.Checked
-            Chart.Series("Series_BrakeLeft").Enabled = CheckBox_PlotBrakeLeft.Checked
-            Chart.Series("Series_BrakeRight").Enabled = CheckBox_PlotBrakeRight.Checked
-            Chart.Series("Series_FrontLeftRPM").Enabled = CheckBox_PlotFrontLeftRPM.Checked
-            Chart.Series("Series_FrontRightRPM").Enabled = CheckBox_PlotFrontRightRPM.Checked
-            Chart.Series("Series_RPM").Enabled = CheckBox_PlotRPM.Checked
-        End If
-        CheckAreas()
-    End Sub
+    '' Enable/disable showing of series
+    'Private Sub CheckSeries() Handles CheckBox_PlotThrottle.CheckedChanged, CheckBox_PlotMotorTemp.CheckedChanged,
+    '    CheckBox_PlotIGBTTemp.CheckedChanged, CheckBox_PlotGearboxTemp.CheckedChanged, CheckBox_PlotCoolantOut.CheckedChanged, CheckBox_PlotCoolantIn.CheckedChanged,
+    '    CheckBox_PlotBrakeRear.CheckedChanged, CheckBox_PlotBrakeFront.CheckedChanged, CheckBox_PlotBrakeLeft.CheckedChanged, CheckBox_PlotBrakeRight.CheckedChanged,
+    '    CheckBox_PlotFrontLeftRPM.CheckedChanged, CheckBox_PlotFrontRightRPM.CheckedChanged, CheckBox_PlotRPM.CheckedChanged
+    '    ' Make sure they were initialized
+    '    If Chart.Series.Count > 0 Then
+    '        Chart.Series("Series_Throttle").Enabled = CheckBox_PlotThrottle.Checked
+    '        Chart.Series("Series_BrakeFront").Enabled = CheckBox_PlotBrakeFront.Checked
+    '        Chart.Series("Series_BrakeRear").Enabled = CheckBox_PlotBrakeRear.Checked
+    '        Chart.Series("Series_CoolantIn").Enabled = CheckBox_PlotCoolantIn.Checked
+    '        Chart.Series("Series_CoolantOut").Enabled = CheckBox_PlotCoolantOut.Checked
+    '        Chart.Series("Series_MotorTemp").Enabled = CheckBox_PlotMotorTemp.Checked
+    '        Chart.Series("Series_IGBTTemp").Enabled = CheckBox_PlotIGBTTemp.Checked
+    '        Chart.Series("Series_GearboxTemp").Enabled = CheckBox_PlotGearboxTemp.Checked
+    '        Chart.Series("Series_BrakeLeft").Enabled = CheckBox_PlotBrakeLeft.Checked
+    '        Chart.Series("Series_BrakeRight").Enabled = CheckBox_PlotBrakeRight.Checked
+    '        Chart.Series("Series_FrontLeftRPM").Enabled = CheckBox_PlotFrontLeftRPM.Checked
+    '        Chart.Series("Series_FrontRightRPM").Enabled = CheckBox_PlotFrontRightRPM.Checked
+    '        Chart.Series("Series_RPM").Enabled = CheckBox_PlotRPM.Checked
+    '    End If
+    '    CheckAreas()
+    'End Sub
 
-    ' Enable/disable showing of chart areas
-    Private Sub CheckAreas()
-        If Chart.ChartAreas.Count > 0 Then
-            Chart.ChartAreas("ChartArea_Pedals").Visible = Chart.Series("Series_Throttle").Enabled Or
-                Chart.Series("Series_BrakeFront").Enabled Or Chart.Series("Series_BrakeRear").Enabled
-            Chart.ChartAreas("ChartArea_Temps2").Visible = Chart.Series("Series_CoolantIn").Enabled Or
-                Chart.Series("Series_CoolantOut").Enabled Or
-                Chart.Series("Series_BrakeLeft").Enabled Or Chart.Series("Series_BrakeRight").Enabled
-            Chart.ChartAreas("ChartArea_Temps").Visible = Chart.Series("Series_MotorTemp").Enabled Or
-                Chart.Series("Series_IGBTTemp").Enabled Or Chart.Series("Series_GearboxTemp").Enabled
-            Chart.ChartAreas("ChartArea_RPM").Visible = Chart.Series("Series_FrontLeftRPM").Enabled Or
-                Chart.Series("Series_FrontRightRPM").Enabled Or Chart.Series("Series_RPM").Enabled
-        End If
-    End Sub
+    '' Enable/disable showing of chart areas
+    'Private Sub CheckAreas()
+    '    If Chart.ChartAreas.Count > 0 Then
+    '        Chart.ChartAreas("ChartArea_Pedals").Visible = Chart.Series("Series_Throttle").Enabled Or
+    '            Chart.Series("Series_BrakeFront").Enabled Or Chart.Series("Series_BrakeRear").Enabled
+    '        Chart.ChartAreas("ChartArea_Temps2").Visible = Chart.Series("Series_CoolantIn").Enabled Or
+    '            Chart.Series("Series_CoolantOut").Enabled Or
+    '            Chart.Series("Series_BrakeLeft").Enabled Or Chart.Series("Series_BrakeRight").Enabled
+    '        Chart.ChartAreas("ChartArea_Temps").Visible = Chart.Series("Series_MotorTemp").Enabled Or
+    '            Chart.Series("Series_IGBTTemp").Enabled Or Chart.Series("Series_GearboxTemp").Enabled
+    '        Chart.ChartAreas("ChartArea_RPM").Visible = Chart.Series("Series_FrontLeftRPM").Enabled Or
+    '            Chart.Series("Series_FrontRightRPM").Enabled Or Chart.Series("Series_RPM").Enabled
+    '    End If
+    'End Sub
 
 #End Region
 
@@ -1030,33 +1023,9 @@ CalculateLoad:
     ' Create random telemetry values to try the plots
     Private Sub Timer_RandomTelemetry_Tick(sender As Object, e As EventArgs) Handles Timer_RandomTelemetry.Tick
 
-        ' Constain to compressed values
-        Telemetry.Settings = 255
-
-        Telemetry.Pedals.Throttle_12 = RandomGenerator.Next(0, 100)
-        Telemetry.Pedals.Brake_Front = RandomGenerator.Next(0, 200)
-        Telemetry.Pedals.Brake_Rear = RandomGenerator.Next(0, 200)
-
-        Telemetry.Temps.Coolant_In = RandomGenerator.Next(0, 150)
-        Telemetry.Temps.Coolant_Out = RandomGenerator.Next(0, 150)
-        Telemetry.Temps.Motor = RandomGenerator.Next(0, 150)
-        Telemetry.Temps.IGBT = RandomGenerator.Next(0, 150)
-        Telemetry.Temps.Gearbox = RandomGenerator.Next(0, 150)
-
-        Telemetry.Temps.BrakeLeft = RandomGenerator.Next(0, 255)
-        Telemetry.Temps.BrakeRight = RandomGenerator.Next(0, 255)
-
-        Telemetry.Wheels.RPM_Front_Left = RandomGenerator.Next(0, 255)
-        Telemetry.Wheels.RPM_Front_Right = RandomGenerator.Next(0, 255)
-        Telemetry.Performance.RPM = RandomGenerator.Next(0, 10000)
-
-        DisplayTelemetry(Telemetry)
-        PlotTelemetry(Telemetry)
-        LogTelemetry()
-
     End Sub
 
-    Private Sub PlotTelemetry(ByVal Data As Car_Telemetry, ByVal Optional Time As Date = Nothing)
+    Private Sub PlotTelemetry(ByVal Optional Time As Date = Nothing)
         If Not CheckBox_Plotting.Checked Then
             Exit Sub
         End If
@@ -1064,19 +1033,19 @@ CalculateLoad:
             Time = Now
         End If
         ' Decompress telemetry values before plotting
-        Chart.Series("Series_Throttle").Points.AddXY(Time, Data.Pedals.Throttle_12)
-        Chart.Series("Series_BrakeFront").Points.AddXY(Time, Data.Pedals.Brake_Front)
-        Chart.Series("Series_BrakeRear").Points.AddXY(Time, Data.Pedals.Brake_Rear)
-        Chart.Series("Series_CoolantIn").Points.AddXY(Time, Data.Temps.Coolant_In)
-        Chart.Series("Series_CoolantOut").Points.AddXY(Time, Data.Temps.Coolant_Out)
-        Chart.Series("Series_MotorTemp").Points.AddXY(Time, Data.Temps.Motor)
-        Chart.Series("Series_IGBTTemp").Points.AddXY(Time, Data.Temps.IGBT)
-        Chart.Series("Series_GearboxTemp").Points.AddXY(Time, Data.Temps.Gearbox)
-        Chart.Series("Series_BrakeLeft").Points.AddXY(Time, (Data.Temps.BrakeLeft * 2.0F + 20))
-        Chart.Series("Series_BrakeRight").Points.AddXY(Time, (Data.Temps.BrakeRight * 2.0F + 20))
-        Chart.Series("Series_FrontLeftRPM").Points.AddXY(Time, Data.Wheels.RPM_Front_Left)
-        Chart.Series("Series_FrontRightRPM").Points.AddXY(Time, Data.Wheels.RPM_Front_Right)
-        Chart.Series("Series_RPM").Points.AddXY(Time, Data.Performance.RPM)
+        'Chart.Series("Series_Throttle").Points.AddXY(Time, Data.Pedals.Throttle_12)
+        'Chart.Series("Series_BrakeFront").Points.AddXY(Time, Data.Pedals.Brake_Front)
+        'Chart.Series("Series_BrakeRear").Points.AddXY(Time, Data.Pedals.Brake_Rear)
+        'Chart.Series("Series_CoolantIn").Points.AddXY(Time, Data.Temps.Coolant_In)
+        'Chart.Series("Series_CoolantOut").Points.AddXY(Time, Data.Temps.Coolant_Out)
+        'Chart.Series("Series_MotorTemp").Points.AddXY(Time, Data.Temps.Motor)
+        'Chart.Series("Series_IGBTTemp").Points.AddXY(Time, Data.Temps.IGBT)
+        'Chart.Series("Series_GearboxTemp").Points.AddXY(Time, Data.Temps.Gearbox)
+        'Chart.Series("Series_BrakeLeft").Points.AddXY(Time, (Data.Temps.BrakeLeft * 2.0F + 20))
+        'Chart.Series("Series_BrakeRight").Points.AddXY(Time, (Data.Temps.BrakeRight * 2.0F + 20))
+        'Chart.Series("Series_FrontLeftRPM").Points.AddXY(Time, Data.Wheels.RPM_Front_Left)
+        'Chart.Series("Series_FrontRightRPM").Points.AddXY(Time, Data.Wheels.RPM_Front_Right)
+        'Chart.Series("Series_RPM").Points.AddXY(Time, Data.Performance.RPM)
         ' Autoscroll
         If CheckBox_AutoScroll.Checked Then
             Chart.ChartAreas("ChartArea_Pedals").AxisX.ScaleView.Scroll(Time)
@@ -1147,19 +1116,19 @@ CalculateLoad:
     Private Sub LogTelemetry()
         If TelemetryLog Is Nothing Then Exit Sub
         Dim Delimiter As Char = If(CheckBox_Logging_Delimiter.Checked, ";", ",")
-        With Telemetry
-            Dim Index As UInt32 = ParseUInt32({0, .Timestamp.IndexMSB, .Timestamp.IndexMMSB, .Timestamp.IndexLSB}, 0)
-            TelemetryLog.Write(String.Format("{0}{18}{1:d}{18}{2}{18}{3}{18}{4}{18}{5}{18}{6}{18}{7}{18}{8}{18}{9}{18}{10}{18}{11}{18}{12:F}{18}{13:F}{18}{14}{18}{15}{18}{16}{18}{17}",
-                                  Now.ToString("dd/MM/yyyy HH:mm:ss.fff"), Index, .Pedals.Throttle_12, .Pedals.Brake_Front, .Pedals.Brake_Rear,
-                                  .Temps.Coolant_In, .Temps.Coolant_Out, .Temps.Motor, .Temps.IGBT, .Temps.Gearbox,
-                                  .Performance.RPM, .Performance.Torque, .Performance.IVT_Voltage, .Performance.IVT_Current,
-                                  .Temps.BrakeLeft, .Temps.BrakeRight, .Wheels.RPM_Front_Left, .Wheels.RPM_Front_Right, Delimiter))
-        End With
+        'With Car.Sensors
+        '    Dim Index As UInt32 = ParseUInt32({0, .Timestamp.IndexMSB, .Timestamp.IndexMMSB, .Timestamp.IndexLSB}, 0)
+        '    TelemetryLog.Write(String.Format("{0}{18}{1:d}{18}{2}{18}{3}{18}{4}{18}{5}{18}{6}{18}{7}{18}{8}{18}{9}{18}{10}{18}{11}{18}{12:F}{18}{13:F}{18}{14}{18}{15}{18}{16}{18}{17}",
+        '                          Now.ToString("dd/MM/yyyy HH:mm:ss.fff"), Index, .Pedals.Throttle_12, .Pedals.Brake_Front, .Pedals.Brake_Rear,
+        '                          .Temps.Coolant_In, .Temps.Coolant_Out, .Temps.Motor, .Temps.IGBT, .Temps.Gearbox,
+        '                          .Performance.RPM, .Performance.Torque, .Performance.IVT_Voltage, .Performance.IVT_Current,
+        '                          .Temps.BrakeLeft, .Temps.BrakeRight, .Wheels.RPM_Front_Left, .Wheels.RPM_Front_Right, Delimiter))
+        'End With
     End Sub
 
     Private Sub LogBMS()
         If BMSLog Is Nothing Then Exit Sub
-        With Telemetry
+        With Car.BMS
 
         End With
     End Sub
@@ -1186,28 +1155,19 @@ CalculateLoad:
 
     Private Sub PlotBMS()
         Chart_BMS.Series("Series_BMS_Voltages").Points.Clear()
-        For Index As Integer = 0 To 59
-            Dim Value As Single = (Telemetry.LeftBox(Index) / 100.0) + 2.5
+        For Index As Integer = 0 To 143
+            Dim Value As Single = (Car.BMS.Voltages(Index) / 100.0) + 2.5
             Constrain(Value, NumericUpDown_BMS_VoltageMin.Value, NumericUpDown_BMS_VoltageMax.Value)
             Dim Mapped As Single = Map(Value, NumericUpDown_BMS_VoltageMin.Value, NumericUpDown_BMS_VoltageMax.Value, 0, 1)
             Dim Color As Color = If(Not CheckBox_BMS_Coloring.Checked, PictureBox_BMS_LowColor.BackColor, InterpolateColor(PictureBox_BMS_LowColor.BackColor, PictureBox_BMS_HighColor.BackColor, Mapped))
             Chart_BMS.Series("Series_BMS_Voltages").Points.AddXY(Index + 1, Value)
             Chart_BMS.Series("Series_BMS_Voltages").Points().Item(Index).Color = Color
         Next
-        For Index As Integer = 0 To 59
-            Dim Value As Single = (Telemetry.RightBox(Index) / 100.0) + 2.5
-            Constrain(Value, NumericUpDown_BMS_VoltageMin.Value, NumericUpDown_BMS_VoltageMax.Value)
-            Dim Mapped As Single = Map(Value, NumericUpDown_BMS_VoltageMin.Value, NumericUpDown_BMS_VoltageMax.Value, 0, 1)
-            Dim Color As Color = If(Not CheckBox_BMS_Coloring.Checked, PictureBox_BMS_LowColor.BackColor, InterpolateColor(PictureBox_BMS_LowColor.BackColor, PictureBox_BMS_HighColor.BackColor, Mapped))
-            Chart_BMS.Series("Series_BMS_Voltages").Points.AddXY(Index + 61, Value)
-            Chart_BMS.Series("Series_BMS_Voltages").Points().Item(Index + 60).Color = Color
-        Next
     End Sub
 
     Private Sub Button_RandomBMS_Click(sender As Object, e As EventArgs) Handles Button_RandomBMS.Click
-        For Index As Integer = 0 To 59
-            Telemetry.LeftBox(Index) = RandomGenerator.Next(0, 170) '2.5 - 4.2 Volt
-            Telemetry.RightBox(Index) = RandomGenerator.Next(0, 170)
+        For Index As Integer = 0 To 143
+            Car.BMS.Voltages(Index) = RandomGenerator.Next(0, 170) '2.5 - 4.2 Volt
         Next
         PlotBMS()
     End Sub
@@ -1235,7 +1195,7 @@ CalculateLoad:
     Private Sub NumericUpDown_BMS_CellMax_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDown_BMS_CellMax.ValueChanged
         Try
             With NumericUpDown_BMS_CellMax
-                If .Value >= NumericUpDown_BMS_CellMin.Value And .Value <= 120 Then
+                If .Value >= NumericUpDown_BMS_CellMin.Value And .Value <= 144 Then
                     Chart_BMS.ChartAreas(0).AxisX.Maximum = .Value
                     If IgnoreCellRangeChanged <= 0 Then
                         ComboBox_BMS_CellRange.SelectedIndex = 15
@@ -1285,32 +1245,18 @@ CalculateLoad:
                 ' BMS Select
                 IgnoreCellRangeChanged += 4
                 NumericUpDown_BMS_CellMin.Value = 1
-                NumericUpDown_BMS_CellMax.Value = 120
-                Dim Min As Integer = .SelectedIndex * 10 + 1
-                Dim Max As Integer = Min + 9
+                NumericUpDown_BMS_CellMax.Value = 144
+                Dim Min As Integer = .SelectedIndex * 12 + 1
+                Dim Max As Integer = Min + 11
                 NumericUpDown_BMS_CellMin.Value = Min
                 NumericUpDown_BMS_CellMax.Value = Max
-            ElseIf .SelectedIndex = 10 Then
-                ' Left
-                IgnoreCellRangeChanged += 4
-                NumericUpDown_BMS_CellMin.Value = 1
-                NumericUpDown_BMS_CellMax.Value = 120
-                NumericUpDown_BMS_CellMin.Value = 1
-                NumericUpDown_BMS_CellMax.Value = 60
-            ElseIf .SelectedIndex = 13 Then
-                ' Right
-                IgnoreCellRangeChanged += 4
-                NumericUpDown_BMS_CellMin.Value = 1
-                NumericUpDown_BMS_CellMax.Value = 120
-                NumericUpDown_BMS_CellMin.Value = 61
-                NumericUpDown_BMS_CellMax.Value = 120
-            ElseIf .SelectedIndex = 14 Then
+            ElseIf .SelectedIndex = 12 Then
                 ' All
                 IgnoreCellRangeChanged += 4
                 NumericUpDown_BMS_CellMin.Value = 1
-                NumericUpDown_BMS_CellMax.Value = 120
+                NumericUpDown_BMS_CellMax.Value = 144
                 NumericUpDown_BMS_CellMin.Value = 1
-                NumericUpDown_BMS_CellMax.Value = 120
+                NumericUpDown_BMS_CellMax.Value = 144
             Else
                 ' Custom
             End If
@@ -1926,4 +1872,17 @@ CalculateLoad:
         Next
     End Function
 
+    Private Sub GroupBox_BMS_Settings_Enter(sender As Object, e As EventArgs) Handles GroupBox_BMS_Settings.Enter
+
+    End Sub
+
+    Private Sub CheckSeries(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub CheckedListBox_ChartSeries_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CheckedListBox_ChartSeries.SelectedIndexChanged
+        For Index As Integer = 0 To CheckedListBox_ChartSeries.Items.Count - 1
+            Chart.Series(CheckedListBox_ChartSeries.Items(Index)).Enabled = CheckedListBox_ChartSeries.GetItemChecked(Index)
+        Next
+    End Sub
 End Class

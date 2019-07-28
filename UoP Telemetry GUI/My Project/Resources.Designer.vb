@@ -61,6 +61,24 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to #Pedals
+        '''Throttle|Pedals|Pedals|Throttle|#F86624|Single|Primary
+        '''BrakeTravel|Pedals|Pedals|Travel|#662E9B|Single|Primary
+        '''BrakeFront|Pedals|Pedals|Front|#EA3546|UInt32|Secondary
+        '''BrakeRear|Pedals|Pedals|Rear|#43BCCD|UInt32|Secondary
+        '''#Suspension
+        '''SuspensionTravel_FL|Suspension|Suspension|Travel FL|#F86624|Single|Secondary
+        '''SuspensionTravel_FR|Suspension|Suspension|Travel FR|#662E98|Single|Secondary
+        '''SuspensionTravel_RL|Suspension|Suspension|Travel RL|#EA3546|Single|Secondary
+        '''SuspensionTravel_RR|Suspension| [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property ChartSeries() As String
+            Get
+                Return ResourceManager.GetString("ChartSeries", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
         Friend ReadOnly Property UoP7e() As System.Drawing.Bitmap

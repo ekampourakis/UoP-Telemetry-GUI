@@ -1,0 +1,50 @@
+﻿#Pedals
+Throttle|Pedals|Pedals|Throttle|#F86624|Single|Primary
+BrakeTravel|Pedals|Pedals|Travel|#662E9B|Single|Primary
+BrakeFront|Pedals|Pedals|Front|#EA3546|UInt32|Secondary
+BrakeRear|Pedals|Pedals|Rear|#43BCCD|UInt32|Secondary
+#Suspension
+SuspensionTravel_FL|Suspension|Suspension|Travel FL|#F86624|Single|Secondary
+SuspensionTravel_FR|Suspension|Suspension|Travel FR|#662E98|Single|Secondary
+SuspensionTravel_RL|Suspension|Suspension|Travel RL|#EA3546|Single|Secondary
+SuspensionTravel_RR|Suspension|Suspension|Travel RR|#43BCCD|Single|Secondary
+SuspensionStrain_FL|Suspension|Suspension|Strain FL|#F86624|Single|Primary
+SuspensionStrain_FR|Suspension|Suspension|Strain FR|#662E98|Single|Primary
+SuspensionStrain_RL|Suspension|Suspension|Strain RL|#EA3546|Single|Primary
+SuspensionStrain_RR|Suspension|Suspension|Strain RR|#43BCCD|Single|Primary
+#Temperatures
+MotorTemp_FL|Temps|Temps|Motor FL|#F86624|Single|Primary
+MotorTemp_FR|Temps|Temps|Motor FR|#662E98|Single|Primary
+MotorTemp_RL|Temps|Temps|Motor RL|#EA3546|Single|Primary
+MotorTemp_RR|Temps|Temps|Motor RR|#43BCCD|Single|Primary
+IGBT_FL|Temps|Temps|IGBT FL|#F86624|Single|Primary
+IGBT_FR|Temps|Temps|IGBT FR|#662E98|Single|Primary
+IGBT_RL|Temps|Temps|IGBT RL|#EA3546|Single|Primary
+IGBT_RR|Temps|Temps|IGBT RR|#43BCCD|Single|Primary
+Gearbox_FL|Temps|Temps|Gearbox FL|#F86624|Single|Secondary
+Gearbox_FR|Temps|Temps|Gearbox FR|#662E98|Single|Secondary
+Gearbox_RL|Temps|Temps|Gearbox RL|#EA3546|Single|Secondary
+Gearbox_RR|Temps|Temps|Gearbox RR|#43BCCD|Single|Secondary
+Coolant_In_1|Temps|Temps|In 1|#F86624|Single|Secondary
+Coolant_Out_1|Temps|Temps|Out 1|#662E98|Single|Secondary
+Coolant_In_2|Temps|Temps|In 2|#EA3546|Single|Secondary
+Coolant_Out_2|Temps|Temps|Out 2|#43BCCD|Single|Secondary
+Plate|Temps|Temps|Plate|#43BCCD|Single|Secondary
+#Performance
+RPM_FL|Performance|Performance|RPM FL|#F86624|Single|Primary
+RPM_FR|Performance|Performance|RPM FR|#662E98|Single|Primary
+RPM_RL|Performance|Performance|RPM RL|#EA3546|Single|Primary
+RPM_RR|Performance|Performance|RPM RR|#43BCCD|Single|Primary
+Demanded_FL|Performance|Performance|Demanded FL|#F86624|Single|Secondary
+Demanded_FR|Performance|Performance|Demanded FR|#662E98|Single|Secondary
+Demanded_RL|Performance|Performance|Demanded RL|#EA3546|Single|Secondary
+Demanded_RR|Performance|Performance|Demanded RR|#43BCCD|Single|Secondary
+Actual_FL|Performance|Performance|Actual FL|#F86624|Single|Secondary
+Actual_FR|Performance|Performance|Actual FR|#662E98|Single|Secondary
+Actual_RL|Performance|Performance|Actual RL|#EA3546|Single|Secondary
+Actual_RR|Performance|Performance|Actual RR|#43BCCD|Single|Secondary
+#Various
+Steering|Various|Various|Angle|#F86624|Single|Primary
+IVTCurrent|Various|Various|IVT Current|#43BCCD|Single|Secondary
+InvVoltage|Various|Various|Inverter|#662E98|Single|Secondary
+IVTVolt|Various|Various|IVT Voltage|#EA3546|Single|Secondary
