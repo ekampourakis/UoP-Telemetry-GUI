@@ -193,6 +193,12 @@ Partial Class Main
         Me.Button_TelemetryLog_StartStop = New System.Windows.Forms.Button()
         Me.CheckBox_AutoStartLog = New System.Windows.Forms.CheckBox()
         Me.TabPage_Admin = New System.Windows.Forms.TabPage()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.CheckBox_TelemetryCAN = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_TelemetryBMS = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_Telemetry = New System.Windows.Forms.CheckBox()
+        Me.CheckedListBox_ChartSeries = New System.Windows.Forms.CheckedListBox()
         Me.Button_Admin_Process = New System.Windows.Forms.Button()
         Me.TextBox_Admin_RX = New System.Windows.Forms.TextBox()
         Me.Button_Break = New System.Windows.Forms.Button()
@@ -224,7 +230,9 @@ Partial Class Main
         Me.Timer_RandomTelemetry = New System.Windows.Forms.Timer(Me.components)
         Me.ColorDialog_BMS = New System.Windows.Forms.ColorDialog()
         Me.Timer_Generic = New System.Windows.Forms.Timer(Me.components)
-        Me.CheckedListBox_ChartSeries = New System.Windows.Forms.CheckedListBox()
+        Me.Timer_TelemetryCAN = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Telemetry = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_TelemetryBMS = New System.Windows.Forms.Timer(Me.components)
         Me.StatusStrip.SuspendLayout()
         Me.TabControl.SuspendLayout()
         Me.TabPage_General.SuspendLayout()
@@ -2125,6 +2133,11 @@ Partial Class Main
         '
         'TabPage_Admin
         '
+        Me.TabPage_Admin.Controls.Add(Me.Button2)
+        Me.TabPage_Admin.Controls.Add(Me.Button1)
+        Me.TabPage_Admin.Controls.Add(Me.CheckBox_TelemetryCAN)
+        Me.TabPage_Admin.Controls.Add(Me.CheckBox_TelemetryBMS)
+        Me.TabPage_Admin.Controls.Add(Me.CheckBox_Telemetry)
         Me.TabPage_Admin.Controls.Add(Me.CheckedListBox_ChartSeries)
         Me.TabPage_Admin.Controls.Add(Me.Button_Admin_Process)
         Me.TabPage_Admin.Controls.Add(Me.TextBox_Admin_RX)
@@ -2142,6 +2155,62 @@ Partial Class Main
         Me.TabPage_Admin.TabIndex = 1
         Me.TabPage_Admin.Text = "Admin"
         Me.TabPage_Admin.UseVisualStyleBackColor = True
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(282, 164)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 55
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(415, 165)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 54
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'CheckBox_TelemetryCAN
+        '
+        Me.CheckBox_TelemetryCAN.AutoSize = True
+        Me.CheckBox_TelemetryCAN.Location = New System.Drawing.Point(370, 104)
+        Me.CheckBox_TelemetryCAN.Name = "CheckBox_TelemetryCAN"
+        Me.CheckBox_TelemetryCAN.Size = New System.Drawing.Size(97, 17)
+        Me.CheckBox_TelemetryCAN.TabIndex = 53
+        Me.CheckBox_TelemetryCAN.Text = "CAN Telemetry"
+        Me.CheckBox_TelemetryCAN.UseVisualStyleBackColor = True
+        '
+        'CheckBox_TelemetryBMS
+        '
+        Me.CheckBox_TelemetryBMS.AutoSize = True
+        Me.CheckBox_TelemetryBMS.Location = New System.Drawing.Point(370, 81)
+        Me.CheckBox_TelemetryBMS.Name = "CheckBox_TelemetryBMS"
+        Me.CheckBox_TelemetryBMS.Size = New System.Drawing.Size(98, 17)
+        Me.CheckBox_TelemetryBMS.TabIndex = 52
+        Me.CheckBox_TelemetryBMS.Text = "BMS Telemetry"
+        Me.CheckBox_TelemetryBMS.UseVisualStyleBackColor = True
+        '
+        'CheckBox_Telemetry
+        '
+        Me.CheckBox_Telemetry.AutoSize = True
+        Me.CheckBox_Telemetry.Location = New System.Drawing.Point(370, 58)
+        Me.CheckBox_Telemetry.Name = "CheckBox_Telemetry"
+        Me.CheckBox_Telemetry.Size = New System.Drawing.Size(91, 17)
+        Me.CheckBox_Telemetry.TabIndex = 51
+        Me.CheckBox_Telemetry.Text = "Car Telemetry"
+        Me.CheckBox_Telemetry.UseVisualStyleBackColor = True
+        '
+        'CheckedListBox_ChartSeries
+        '
+        Me.CheckedListBox_ChartSeries.FormattingEnabled = True
+        Me.CheckedListBox_ChartSeries.Location = New System.Drawing.Point(1047, 34)
+        Me.CheckedListBox_ChartSeries.Name = "CheckedListBox_ChartSeries"
+        Me.CheckedListBox_ChartSeries.Size = New System.Drawing.Size(215, 574)
+        Me.CheckedListBox_ChartSeries.TabIndex = 48
         '
         'Button_Admin_Process
         '
@@ -2410,13 +2479,15 @@ Partial Class Main
         Me.ColorDialog_BMS.AnyColor = True
         Me.ColorDialog_BMS.FullOpen = True
         '
-        'CheckedListBox_ChartSeries
+        'Timer_TelemetryCAN
         '
-        Me.CheckedListBox_ChartSeries.FormattingEnabled = True
-        Me.CheckedListBox_ChartSeries.Location = New System.Drawing.Point(1047, 34)
-        Me.CheckedListBox_ChartSeries.Name = "CheckedListBox_ChartSeries"
-        Me.CheckedListBox_ChartSeries.Size = New System.Drawing.Size(215, 574)
-        Me.CheckedListBox_ChartSeries.TabIndex = 48
+        '
+        'Timer_Telemetry
+        '
+        '
+        'Timer_TelemetryBMS
+        '
+        Me.Timer_TelemetryBMS.Interval = 2500
         '
         'Main
         '
@@ -2659,4 +2730,12 @@ Partial Class Main
     Friend WithEvents Label_Demanded_FrontLeft As Label
     Friend WithEvents Label_Actual_RearRight As Label
     Friend WithEvents CheckedListBox_ChartSeries As CheckedListBox
+    Friend WithEvents CheckBox_TelemetryCAN As CheckBox
+    Friend WithEvents CheckBox_TelemetryBMS As CheckBox
+    Friend WithEvents CheckBox_Telemetry As CheckBox
+    Friend WithEvents Timer_TelemetryCAN As Timer
+    Friend WithEvents Timer_Telemetry As Timer
+    Friend WithEvents Timer_TelemetryBMS As Timer
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
 End Class

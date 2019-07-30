@@ -261,7 +261,7 @@
     End Structure
 
     Public Structure Car_Raw
-        Public DateTime As PCAN_DateTime
+        'Public DateTime As PCAN_DateTime
         Public Throttle_12 As Single
         Public Throttle_5 As Single
         Public Brake_Travel As Single
@@ -284,12 +284,12 @@
         Public Strain_Front_Left As Single
         Public Strain_Rear_Right As Single
         Public Strain_Rear_Left As Single
-        Public GPS_1 As GPS
-        Public GPS_2 As GPS
-        Public RPM_Front_Right As UInt16
-        Public RPM_Front_Left As UInt16
-        Public RPM_Rear_Right As UInt16
-        Public RPM_Rear_Left As UInt16
+        'Public GPS_1 As GPS
+        'Public GPS_2 As GPS
+        Public RPM_Front_Right As Single
+        Public RPM_Front_Left As Single
+        Public RPM_Rear_Right As Single
+        Public RPM_Rear_Left As Single
         Public Motor_Front_Right As Single
         Public Motor_Front_Left As Single
         Public Motor_Rear_Right As Single
@@ -310,11 +310,11 @@
         Public Actual_Front_Left As Single
         Public Actual_Rear_Right As Single
         Public Actual_Rear_Left As Single
-        Public InverterVoltage As UInt16
+        Public InverterVoltage As Single
         Public IVT_Voltage, IVT_Current As Single
-        Public Voltage_BMS_Min As UInt16
-        Public Voltage_BMS_Max As UInt16
-        Public Temp_BMS_Min As UInt16
+        Public Voltage_BMS_Min As Single
+        Public Voltage_BMS_Max As Single
+        Public Temp_BMS_Min As Single
         Public Temp_BMS_Max As UInt16
     End Structure
 

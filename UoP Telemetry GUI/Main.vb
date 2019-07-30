@@ -5,7 +5,6 @@ Imports UNOLibs.Net
 
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms.DataVisualization.Charting
-Imports System.Reflection
 
 Public Class Main
 
@@ -14,8 +13,6 @@ Public Class Main
     Private Car As New Car_Mixed
     Private Const Monitoring As Boolean = True
     Private RandomGenerator As New Random
-
-
 
     Private Sub CreateSeries()
         Chart.Series.Clear()
@@ -70,7 +67,7 @@ Public Class Main
             HideDeveloper()
         End If
         RegisterHotKey(Me.Handle, 100, MOD_ALT, Keys.C)
-        Label_Sockets_Info.Text = "Local IP: " & GetIPv4Address()
+        Label_Sockets_Info.Text = "Local IP: " & Server.LocalIP
         CreateSeries()
     End Sub
 
@@ -297,11 +294,10 @@ Public Class Main
 #Region "Serial Variables"
     Private Connected As Boolean = False
     Private IsWaiting As Boolean = False
-    Private DataReady As Integer = -1
+    Private DataReady As Boolean = False
     Private WaitingID As Byte = 0
     Private LastReceived As DateTime = DateTime.Now
     Private RX As New List(Of Byte)
-    Private RXDataQueue As New List(Of Byte())
     Private RXData As Byte()
     Private Const MaxRX As Integer = 255
     Private Const ReceiveTimeout As Integer = 100
@@ -360,17 +356,16 @@ Public Class Main
                             Dim CheckSum As CRC.CheckSum = CRC.CRC(Data)
                             If (CheckSum.First = RX(2 + len) And CheckSum.Second = RX(3 + len)) Then
                                 ' Cheksum success
-                                RXDataQueue.Add(Data)
                                 If CheckBox_Sockets_Forward.Checked Then
                                     For Each IP In ClientsList
                                         Try
-                                            Client.SendMessage(IP, ServerPort, BytesToString(Data))
+                                            Client.SendMessage(IP, SendPort, Data)
                                         Catch ex As Exception
                                         End Try
                                     Next
                                 End If
-                                RX.RemoveRange(0, len + 5)
-                                'RXData = Data
+                                RXData = Data
+                                RX.Clear()
                                 ReceiveSuccess()
                             Else
                                 ' Failed checksum
@@ -400,7 +395,7 @@ Public Class Main
 
     Private Sub ReceiveSuccess()
         IsWaiting = False
-        DataReady += 1
+        DataReady = True
         'RX.RemoveRange(0, RXData.Length + 5)
         DisplayStatus("Success", Color.Green)
         If Connected = False Then
@@ -415,8 +410,7 @@ Public Class Main
                 ReceiveFailed()
             End If
         End If
-        If DataReady > -1 Then
-            RXData = RXDataQueue(0)
+        If DataReady Then
             ProcessData()
         End If
     End Sub
@@ -547,7 +541,7 @@ Public Class Main
         Marshal.FreeHGlobal(TimestampPointer)
         Ind += Marshal.SizeOf(New Packet_Timestamp)
         Car.Timestamp = Timestamp
-
+        Dim s As Integer = Marshal.SizeOf(Sensors)
         Dim SensorsPointer As IntPtr = Marshal.AllocHGlobal(Marshal.SizeOf(Sensors))
         Marshal.Copy(RXData, Ind, SensorsPointer, Marshal.SizeOf(Sensors))
         Sensors = CType(Marshal.PtrToStructure(SensorsPointer, GetType(Car_Raw)), Car_Raw)
@@ -589,8 +583,8 @@ Public Class Main
     End Sub
 
     Private Sub ProcessData()
-        Try
-            Select Case RXData(0)
+        'Try
+        Select Case RXData(0)
                 Case ID_CONNECTION
                     If WaitingSerialPing Then SerialPingReceived = True
                 Case ID_UNKNOWN
@@ -618,25 +612,25 @@ Public Class Main
                 Case Else
                     DisplayStatus("Unknown packet ID", Color.Orange, 3000)
             End Select
-            'Catch ex As Exception
-            'ProcessSuccess()
-            'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-            'Console.WriteLine("Process error: " & ex.Message)
-            'Exit Sub
-            'End Try
-        Catch ex As Exception
-            ProcessSuccess()
-            'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
-            Console.WriteLine(ex.Message)
-        End Try
+        'Catch ex As Exception
+        'ProcessSuccess()
+        'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+        'Console.WriteLine("Process error: " & ex.Message)
+        'Exit Sub
+        'End Try
+        'Catch ex As Exception
+        '    ProcessSuccess()
+        '    'MsgBox("Data process error. " & ex.Message, MsgBoxStyle.Critical, "Error")
+        '    Console.WriteLine("RXData(0): " & RXData(0) & "   " & ex.Message)
+
+        'End Try
         ProcessSuccess()
     End Sub
 
     Private Sub ProcessSuccess()
         RXData = {}
         PacketsProcessed += 1
-        RXDataQueue.RemoveAt(0)
-        DataReady -= 1
+        DataReady = False
     End Sub
 
 #End Region
@@ -839,15 +833,19 @@ CalculateLoad:
     Private Sub PrintStructure(ByRef List As ListView, ByRef Struct As Object)
         Dim TelemetryType As Type = Struct.GetType
         For Each ProcessedField As Reflection.FieldInfo In TelemetryType.GetFields
-            Dim Item As New ListViewItem()
-            Item.Text = ProcessedField.Name
-            Dim SubItem As New ListViewItem.ListViewSubItem()
-            SubItem.Text = ProcessedField.FieldType.Name
-            Item.SubItems.Add(SubItem)
-            SubItem = New ListViewItem.ListViewSubItem()
-            SubItem.Text = ProcessedField.GetValue(Struct)
-            Item.SubItems.Add(SubItem)
-            List.Items.Add(Item)
+            Try
+                Dim Item As New ListViewItem()
+                Item.Text = ProcessedField.Name
+                Dim SubItem As New ListViewItem.ListViewSubItem()
+                SubItem.Text = ProcessedField.FieldType.Name
+                Item.SubItems.Add(SubItem)
+                SubItem = New ListViewItem.ListViewSubItem()
+                SubItem.Text = ProcessedField.GetValue(Struct)
+                Item.SubItems.Add(SubItem)
+                List.Items.Add(Item)
+            Catch ex As Exception
+
+            End Try
         Next
     End Sub
 
@@ -1047,12 +1045,12 @@ CalculateLoad:
         'Chart.Series("Series_FrontRightRPM").Points.AddXY(Time, Data.Wheels.RPM_Front_Right)
         'Chart.Series("Series_RPM").Points.AddXY(Time, Data.Performance.RPM)
         ' Autoscroll
-        If CheckBox_AutoScroll.Checked Then
-            Chart.ChartAreas("ChartArea_Pedals").AxisX.ScaleView.Scroll(Time)
-            Chart.ChartAreas("ChartArea_Temps2").AxisX.ScaleView.Scroll(Time)
-            Chart.ChartAreas("ChartArea_Temps").AxisX.ScaleView.Scroll(Time)
-            Chart.ChartAreas("ChartArea_RPM").AxisX.ScaleView.Scroll(Time)
-        End If
+        'If CheckBox_AutoScroll.Checked Then
+        '    Chart.ChartAreas("ChartArea_Pedals").AxisX.ScaleView.Scroll(Time)
+        '    Chart.ChartAreas("ChartArea_Temps2").AxisX.ScaleView.Scroll(Time)
+        '    Chart.ChartAreas("ChartArea_Temps").AxisX.ScaleView.Scroll(Time)
+        '    Chart.ChartAreas("ChartArea_RPM").AxisX.ScaleView.Scroll(Time)
+        'End If
         ' Autoscale
         AutoScaleY()
     End Sub
@@ -1821,12 +1819,14 @@ CalculateLoad:
     Private Client As New ClientClass
     Private ClientsList As New List(Of String)
     Private Const ServerPort = 567
+    Private Const SendPort = 567
 
     Private Sub OnIncomingMessage(Args As ServerClass.InMessEvArgs) Handles Server.IncomingMessage
         Try
-            RXDataQueue.Add(StringToBytes(Args.message))
+            RXData = Args.message
             ReceiveSuccess()
         Catch ex As Exception
+            MsgBox(ex.Message)
         End Try
     End Sub
 
@@ -1884,5 +1884,58 @@ CalculateLoad:
         For Index As Integer = 0 To CheckedListBox_ChartSeries.Items.Count - 1
             Chart.Series(CheckedListBox_ChartSeries.Items(Index)).Enabled = CheckedListBox_ChartSeries.GetItemChecked(Index)
         Next
+    End Sub
+
+    Private Sub CheckBox_Telemetry_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_Telemetry.CheckedChanged
+        If CheckBox_Telemetry.Checked Then
+            Timer_Telemetry.Start()
+        Else
+            Timer_Telemetry.Stop()
+        End If
+    End Sub
+
+    Private Sub CheckBox_TelemetryBMS_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_TelemetryBMS.CheckedChanged
+        If CheckBox_TelemetryBMS.Checked Then
+            Timer_TelemetryBMS.Start()
+        Else
+            Timer_TelemetryBMS.Stop()
+        End If
+    End Sub
+
+    Private Sub Timer_Telemetry_Tick(sender As Object, e As EventArgs) Handles Timer_Telemetry.Tick
+        Send({ID_SEND_TELEMETRY})
+    End Sub
+
+    Private Sub Timer_TelemetryBMS_Tick(sender As Object, e As EventArgs) Handles Timer_TelemetryBMS.Tick
+        Send({ID_SEND_BMS})
+    End Sub
+
+    Private Sub Timer_TelemetryCAN_Tick(sender As Object, e As EventArgs) Handles Timer_TelemetryCAN.Tick
+        Send({ID_SEND_CAN_ANALYTICS})
+    End Sub
+
+    Private Sub CheckBox_TelemetryCAN_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_TelemetryCAN.CheckedChanged
+        If CheckBox_TelemetryCAN.Checked Then
+            Timer_TelemetryCAN.Start()
+        Else
+            Timer_TelemetryCAN.Stop()
+        End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Send({ID_SEND_TELEMETRY})
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        If CheckBox_Sockets_Forward.Checked Then
+            For Each IP In ClientsList
+                Try
+                    Client.SendMessage(IP, SendPort, "Hello World")
+                Catch ex As Exception
+                End Try
+            Next
+        End If
+
+        'Client.SendMessage("192.168.1.3", SendPort, "Hello World")
     End Sub
 End Class
